@@ -1,0 +1,56 @@
+.background-introduce{
+    background: #ffff;
+
+    .introduce-container{
+        margin: 20px 80px ;
+
+        .title-introduce{
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .content-introduce{
+            font-size: 20px;
+            font-family:Arial, Helvetica, sans-serif;
+            margin-bottom: 15px;
+
+            .introduce{
+                text-indent: 50px;
+            }
+
+            .img-introduce1{
+                background: url(../../assets/introduce3.png) center center no-repeat;
+                width: 1170px;
+                height: 379px;
+                background-size: contain;
+                border-radius: 2px;
+                margin: 15px 20px;
+            }
+
+            .img-introduce2{
+                background: url(../../assets/introduce2.png) center center no-repeat;
+                width: 595px;
+                height: 382px;
+                background-size: contain;
+                border-radius: 2px;
+                margin: 15px 20px;
+            }
+        }
+
+        .img-introduce3{
+            background: url(../../assets/introduce1.png) center center no-repeat;
+            width: 224px;
+            height: 225px;
+            background-size: contain;
+            border-radius: 2px;
+            margin: 15px 0;
+        }
+
+        .title-footer{
+            font-size: 21px;
+            font-weight: bold;
+            font-family:'Courier New', Courier, monospace;
+            margin-top: 15px;
+        }
+    }
+}

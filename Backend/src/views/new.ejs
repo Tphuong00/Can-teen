@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Thêm TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/4rb7n1lnw16ewebxfcwfoqucansl1zucw90asmy7eegqpft8/tinymce/5/tinymce.min.js"
+        referrerpolicy="origin"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create News</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            tinymce.init({
+                selector: 'textarea#newsContent',
+                plugins: 'image colorpicker',
+                toolbar: "undo redo spellcheckdialog  | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | align lineheight checklist bullist numlist | indent outdent | removeformat typography",
+                menubar: false,
+                height: 300,
+            });
+
+            // Đồng bộ hóa TinyMCE với form trước khi gửi
+            document.querySelector('form').addEventListener('submit', function (event) {
+                tinymce.triggerSave(); // Cập nhật nội dung từ TinyMCE vào textarea
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3>Create News</h3>
+            </div>
+            <form action="/post-news" method="POST" class="w-100" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="newsTitle">Title</label>
+                    <input type="text" class="form-control" name="title" placeholder="News Title" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Content</label>
+                    <!-- Textarea được TinyMCE chuyển đổi -->
+                    <textarea id="newsContent" class="form-control" name="content" rows="5" placeholder="News Content"
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="newsImage">Image</label>
+                    <input type="file" class="form-control" name="imgURL" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Post News</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

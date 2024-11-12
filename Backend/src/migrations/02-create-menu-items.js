@@ -1,0 +1,46 @@
+'use strict';
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Menu_Items', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      itemName: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      price: {
+        type: Sequelize.DECIMAL
+      },
+      category: {
+        type: Sequelize.STRING
+      },
+      imageUrl: {
+        type: Sequelize.STRING
+      },
+      mealTime: {
+        type: Sequelize.INTEGER
+      },
+      availability: {
+        type: Sequelize.BOOLEAN
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
+    });
+  },
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Menu_Items');
+  }
+};

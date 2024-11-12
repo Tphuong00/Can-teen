@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Create Product</title>
+
+    <!-- Thêm TinyMCE từ CDN -->
+    <script src="https://cdn.tiny.cloud/1/4rb7n1lnw16ewebxfcwfoqucansl1zucw90asmy7eegqpft8/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        // Cấu hình TinyMCE
+        tinymce.init({
+            selector: '#description',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar: 'bold italic underline | fontselect fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+            height: 300
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Create New Product</h1>
+            </div>
+            <!-- Form thêm sản phẩm -->
+            <form action="/api/postProduct" method="POST" class="w-100" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="itemName">Product Name:</label>
+                    <input type="text" id="itemName" name="itemName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <!-- Textarea này sẽ được TinyMCE biến thành trình soạn thảo -->
+                    <textarea id="description" name="description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <optgroup label="Món chính">
+                            <option value="mon-nuoc">Món nước</option>
+                            <option value="mon-kho">Món khô</option>
+                            <option value="com-theo-ngay">Cơm theo ngày</option>
+                        </optgroup>
+                        <optgroup label="Món khai vị">
+                            <option value="ga-ran">Gà rán</option>
+                            <option value="salad">Salad</option>
+                            <option value="sup">Súp</option>
+                        </optgroup>
+                        <optgroup label="Bánh - Trái cây">
+                            <option value="banh">Bánh</option>
+                            <option value="trai-cay">Trái cây</option>
+                        </optgroup>
+                        <optgroup label="Đồ uống">
+                            <option value="ca-phe">Cà phê</option>
+                            <option value="nuoc-ngot">Nước ngọt</option>
+                            <option value="tra-sua">Trà sữa</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mealTime">MealTime:</label>
+                    <select id="mealTime" name="mealTime" required>
+                        <option value="1">Bữa sáng</option>
+                        <option value="2">Bữa trưa</option>
+                        <!-- Thêm các danh mục khác nếu cần -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="availability">Availability:</label>
+                    <select id="availability" name="availability">
+                        <option value="true">Available</option>
+                        <option value="false">Unavailable</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Product Image:</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Create Product</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

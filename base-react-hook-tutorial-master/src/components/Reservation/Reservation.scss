@@ -1,0 +1,89 @@
+.reservation-container {
+    .reservation-form-container {
+        background-color: #124784;  // Màu nền xanh
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid red;
+        color: white;
+        width: 800px;
+        margin: 20px auto;  // Canh giữa
+      
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem;
+            color: #f7f7f7;
+            text-align: center;
+        }
+
+        .centered-line{
+            width :30%;
+            margin-top: 0;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 15px;
+        }
+      
+        .group_contact {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;  // Canh đều khoảng cách giữa các form-group
+            margin-bottom: 20px;
+        
+            .form-group {
+                flex-basis: 48%;  // Đặt mỗi form-group rộng 48%
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 15px;
+        
+                label {
+                font-size: 1rem;
+                margin-bottom: 5px;
+                font-weight: bold;
+                }
+        
+                input {
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 1rem;
+                }
+            }
+        }
+      
+        .reser-btt {
+            background-color: red;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: auto 315px;
+        
+            &:hover {
+                background-color: darkred;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .reservation-form-container {
+            width: 350px; 
+
+            .group_contact {
+                            
+                .form-group {
+                    flex-basis: 100%;  // Đặt mỗi form-group rộng 48%
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 15px;
+                }
+            }
+
+            .reser-btt{
+                margin: auto 80px;
+            }
+        }
+    }
+  
+}

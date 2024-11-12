@@ -1,0 +1,90 @@
+.register-background{
+    background: #ffff;
+    
+    .register-container{
+        width: 400px;
+        margin: 20px auto;
+        border: 1px solid red;
+        border-radius: 10px;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 430px;
+
+        .register-content {
+            padding: 0 20px;
+
+            .text-register {
+                text-align: center;
+                font-weight: 700;
+                font-size: 25px;
+                padding-top: 10px;
+                color: #124784;
+            }
+
+            .centered-line{
+                width :30%;
+                margin-top: 0;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 15px;
+            }
+            
+            .register-input{
+                margin: 7px 0;
+                position: relative;
+
+                .input{
+                    border-radius: 10px;
+                    text-align: center;
+                }
+
+                i{
+                    position: absolute;
+                    right: 3em;
+                    top: 10px;
+                    cursor: pointer;
+                }
+                
+            }
+
+            .btn-register{
+                width: 100%;
+                margin: 10px 0;
+                height: 30px;
+                border-radius: 10px;
+                outline: none;
+                border: 1px solid #0000;
+                background: red;
+                color: white;
+            }
+
+            .have-account{
+                font-size: 12px;
+                
+                .login{
+                    color: red;
+                    font-weight: 700;
+                    text-decoration-line: none;
+                }
+            }
+
+            .social-login{
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+                font-size: 35px;
+
+                    .google {
+                        color: red;
+                        margin-right: 10px;
+                    }
+
+                    .facebook{
+                        color: #307aaf !important;
+                    }
+            }
+        }
+    }
+}

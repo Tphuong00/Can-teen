@@ -1,0 +1,25 @@
+.NewsDetail-container {
+    .news-detail {
+        min-height: 52vh;
+        margin: 20px 80px ;
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .news-time{
+            margin-bottom: 15px;
+
+            i::before{
+                margin-right: 5px;
+                color: red;
+            }
+        }
+        .content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    }
+}
+
+

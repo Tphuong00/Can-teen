@@ -1,0 +1,66 @@
+.profile-container {
+    .profile-primary{
+        display: flex;
+        padding: 20px 80px;
+        
+        .profile-sidebar{
+            margin-right: 20px;
+            border-radius: 5px;
+            padding: 15px;
+
+            .profile-title1{
+                font-size: 18px;
+                font-weight: 700;
+                background: red;
+                color: #fff;
+                padding: 10px 17px;
+                text-transform: uppercase;
+                border-radius: 8px 8px 0 0;
+                margin-bottom: 0;
+            }
+
+            .profile-items{
+                font-size: 18px;
+                border: 1px solid red;
+                color: #124784;
+                padding: 10px 15px;
+                border-radius: 0 0 8px 8px;
+                list-style: none; // Bỏ dấu chấm đầu dòng
+                padding: 0;
+                text-align: center;
+        
+                li {
+                    margin: 10px 0;
+        
+                    a {
+                        color: #124784;
+                        text-decoration: none; // Bỏ gạch chân
+        
+                        &:hover {
+                            text-decoration: none; // Giữ không gạch chân khi hover
+                            font-weight: bold; // Tô đậm khi hover để làm nổi bật
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    @media (max-width: 1190px) {
+        .profile-primary{
+            .profile-offline{
+                margin: auto;
+                margin-bottom: 50px;
+            }
+        }
+    }
+    @media (max-width: 594px) {
+        .profile-primary{
+            .profile-offline{
+                margin: auto;
+                margin-bottom: 50px;
+            }
+        }
+    }
+}

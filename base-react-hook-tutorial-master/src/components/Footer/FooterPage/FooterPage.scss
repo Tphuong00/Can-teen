@@ -1,0 +1,29 @@
+.background-footerpage{
+    background: #ffff;
+
+    .footerpage-container{
+        margin: 20px 80px ;
+
+        .title-footerpage{
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .content-footerpage{
+            font-size: 20px;
+            font-family:Arial, Helvetica, sans-serif;
+            margin-bottom: 15px;
+
+            .text-number{
+                font-weight:bold;
+                text-indent: 20px;
+            }
+        }
+
+        .title-footer {
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-top: 15px;
+        }
+    }
+}

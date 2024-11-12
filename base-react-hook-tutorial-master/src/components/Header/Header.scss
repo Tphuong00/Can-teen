@@ -1,0 +1,132 @@
+// Header.scss
+
+.header-container{
+    background-color: #124784;
+    font-size: 1.3rem; 
+
+    .header-title{
+        color: white;
+        font-weight: bold;
+        font-size: 2rem;
+
+    }
+    .header-collaper{
+        background-color: #124784;
+        z-index: 10;
+
+      &:hover {
+        background-color: #124784; // Nền màu trắng khi hover
+        color: white; // Chữ chuyển sang màu nền chính
+      }
+    }
+
+    .header-toggle{
+        color: white;
+    }
+
+    .header-nav{
+
+        .nav-link{
+            color: white;
+            font-weight: 1.5rem;
+            &:hover, &.active {
+                color: red; // Chuyển thành màu đỏ khi hover hoặc được chọn
+              }
+        }
+        
+    }
+    .nav-link{
+        color: white;
+        &:hover, &.active {
+            color: red; // Chuyển thành màu đỏ khi hover hoặc được chọn
+          }
+    }
+
+    .header-search{
+        margin-left: 9.375rem;
+
+        .form-search{
+            border-radius: 1.25rem;
+            border-color: red;
+        }
+
+        i{
+            margin-top: 0.625rem;
+            color: white;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            width: 2rem;
+        }
+    }
+
+    .header-button{
+        padding: 1rem;
+        gap: 1rem;
+
+        i {
+            color: white;
+            cursor: pointer;
+        }
+
+        .dropdown-menu-end{
+            margin-top: 10px;
+            border: red solid 1px;
+         }
+
+        .btt-resver{
+            border-radius: 1rem;
+            width: 80px;
+        }
+
+    }
+
+    .user-profile{
+        display: flex;
+        justify-content: center;
+        background-color: red;
+        text-align: center;
+        margin: 10px;
+        width: 80%;
+        border-radius: 3px;
+        width: auto;
+        color: #fff;
+
+        &:hover{
+            background-color: #9e2a35;
+        }
+
+    }
+    @media (max-width: 768px) {
+        .header-nav{
+            margin: auto 20px;
+        }
+
+        .header-search{
+            margin: 0 50px 0 20px;
+        }
+
+        .header-button{
+            margin-left: 0px;
+            justify-content: none;
+            gap: 0.5rem;
+        }
+    }
+
+    @media (max-width: 1400px) {
+        .header-nav{
+            margin: auto 20px;
+        }
+
+        .header-search{
+            margin-left: 5px;
+        }
+
+        .header-button{
+            padding: 1rem 0.5rem;
+            justify-content: none;
+            gap: 0.5rem;
+        }
+    }
+
+}
+

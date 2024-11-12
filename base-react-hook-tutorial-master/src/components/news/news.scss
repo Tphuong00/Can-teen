@@ -1,0 +1,155 @@
+.news-container {
+    font-family: Arial, sans-serif;
+
+    .news-content{
+        min-height: 52vh;
+        .title-news {
+            font-size: 25px;
+            font-weight: 700;
+            margin: 20px 80px;
+            text-transform: uppercase;
+        }
+    
+        .news-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            margin: 30px 200px;
+
+    
+            .news-item {
+                width: 100%; 
+                border: 1px solid red;
+                border-radius: 8px;
+                padding: 15px;
+                background-color: #fff;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+                display: flex;
+                align-items: flex-start; /* Align items vertically */
+                gap: 20px; /* Space between image and content */
+    
+                &:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+                
+    
+                .news-img {
+                    max-height: 125px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                }
+    
+                .news-text{
+                    width: 85%;
+                    h3 {
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: #007bff;
+                        margin-bottom: 10px;
+                        cursor: pointer;
+                    }
+        
+                    .news-nd {
+                        color: #555;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        height: 60px;
+                        // white-space: nowrap;
+                    }
+                
+                    .xemthem{
+                        position: relative;
+                        display: inline-block;
+                        text-decoration: none;
+                        overflow: hidden;
+                        margin-left: 750px;
+                    
+                        .button-block {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            position: relative;
+                        }
+                    
+                        .button-text {
+                            font-size: 1rem;
+                            font-weight: bold;
+                            color: #124784;
+                            position: relative;
+                            transition: transform 0.4s ease; /* Chuyển động mượt mà khi di chuột */
+                            z-index: 2; /* Để phần text nằm trên các đường line */
+                        }
+                    
+                        .button-line-left, .button-line-right {
+                            height: 1px;
+                            background-color: #124784; /* Màu của đường line */
+                            transition: width 0.4s ease; /* Hiệu ứng thu nhỏ và mở rộng */
+                            // position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%); /* Đưa line vào giữa */
+                        }
+                    
+                        .button-line-left {
+                            margin-right: 10px;
+                            left: 0;
+                            width: 0; /* Không hiển thị ban đầu */
+                            z-index: 1; /* Để nằm dưới text */
+                        }
+                    
+                        .button-line-right {
+                            margin-left: 10px;
+                            right: 0;
+                            width: 2rem; /* Chiều dài ban đầu của button-line-right */
+                            z-index: 1; /* Để nằm dưới text */
+                        }
+                    
+                        &:hover {
+                            .button-text {
+                                transform: translateX(0.5px); /* Đẩy text sang phải khi hover */
+                            }
+                    
+                            .button-line-right {
+                                width: 0; /* Ẩn line bên phải */
+                            }
+                    
+                            .button-line-left {
+                                width: 2rem; /* Hiện line bên trái */
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    
+        // Loading State
+        .loading {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+    
+        // Error State
+        .error {
+            color: red;
+            text-align: center;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .News-container {
+        .news-list {
+            .news-item {
+                width: 100%; /* On smaller screens, display as single column */
+            }
+        }
+    }
+}

@@ -1,0 +1,111 @@
+.footer-container {
+    background-color: #124784; 
+    color: white; 
+    padding: 2.5rem 0;
+
+    .footer-content{
+        margin: auto 5rem;
+
+        h5 {
+            font-weight: bold;
+            margin-bottom: 0.625rem;
+        }
+
+        .col-footer-1{
+            width: 16%;
+
+            a{
+                color: white;
+                text-decoration: none;
+                &:hover {
+                    cursor: pointer;
+                    color: red; // Khi hover vào icon mạng xã hội chuyển thành màu đỏ
+                    
+                }
+            }
+        }
+        
+        p, li {
+            font-size: 14px;
+            line-height: 1.5;
+            color: white;
+            margin: 0.5rem auto;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .socical-payment{
+            width: 18%;
+
+            .footer-social{
+                margin-bottom: 20px;
+
+                .social-icons {
+                    display: flex;
+
+                    .facebook-icon{
+                        background: url("../../assets/images/facebook.svg") center center no-repeat;
+                        cursor: pointer;
+                        width: 2rem;
+                        height: 2rem;
+                        background-size: contain;
+                    }
+                }
+            }
+
+            .payment-icons {
+                display: flex;
+                align-items: center;
+
+                .payment1, .payment2, .payment3{
+                    width: 3.5625rem;
+                    height: 2.1875rem;
+                    
+                }
+
+                .payment1 {
+                    background: url('../../assets/payment_1.jpg') center center no-repeat;
+                    background-size: cover;
+                    margin-right: 0.625rem; 
+                    background-size: contain;                  
+                }
+            
+                .payment2 {
+                    background: url('../../assets/payment_2.jpg') center center no-repeat;
+                    background-size: cover;
+                    margin-right: 10px;
+                    background-size: contain; 
+                }
+            
+                .payment3 {
+                    background: url('../../assets/payment_3.jpg') center center no-repeat;
+                    background-size: cover;
+                    background-size: contain; 
+                }
+            }
+        }
+        
+        
+          // Responsive cho màn hình nhỏ
+         @media (max-width: 768px) {
+            .row {
+                text-align: center;
+            }
+        
+            .col-md-3, .col-md-2 {
+                 margin-bottom: 20px;
+            }
+
+            .col-footer-1{
+                width: 50%;
+            }
+
+            .socical-payment{
+                width: 60%;
+            }
+        }
+    } 
+  }
