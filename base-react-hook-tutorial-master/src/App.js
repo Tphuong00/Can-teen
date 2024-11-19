@@ -20,8 +20,8 @@ import Contact from './components/Contact/Contact';
 import Profile from './components/Profile/profile';
 import News from './components/news/news';
 import NewsDetail from './components/news/newsDetail';
-import Menu from './components/Menu-items/Menu';
-import ProductDetail from './components/Menu-items/productDetail';
+import DynamicPage from './Router/DynamicPage';
+
 
 
 const App =(props) => {
@@ -47,9 +47,7 @@ const App =(props) => {
               <Route path="/profile/*" element={<Profile />} />
               <Route path="/news" element={<News />} />
               <Route path="/news/:slug" element={<NewsDetail/>} /> 
-              <Route path="/menu" element={<Menu />} />
-              <Route path="/:category" element={<Menu />} />
-              <Route path="/:category/:slug" element={<ProductDetail />} />
+              <Route path="/:slug" element={<DynamicPage/>} />
               <Route path="*" element={<div>404 not found</div>} />
             </Routes>
           </span>
@@ -68,8 +66,7 @@ const App =(props) => {
           theme="light"
           />
         </div>
-    </Router>
-    // <div>Hello</div>
+      </Router>
   )
 }
 

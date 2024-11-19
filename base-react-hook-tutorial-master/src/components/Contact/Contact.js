@@ -52,8 +52,8 @@ const Contact = () => {
         if (check) {
             try {
                 const response = await createContact(fullname, email, phonenumber,  message);
-                console.log('Response:', response); 
-                if (response.status === 200) {
+                console.log(response.status);
+                if (response.message === 'Gửi thông tin thành công') {
                     toast.success("Gửi thông tin thành công!");
                     setTimeout(() => {
                         window.location.reload();

@@ -19,7 +19,7 @@ module.exports = {
         onDelete: 'SET NULL'
       },
       message: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       }, 
       is_read: {
         type: Sequelize.BOOLEAN

@@ -31,9 +31,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       comment: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
-      createAt: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },

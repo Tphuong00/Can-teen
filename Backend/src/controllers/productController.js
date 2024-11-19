@@ -91,20 +91,137 @@ exports.getProduct = async (req, res) =>{
     }
 }
 
-exports.getProductDetails =async (req, res) => {
+exports.getProductDetails = async (req, res) => {
     try {
         const { slug } = req.params;
-        const product = await db.Product.findAll({
-            where: { itemName: { [Op.like]: `%${slugify(slug, { lower: true })}%` } }
-        });
 
-        if (!product || product.length === 0) {
-            return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
+        // Lấy tất cả các sản phẩm và bao gồm đánh giá
+        const product = await db.Menu_Items.findOne({
+            where: {
+                itemName: db.Sequelize.where(
+                    db.Sequelize.fn('lower', db.Sequelize.fn('replace', db.Sequelize.col('itemName'), ' ', '-')),
+                    slug
+                ),
+            }
+        });
+        
+        // Kiểm tra nếu sản phẩm không được tìm thấy
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
         }
 
-        res.json(product);
+        res.status(200).json(product); // Trả về sản phẩm dưới dạng JSON
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Something went wrong' });
+        console.error('Error retrieving product details:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-}
+};
+
+exports.getRelatedProducts = async (req, res) => {
+    try {
+        const { category } = req.params;
+
+        // Tìm các sản phẩm cùng loại
+        const relatedProducts = await db.Menu_Items.findAll({
+            where: { category },
+            limit: 3,
+        });
+
+        if (relatedProducts.length === 0) {
+            return res.status(404).json({ error: 'No related products found' });
+        }
+
+        res.status(200).json(relatedProducts);
+    } catch (error) {
+        console.error('Error retrieving related products:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.getProductReview = async (req, res) => {
+    try {
+        const { slug } = req.params;
+
+        // Tìm sản phẩm dựa trên slug
+        const product = await db.Menu_Items.findOne({
+            where: {
+                itemName: db.Sequelize.where(
+                    db.Sequelize.fn('lower', db.Sequelize.fn('replace', db.Sequelize.col('itemName'), ' ', '-')),
+                    slug.toLowerCase()
+                )
+            }
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        // Lấy tất cả review của sản phẩm
+        const reviews = await db.Review.findAll({
+            where: { itemID: product.id },
+            include: [
+                { model: db.Users, as: 'User', attributes: ['fullname'] }
+            ],
+            order: [['createdAt', 'DESC']],
+            raw: true
+        });
+
+        // Tính tổng trung bình rating
+        const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+
+        // Trả về các review và tổng rating trung bình
+        res.status(200).json({ reviews, averageRating });
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+
+exports.addProductReview = async (req, res) => {
+    try {
+        const { slug } = req.params;
+        const {rating, comment} = req.body.reviewData;
+        const userID = req.user?.id;
+
+        if (!userID) {
+            return res.status(401).json({ error: 'User not authenticated' });
+        }
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!rating || rating < 1 || rating > 5) {
+            return res.status(400).json({ error: 'Rating must be between 1 and 5' });
+        }
+        if (!comment || comment.trim() === '') {
+            return res.status(400).json({ error: 'Comment cannot be empty' });
+        }
+
+        // Tìm sản phẩm dựa trên slug
+        const product = await db.Menu_Items.findOne({
+            where: {
+                itemName: db.Sequelize.where(
+                    db.Sequelize.fn('lower', db.Sequelize.fn('replace', db.Sequelize.col('itemName'), ' ', '-')),
+                    slug
+                )
+            }
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found.' });
+        }
+
+        // Tạo đánh giá mới
+        const newReview = await db.Review.create({
+            itemID: product.id,
+            userID,
+            comment,
+            rating
+        });
+
+        res.status(201).json({ message: 'Review added successfully.', review: newReview });
+    } catch (error) {
+        console.error('Error adding review:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

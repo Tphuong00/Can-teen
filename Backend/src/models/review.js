@@ -11,19 +11,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Review.belongsTo(models.Users, { foreignKey: 'userID' });
-      Review.belongsTo(models.Menu_Items, { foreignKey: 'itemID' });
+      Review.belongsTo(models.Users, { as: 'User', foreignKey: 'userID' });
+      Review.belongsTo(models.Menu_Items, { foreignKey: 'itemID', as: 'reviews' });
     }
   }
   Review.init({
     userID: DataTypes.INTEGER,
     itemID: DataTypes.INTEGER,
     rating: DataTypes.INTEGER,
-    comment: DataTypes.STRING,
-    createAt: DataTypes.DATE,
+    comment: DataTypes.TEXT,
+    createdAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Review',
+    freezeTableName: true,
     timestamps: true,
     updatedAt: false
   });

@@ -1,43 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import './menu.scss';
 import Breadcrumb from '../Header/Breadcrumb';
 import { getProducts } from '../../services/productService';
 import slugify from 'slugify';
+import { Modal } from "react-bootstrap"; 
+import SmallDetail from './smallDetail';
 
-const Menu = () => {
+const Menu = ({ category }) => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [sortOption, setSortOption] = useState("default");
     const [filters, setFilters] = useState({
-        category: '',
+        category:  category || '',
         price: [],
         mealTime: [],
     });
     const [expandedCategories, setExpandedCategories] = useState([]);
     const [displayCategory, setDisplayCategory] = useState("");
-
+    
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await getProducts({ ...filters, sort: sortOption });
+                const queryOptions = { ...filters, sort: sortOption };
+            
+                if (filters.category === 'mon-ngon-noi-bat') {
+                    queryOptions.isPopular = true;
+                } else {
+                    delete queryOptions.isPopular;
+                }
+
+                const response = await getProducts(queryOptions);
                 setProducts(response);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
         };
         fetchProducts();
-    }, [filters, sortOption]);
+    }, [filters, category, sortOption, displayCategory]);
+
+    useEffect(() => {
+        if (category) {
+            setFilters((prevFilters) => ({
+                ...prevFilters,
+                category: category === "menu" ? "" : category
+            }));
+        }
+        setDisplayCategory(category);
+    }, [category]);
 
     const handleSortChange = (e) => {
         setSortOption(e.target.value);
     };
 
     const handleCategoryChange = (category) => {
-        setFilters({
-            ...filters,
-            category,
-        });
+        setFilters((prevFilters) => ({ 
+            ...prevFilters,
+            category: category === "menu" ? "" : category 
+        }));
         setDisplayCategory(category);
         navigate(`/${category}`);
     };
@@ -78,7 +98,20 @@ const Menu = () => {
         "salad":"Salad",
         "sup":"Súp",
         "com-theo-ngay":"Cơm theo ngày",
-    };     
+    };  
+    
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
+    const handleShow = (product) => {
+        setSelectedProduct(product);
+        setShowModal(true);
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+        setSelectedProduct(null);
+    };
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
@@ -240,7 +273,7 @@ const Menu = () => {
                                 <div className="product-image">
                                 <img src={product.imageUrl} alt={product.itemName} />
                                 <div className="product-overlay">
-                                    <span className="icon"><i className="fa fa-eye"></i></span>
+                                    <span className="icon" onClick={() => handleShow(product)}><i className="fa fa-eye"></i></span>
                                     <span className="icon"><i className="fa fa-shopping-cart"></i></span>
                                 </div>
                                 <div className="favorite-icon" title="Thêm vào yêu thích">
@@ -252,16 +285,16 @@ const Menu = () => {
                                 {product.discount ? (
                                     <>
                                     <span className="price discounted">
-                                        {product.originalPrice.toLocaleString()}đ
+                                        {Number(product.originalPrice).toLocaleString('vi-VN')}đ
                                     </span>
-                                    <span className="price">{product.price.toLocaleString()}đ</span>
+                                    <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
                                     </>
                                 ) : (
-                                    <span className="price">{product.price.toLocaleString()}đ</span>
+                                    <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
                                 )}
                                 </p>
                                 <Link
-                                    to={`/${displayCategory}/${slugify(product.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
+                                    to={`/${slugify(product.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
                                     className="buy-now-button"
                                 >
                                     Xem chi tiết
@@ -271,8 +304,14 @@ const Menu = () => {
                         ) : (
                             <p>Không có sản phẩm nào</p>
                         )}
-                        </div>
 
+                        <Modal show={showModal} onHide={handleClose}>
+                            <Modal.Header closeButton />
+                            <Modal.Body>
+                                <SmallDetail product={selectedProduct} />
+                            </Modal.Body>
+                        </Modal>
+                    </div>                      
                 </div>
             </div>         
         </div>

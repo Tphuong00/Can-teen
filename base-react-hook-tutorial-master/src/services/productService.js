@@ -6,7 +6,11 @@ const getProducts = (params) => {
 const getProductDetail = (slug) => {
     return axios.get(`/api/${slug}`);
 };
+const getRelatedProducts =(category)=>{
+    return axios.get(`/api/${category}/related`);
+}
+
 
 export {
-    getProducts, getProductDetail
+    getProducts, getProductDetail, getRelatedProducts
 }

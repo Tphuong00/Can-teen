@@ -66,7 +66,7 @@ const Reservation = () => {
         if (check === true) {
             try {
                 let response = await createReservation(fullname, phonenumber, email, numberOfGuests, reservationDate, reservationTime);
-                if (response.status === 200) {
+                if (response.message=== 'Đặt bàn thành công') {
                     toast.success("Đặt bàn thành công!");
                     setTimeout(() => {
                         window.location.reload();

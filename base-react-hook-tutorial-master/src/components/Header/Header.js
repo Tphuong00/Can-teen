@@ -65,12 +65,12 @@ const  Header = () => {
                     <Nav className="mr-auto header-nav">
                         <Nav.Link href="/home">Trang chủ</Nav.Link>
                         <Nav.Link href="/introduce">Giới thiệu</Nav.Link>
-                        <MenuDropdown/>
+                        <MenuDropdown />
                         <Nav.Link href="/mon-ngon-noi-bat">Món ngon nổi bật</Nav.Link>
                         <Nav.Link href="/news">Tin tức</Nav.Link>
                         <Nav.Link href="/contact">Liên hệ</Nav.Link>
                     </Nav>
-                    <Form inline className="d-flex header-search">
+                    <Form inline onSubmit={handleSearch}className="d-flex header-search">
                         <FormControl 
                             type="text" placeholder="Nhập tên món ăn..." 
                             className="mr-sm-2 form-search"  
@@ -89,6 +89,7 @@ const  Header = () => {
                                 <>
                                     <NavDropdown.Item href="/profile" className='user-profile'>Tài khoản</NavDropdown.Item>
                                     <NavDropdown.Item className='user-profile' onClick={handleLogout}>Đăng xuất</NavDropdown.Item>
+                                    <NavDropdown.Item href = "/profile/likeList" className='user-profile' >Danh sách yêu thích</NavDropdown.Item>
                                 </>
                             ) : (
                                 <>

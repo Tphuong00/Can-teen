@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Users.hasMany(models.Orders);
-      Users.hasMany(models.Review);
+      Users.hasMany(models.Review, { as: 'reviews', foreignKey: 'userID' });
       Users.hasOne(models.Cart);
       Users.hasMany(models.Notifications);
     }

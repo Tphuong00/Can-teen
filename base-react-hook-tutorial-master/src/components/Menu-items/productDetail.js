@@ -1,29 +1,125 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductDetail } from '../../services/productService';
+import { getProductDetail, getRelatedProducts } from '../../services/productService';
+import { submitReview, getReview } from '../../services/news-reviewsService';
 import Breadcrumb from '../Header/Breadcrumb';
+import StarRating from '../Review/starRating';
+import './productDetail.scss';
+import { toast } from 'react-toastify';
+import { checkAuth } from '../../services/checkAuth';
 
 const ProductDetail = () => {
-    const { slug } = useParams(); // Lấy itemName từ URL
+    const { slug } = useParams();
     const [product, setProduct] = useState(null);
+    const [relatedProducts, setRelatedProducts] = useState([]);
+    const [review, setReview] = useState('');
+    const [rating, setRating] = useState(0);
+    const [reviews, setReviews] = useState([]); // Khởi tạo như một mảng trống
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [quantity, setQuantity] = useState(1);
+    const [userFullName, setUserFullName] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         const fetchProductDetail = async () => {
             try {
-                const response = await getProductDetail(slug); // Gọi với itemName
-                setProduct(response); // Cập nhật state product
-            } catch (error) {
-                console.error('Error fetching product detail:', error);
-                setError('Lỗi khi tải chi tiết sản phẩm');
+                const productDetail = await getProductDetail(slug);
+                const related = await getRelatedProducts(productDetail.category);
+                const reviewData = await getReview(slug);
+
+                console.log(reviewData)
+    
+                setProduct(productDetail);
+                setReviews(reviewData.reviews);  // Cập nhật reviews với mảng reviews
+                setRelatedProducts(related);
+            } catch (err) {
+                console.error(err);
+                setError('Lỗi khi tải thông tin sản phẩm');
             } finally {
                 setLoading(false);
             }
         };
-        console.log("Navigated to ProductDetail with itemName:", slug);
+    
         fetchProductDetail();
     }, [slug]);
+
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            try {
+                const response = await checkAuth();
+                if (response && response.message === "Authenticated successfully") {
+                    setIsLoggedIn(true);
+                    setUserFullName(response.fullname); // Lưu tên người dùng
+                } else {
+                    setIsLoggedIn(false);
+                }
+            } catch (err) {
+                console.error("Lỗi khi kiểm tra đăng nhập:", err);
+                setIsLoggedIn(false);
+            }
+        };
+
+        checkAuthentication();
+    }, []);
+
+    const calculateAverageRating = () => {
+        if (reviews.length === 0) return 0;
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return totalRating / reviews.length;
+    };
+
+    const calculateRatingPercentages = () => {
+        const totalReviews = reviews.length;
+        const percentages = [0, 0, 0, 0, 0];
+
+        reviews.forEach((review) => {
+            percentages[review.rating - 1] += 1; // Đếm số lượng mỗi mức sao
+        });
+
+        return percentages.map((count) => ((count / totalReviews) * 100).toFixed(1)); // Phần trăm
+    };
+
+    const handleReviewSubmit = async () => {
+        if (!isLoggedIn) {
+            toast.error("Vui lòng đăng nhập để đánh giá sản phẩm.");
+            return;
+        }
+    
+        if (!review || rating === 0) {
+            toast.error("Vui lòng nhập đánh giá và chọn số sao.");
+            return;
+        }
+    
+        try {
+            const newReview = {
+                comment: review,
+                rating,
+                userFullName // Đảm bảo gửi tên người dùng
+            };
+            
+            // Gửi đánh giá mới lên backend
+            await submitReview(slug, newReview);
+            
+            // Cập nhật lại reviews trong state
+            setReviews((prevReviews) => [
+                ...prevReviews,
+                { name: userFullName, ...newReview }
+            ]);
+            
+            // Reset form đánh giá
+            setReview('');
+            setRating(0);
+            toast.success('Bạn đánh giá thành công!');
+        } catch (err) {
+            console.error("Lỗi khi gửi đánh giá:", err);
+            toast.error("Gửi đánh giá thất bại. Vui lòng thử lại.");
+        }
+    };
+    
+
+    const averageRating = calculateAverageRating();
+    const ratingPercentages = calculateRatingPercentages();
 
     if (loading) {
         return <div>Đang tải sản phẩm...</div>;
@@ -43,14 +139,106 @@ const ProductDetail = () => {
     ];
 
     return (
-        <div className="product-detail">
+        <div className="product-content">
             <Breadcrumb items={breadcrumbItems} />
-            <h1>{product.itemName}</h1>
-            <img src={product.imageUrl} alt={product.itemName} />
-            <p>{product.description}</p>
-            <p>Giá: {product.price} VND</p>
-            <p>Danh mục: {product.category}</p>
-            <p>{product.availability ? 'Có sẵn' : 'Hết hàng'}</p>
+            <div className="product-detail">
+                <div className="detail-info">
+                    <div className="product-content">
+                        <img src={product.imageUrl} alt={product.itemName} className="product-image" />
+                        <div className="product-info">
+                            <h1>{product.itemName}</h1>
+                            <p className="price">Giá: {Number(product.price).toLocaleString('vi-VN')}đ</p>
+                            <div className="quantity-selector">
+                                <span>Số lượng:</span>
+                                <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>-</button>
+                                <span>{quantity}</span>
+                                <button onClick={() => setQuantity(quantity + 1)}>+</button>
+                            </div>
+                            <div className="button-grid">
+                                <button className="add-to-cart-btn">Thêm vào giỏ hàng</button>
+                                <button className="payment-btn">Mua nhanh</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="product-description">
+                        <h3>Mô tả món ăn</h3>
+                        <p dangerouslySetInnerHTML={{ __html: product.description }} />
+                    </div>
+
+                    <div className="reviews-section">
+                        <h3>Đánh giá</h3>
+                        <div className="rating-summary">
+                            <div className="rating-total">
+                                <StarRating rating={averageRating} readOnly />
+                                <span className="total-ratings"> {reviews.length} đánh giá</span>
+                            </div>
+                            <div className="rating-breakdown">
+                                {ratingPercentages.map((percentage, index) => (
+                                    <div key={index} className="rating-row">
+                                        <span>{1 + index } ★:</span>
+                                        <div className="rating-bar">
+                                            <div
+                                                className="filled-bar"
+                                                style={{ width: `${percentage}%` }}
+                                            ></div>
+                                        </div>
+                                        <span>{percentage}%</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        {isLoggedIn ? (
+                            <div className="review-input">
+                                <StarRating rating={rating} setRating={setRating} />
+                                <input
+                                    type="text"
+                                    value={review}
+                                    onChange={(e) => setReview(e.target.value)}
+                                    placeholder="Viết đánh giá của bạn"
+                                />
+                                <button onClick={handleReviewSubmit}>Đánh giá</button>
+                            </div>
+                        ) : (
+                            <p>Vui lòng <a href="/login">đăng nhập</a> để đánh giá sản phẩm.</p>
+                        )}
+                        {reviews.length > 0 ? (
+                            reviews.map((rev, index) => (
+                                <div key={index} className="review-item">
+                                    <strong>{rev["User.fullname"] || rev.name}</strong>
+                                    <StarRating rating={rev.rating} readOnly />
+                                    <p>{rev.comment}</p>
+                                    <span className="review-time">
+                                    {new Date(rev.createdAt).toLocaleDateString("vi-VN")}{" "}
+                                    {new Date(rev.createdAt).toLocaleTimeString("vi-VN")} {/* Hoặc thay đổi định dạng theo ý muốn */}
+                                    </span>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="related-products">
+                    <h3>Có thể bạn đang tìm</h3>
+                    <div className="related-products-list">
+                        {relatedProducts.length > 0 ? (
+                            relatedProducts.map((related) => (
+                                <div key={related.id} className="related-product">
+                                    <img src={related.imageUrl} alt={related.itemName} />
+                                    <div className="related-info">
+                                        <h2>{related.itemName}</h2>
+                                        <p>Giá: {Number(related.price).toLocaleString('vi-VN')}đ</p>
+                                        <button>Đặt món</button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>Không có sản phẩm liên quan.</p>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
