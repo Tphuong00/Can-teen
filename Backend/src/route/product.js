@@ -22,6 +22,12 @@ let initProductRoutes = (app) => {
     router.post('/api/review/:slug', authMiddleware,productController.addProductReview);
     //Lấy đánh giá sản phẩm
     router.get('/api/review/:slug', productController.getProductReview);
+    //Thêm sản phẩm yêu thích
+    router.post('/api/likelist/add', authMiddleware,productController.addToLikelist);
+    //Xoá sản phẩm yêu thích
+    router.delete('/api/likelist/remove', authMiddleware, productController.removeFromLikelist);
+    //Lấy sản phẩm yêu thích
+    router.get('/api/likelist/getlikelist', authMiddleware, productController.getLikelist);
 
     return app.use("/", router);
 }

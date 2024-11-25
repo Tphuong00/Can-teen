@@ -2,7 +2,7 @@ import db from '../models/index';
 import cloudinary from '../config/cloudinary'; 
 import fs from 'fs';
 const {Op} = require('sequelize');
-const slugify = require('slugify');
+const jwt = require('jsonwebtoken');
 
 exports.handleCreateProduct= async (req, res) =>{
         try {
@@ -177,8 +177,6 @@ exports.getProductReview = async (req, res) => {
     }
 };
 
-
-
 exports.addProductReview = async (req, res) => {
     try {
         const { slug } = req.params;
@@ -225,3 +223,89 @@ exports.addProductReview = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+exports.addToLikelist = async (req, res) => {
+    try {
+      const { itemID } = req.body;
+      const userID = req.user?.id;
+
+    if (!userID) {
+        return res.status(401).json({ error: 'User not authenticated' });
+    }
+  
+      // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
+      const existingItem = await db.LikeLists.findOne({
+        where: { userID, itemID },
+      });
+  
+      if (existingItem) {
+        return res.status(400).json({ message: 'Sản phẩm đã có trong danh sách yêu thích.' });
+      }
+  
+      // Thêm sản phẩm vào danh sách yêu thích
+      const newLikelistItem = await db.LikeLists.create({ userID, itemID });
+      res.status(201).json({ message: 'Sản phẩm đã được thêm vào danh sách yêu thích.' });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Lỗi server khi thêm vào danh sách yêu thích.' });
+    }
+  };
+
+exports.getLikelist = async (req, res) => {
+    try {
+        const userID = req.user.id; // Lấy userID từ middleware (đã xác thực)
+    
+        // Lấy danh sách sản phẩm yêu thích của người dùng
+        const likedItems = await db.LikeLists.findAll({
+          where: { userID },
+          include: [
+            {
+              model: db.Menu_Items,
+              as: 'item', // Nếu sử dụng mối quan hệ 1-n giữa LikeLists và Menu_Items
+            }
+          ],
+          raw: true
+        });
+        
+        const likedProductIds = likedItems.map(like => like.itemID);
+    
+        // Trả về các sản phẩm yêu thích
+        const products = await db.Menu_Items.findAll({
+          where: {
+            id: likedProductIds
+          }
+        });
+    
+        return res.status(200).json(products);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Có lỗi xảy ra trong quá trình xử lý' });
+      }
+};
+  
+exports.removeFromLikelist = async (req, res) => {
+    try {
+      const { itemID } = req.body;
+      const userID = req.user?.id;
+      // Kiểm tra xem sản phẩm có trong danh sách yêu thích không
+      const existingItem = await db.LikeLists.findOne({
+        where: { userID, itemID },
+      });
+  
+      if (!existingItem) {
+        return res.status(404).json({ message: 'Sản phẩm không có trong danh sách yêu thích.' });
+      }
+
+      await db.LikeLists.destroy({
+        where: { userID, itemID }
+      });
+      res.status(200).json({ message: 'Sản phẩm đã được xóa khỏi danh sách yêu thích.' });
+  
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Lỗi server khi xóa sản phẩm khỏi danh sách yêu thích.' });
+    }
+};
+  
+

@@ -63,7 +63,7 @@
                         font-weight: bold;
                     }
                 }
-                .button-grid{
+                .button-grid-1{
                     display: flex;
 
                     .add-to-cart-btn {
@@ -98,6 +98,23 @@
                         &:hover {
                             background-color: #dd6920;
                         }
+                    }
+                }
+
+                .share-btn {
+                    display: inline-block;
+                    padding: 8px 8px;
+                    background-color: red;
+                    color: #fff;
+                    font-size: 15px;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    margin-top: 20px;
+                    margin-right: 20px;
+        
+                    &:hover {
+                        background-color: #c0392b;
                     }
                 }
             }

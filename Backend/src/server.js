@@ -10,6 +10,7 @@ import initUserRoutes from "./route/users";
 import iniReserRoutes from "./route/reservation";
 import initCheckAuthRoutes from "./route/checkAuth";
 import initProductRoutes from "./route/product";
+import initCartRoutes from "./route/cart";
 
 require("dotenv").config();
 const multer = require('multer');
@@ -32,6 +33,7 @@ initUserRoutes(app);
 iniReserRoutes(app);
 initCheckAuthRoutes(app);
 initProductRoutes(app);
+initCartRoutes(app);
 
 connectDB();
 

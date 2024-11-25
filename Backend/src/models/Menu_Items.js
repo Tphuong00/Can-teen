@@ -12,8 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Menu_Items.hasMany(models.Review, { as: 'reviews', foreignKey: 'itemID' });
-      Menu_Items.hasMany(models.Cart);
+      Menu_Items.hasMany(models.Cart, { foreignKey: 'itemID' });
       Menu_Items.hasMany(models.Order_Items);
+      Menu_Items.hasMany(models.LikeLists, { foreignKey: 'itemID', as: 'likes' });
     }
   }
   Menu_Items.init({

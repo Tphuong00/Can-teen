@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Review', {
+    await queryInterface.createTable('LikeLists', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,30 +12,20 @@ module.exports = {
       userID: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
+          model: 'Users', // Thay thế bằng tên bảng chính xác
           key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },    
+        onDelete: 'CASCADE'   
+      },
       itemID: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Menu_Items', // Tên bảng liên kết
-          key: 'id' // Tên khóa chính trong bảng Menu_Items
+          model: 'Menu_Items', // Thay thế bằng tên bảng chính xác
+          key: 'id'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },
-      rating: {
-        type: Sequelize.INTEGER,
-        validate: {
-          min: 1,
-          max: 5,
-        },
-      },
-      comment: {
-        type: Sequelize.TEXT
+        onDelete: 'SET NULL' 
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +34,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Review');
+    await queryInterface.dropTable('LikeLists');
   }
 };

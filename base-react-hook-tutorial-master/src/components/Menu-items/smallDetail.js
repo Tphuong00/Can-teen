@@ -1,12 +1,36 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 import './smallDetail.scss';
+import { addToCart } from '../../services/cartService';
 
 const SmallDetail = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     if (!product) {
         return <div>Thông tin sản phẩm không tồn tại</div>;
     }
+    
+    const handleAddToCart = async () => {
+        try {
+            const newCart = {
+                itemID: product.id,   // product.id là ID của sản phẩm
+                quantity: quantity    // Số lượng sản phẩm
+            };
+
+            const response = await addToCart(newCart.itemID, newCart.quantity);
+            
+            if (response) {
+                toast.success('Sản phẩm đã được thêm vào giỏ hàng!');
+            } else {
+                toast.error('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+            }
+    
+        } catch (err) {
+            console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", err);
+            toast.error("Thêm sản phẩm vào giỏ hàng thất bại.");
+        }
+    };
 
     return (
         <div className="small-detail">
@@ -28,7 +52,7 @@ const SmallDetail = ({ product }) => {
                     </p>
                 )}
                 <div className="button-grid">
-                    <button className="add-to-cart-btn">Thêm vào giỏ hàng</button>
+                    <button className="add-to-cart-btn" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                     <button className="payment-btn">Mua nhanh</button>
                 </div>
             </div>

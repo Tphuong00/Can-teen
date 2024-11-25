@@ -21,7 +21,8 @@ import Profile from './components/Profile/profile';
 import News from './components/news/news';
 import NewsDetail from './components/news/newsDetail';
 import DynamicPage from './Router/DynamicPage';
-
+import Cart from './components/Cart/Cart';
+import LikeList from './components/LikeList/LikeList';
 
 
 const App =(props) => {
@@ -48,6 +49,8 @@ const App =(props) => {
               <Route path="/news" element={<News />} />
               <Route path="/news/:slug" element={<NewsDetail/>} /> 
               <Route path="/:slug" element={<DynamicPage/>} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/likelist" element={<LikeList/>} />
               <Route path="*" element={<div>404 not found</div>} />
             </Routes>
           </span>

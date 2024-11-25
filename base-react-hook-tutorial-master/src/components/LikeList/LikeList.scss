@@ -1,179 +1,19 @@
-.product-list-container {
+.likelist-contain {
+    .likelist-content{
+      min-height: 55vh;
+      margin: 20px 80px;
 
-    .product-list-content{
-        display: flex;
-        margin: 20px 80px;
-        min-height: 52vh;
-        display: flex;
-        gap: 20px;
-
-        .filter-sidebar {
-            width: 20%;
-            padding: 15px;
-            border-radius: 10px;
-
-            .filter-section {
-                margin-bottom: 20px;
-                border: 1px solid red;
-                border-radius: 10px;
-
-                h3 {
-                    font-size: 18px;
-                    font-weight: 700;
-                    background: red;
-                    color: #fff;
-                    padding: 10px 17px;
-                    text-transform: uppercase;
-                    border-radius: 8px 8px 0 0;
-                    margin-bottom: 0;
-                }
-
-                label {
-                    display: block;
-                    font-size: 14px;
-                    color: #124784;
-                    margin-bottom: 5px;
-                    cursor: pointer;
-                    margin: 10px;
-
-                    input {
-                        margin-right: 5px;
-                    }
-                }
-            }
-
-            .filter-category {
-                h3 {
-                  font-size: 1.5em;
-                  margin-bottom: 1em;
-                }
-              
-                .category {
-                  color: #124784;
-              
-                  > div {
-                    display: flex;
-                    cursor: pointer;
-                    flex-direction: column;
-                    flex-wrap: wrap;
-                    align-content: flex-start;
-                    
-                    .category-label {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 200px;
-              
-                        a {
-                            text-decoration: none;
-                            color: inherit;
-                            &:hover {
-                            color: red;
-                            }
-
-                            span {
-                                margin-left: 15px;
-                                font-weight: normal;
-                                font-size: 1em;
-                                color: #124784;
-                            }
-                        }
-                    }
-                  }
-              
-                  .sub-categories {
-                    padding-left: 1.5em;
-                    
-                    div {
-              
-                      label {
-                        font-size: 1em;
-                        color: #124784;
-                        font-weight: normal;
-                        
-                        a {
-                          text-decoration: none;
-                          color: #124784;
-              
-                          &:hover {
-                            color: red;
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              
-                > div {
-              
-                  label {
-                    font-size: 1em;
-                    font-weight: bold;
-                    color: #124784;
-              
-                    a {
-                      text-decoration: none;
-                      color: inherit;
-              
-                      &:hover {
-                        color: red;
-                      }
-                    }
-                  }
-                }
-              }
-              
-        }
-        
-
-        .product-list{
-            width: 80%;
-
-            .product-header{
-                display: flex;
-                align-items: baseline;
-                margin-bottom: 15px;
-                margin-top: 15px;
-                border-bottom: 2px solid red;
-                justify-content: space-between;
-
-                .product-header-title{
-                    color: #124784; 
-                    font-size: 20px; 
-                    font-weight: bold;
-                    text-transform: uppercase;
-                }
-
-                .filter-sort{
-                    display: flex;
-                    align-items: center;
-                    border: 1px solid red;
-                    margin-bottom: 15px;
-                    font-weight: bold;
-                    border-radius: 10px ;
-                    
-                    label {
-                        color: #124784; 
-                        font-size: 14px;
-                        margin-left: 5px; 
-                    }
-
-                    select {
-                        padding: 5px;
-                        color: #124784;
-                        border: none;
-                        border-radius: 4px;
-                        font-size: 12px;
-                        border-radius: 10px ;
-                        width: 100px;
-                        cursor: pointer;
-                    }
-                }
-            }
-
-            .product-grid {
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    
+      .product-grid {
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(5, 1fr);
                 gap: 20px;
                 width: 100%;
     
@@ -242,7 +82,7 @@
                           transition: color 0.3s ease;
                         }
                         
-                        &.liked i {
+                        &.liked i{
                             color: red; /* Trái tim đỏ khi được yêu thích */
                         }
                         
@@ -346,6 +186,6 @@
                   }
                 }
             }
-        }  
-    }    
-}
+    }
+  }
+  

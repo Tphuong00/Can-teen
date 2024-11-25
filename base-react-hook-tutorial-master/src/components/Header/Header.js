@@ -4,12 +4,14 @@ import './Header.scss';
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import {checkAuth, logout } from '../../services/checkAuth';
+import { getCart } from '../../services/cartService';
 import MenuDropdown from './MenuDropdown';
 
 const  Header = () => {
     let navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [cartCount, setCartCount] = useState(0);
     
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -34,6 +36,14 @@ const  Header = () => {
         console.log('isLoggedIn:', isLoggedIn); 
     }, [isLoggedIn]); 
     
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            const response = await getCart();
+            const totalQuantity = response.reduce((acc, item) => acc + item.quantity, 0); // Tính tổng quantity
+            setCartCount(totalQuantity);
+        };
+        fetchCartCount();
+    }, []);
 
     const goToLogin = () => {
         navigate('/login'); 
@@ -46,7 +56,11 @@ const  Header = () => {
     const handleLogout = async () => {
         await logout(); // Gọi API logout để xóa cookie ở backend
         setIsLoggedIn(false); // Cập nhật trạng thái đăng xuất
-        navigate('/home');        
+        navigate('/home');      
+    };
+
+    const handleLikeList = () => {
+        navigate('/likelist'); 
     };
 
     const handleSearch = (e) => {
@@ -55,6 +69,10 @@ const  Header = () => {
             navigate(`/search?query=${searchQuery.trim()}`); // Điều hướng đến trang kết quả tìm kiếm
         }
     };
+
+    const handleCart = () =>{
+        navigate('/cart')
+    }
 
   return (
     <Navbar expand="lg" className="header-container">
@@ -79,7 +97,7 @@ const  Header = () => {
                         <i variant="link" onClick={handleSearch} className="fas fa-search search"></i>
                     </Form>
                     <div className="d-flex align-items-center header-button">
-                    <NavDropdown
+                        <NavDropdown
                             title={<i className="fas fa-user user-icon"></i>}
                             id="user-dropdown"
                             className="user-dropdown"
@@ -89,7 +107,7 @@ const  Header = () => {
                                 <>
                                     <NavDropdown.Item href="/profile" className='user-profile'>Tài khoản</NavDropdown.Item>
                                     <NavDropdown.Item className='user-profile' onClick={handleLogout}>Đăng xuất</NavDropdown.Item>
-                                    <NavDropdown.Item href = "/profile/likeList" className='user-profile' >Danh sách yêu thích</NavDropdown.Item>
+                                    <NavDropdown.Item className='user-profile' onClick={handleLikeList}>Danh sách yêu thích</NavDropdown.Item>
                                 </>
                             ) : (
                                 <>
@@ -98,7 +116,14 @@ const  Header = () => {
                                 </>
                             )}
                         </NavDropdown>
-                        <i className="fas fa-shopping-cart cart"></i>
+                        <div className="cart-icon" variant="link" onClick={handleCart}>
+                            <i className="fas fa-shopping-cart cart"></i>
+                            {cartCount > 0 && (
+                                <div className="cart-count">
+                                    {cartCount}
+                                </div>
+                            )}
+                        </div>
                         <Button variant="danger" className="ml-3 btt-resver" href='/reservation'>ĐẶT BÀN</Button>
                     </div>
                 </Navbar.Collapse>

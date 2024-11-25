@@ -7,6 +7,8 @@ import StarRating from '../Review/starRating';
 import './productDetail.scss';
 import { toast } from 'react-toastify';
 import { checkAuth } from '../../services/checkAuth';
+import { addToCart } from '../../services/cartService';
+
 
 const ProductDetail = () => {
     const { slug } = useParams();
@@ -28,8 +30,6 @@ const ProductDetail = () => {
                 const related = await getRelatedProducts(productDetail.category);
                 const reviewData = await getReview(slug);
 
-                console.log(reviewData)
-    
                 setProduct(productDetail);
                 setReviews(reviewData.reviews);  // Cập nhật reviews với mảng reviews
                 setRelatedProducts(related);
@@ -117,9 +117,41 @@ const ProductDetail = () => {
         }
     };
     
-
     const averageRating = calculateAverageRating();
     const ratingPercentages = calculateRatingPercentages();
+
+    const handleAddToCart = async () => {
+        try {
+            if (!isLoggedIn) {
+                toast.error("Vui lòng đăng nhập để thêm sản phẩm.");
+                return;
+            }
+    
+            // Gửi đúng cấu trúc dữ liệu: { itemID, quantity }
+            const newCart = {
+                itemID: product.id,   // product.id là ID của sản phẩm
+                quantity: quantity    // Số lượng sản phẩm
+            };
+    
+            console.log("Dữ liệu gửi lên API: ", newCart);  // Kiểm tra xem dữ liệu có đúng không
+    
+            // Gọi API để thêm sản phẩm vào giỏ hàng
+            const response = await addToCart(newCart.itemID, newCart.quantity);
+            
+            // Kiểm tra phản hồi từ API
+            if (response && response.message === "Giỏ hàng đã được cập nhật.") {
+                toast.success('Sản phẩm đã được thêm vào giỏ hàng!');
+            } else {
+                toast.error('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+            }
+    
+        } catch (err) {
+            console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", err);
+            toast.error("Thêm sản phẩm vào giỏ hàng thất bại.");
+        }
+    };
+    
+    
 
     if (loading) {
         return <div>Đang tải sản phẩm...</div>;
@@ -154,10 +186,11 @@ const ProductDetail = () => {
                                 <span>{quantity}</span>
                                 <button onClick={() => setQuantity(quantity + 1)}>+</button>
                             </div>
-                            <div className="button-grid">
-                                <button className="add-to-cart-btn">Thêm vào giỏ hàng</button>
+                            <div className="button-grid-1">
+                                <button className="add-to-cart-btn" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                                 <button className="payment-btn">Mua nhanh</button>
                             </div>
+                            <button className="share-btn">chia sẻ</button>
                         </div>
                     </div>
                     <div className="product-description">

@@ -6,8 +6,12 @@ import { getProducts } from '../../services/productService';
 import slugify from 'slugify';
 import { Modal } from "react-bootstrap"; 
 import SmallDetail from './smallDetail';
+import { addToLikelist, removeFromLikelist} from '../../services/likelistService';
+import { toast } from "react-toastify";
+import { checkAuth } from "../../services/checkAuth";
+import { addToCart } from '../../services/cartService';
 
-const Menu = ({ category }) => {
+const Menu = ({ category}) => {
     const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [sortOption, setSortOption] = useState("default");
@@ -18,6 +22,7 @@ const Menu = ({ category }) => {
     });
     const [expandedCategories, setExpandedCategories] = useState([]);
     const [displayCategory, setDisplayCategory] = useState("");
+    const [likedProducts, setLikedProducts] = useState([]);
     
     useEffect(() => {
         const fetchProducts = async () => {
@@ -111,6 +116,79 @@ const Menu = ({ category }) => {
     const handleClose = () => {
         setShowModal(false);
         setSelectedProduct(null);
+    };
+
+    useEffect(() => {
+        const user = checkAuth();
+        if (user) {
+            // Lấy danh sách yêu thích từ localStorage
+            const storedLikedProducts = JSON.parse(localStorage.getItem(`likedProducts_${user.id}`)) || [];
+            if (Array.isArray(storedLikedProducts)) {
+                setLikedProducts(storedLikedProducts);  // Cập nhật trạng thái likedProducts từ localStorage
+            } else {
+                localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify([]));
+                setLikedProducts([]);  // Khởi tạo lại danh sách nếu dữ liệu không hợp lệ
+            }
+        }
+    }, []);  // Chạy một lần khi component mount
+    
+    useEffect(() => {
+        // Đảm bảo rằng khi danh sách yêu thích thay đổi, ta cập nhật lại localStorage
+        const user = checkAuth();
+        if (user) {
+            localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify(likedProducts));
+        }
+    }, [likedProducts]);  // Chạy mỗi khi likedProducts thay đổi
+    
+
+    const handleAddToLikelist = async (product) => {
+        try {
+            const user = checkAuth();
+            if (!user) {
+                toast.error("Bạn cần đăng nhập để yêu thích sản phẩm!");
+            }
+            // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
+            const isLiked = likedProducts.includes(product.id);
+            let updatedLikedProducts = [...likedProducts];
+            if (isLiked) {
+                await removeFromLikelist(product.id);
+                updatedLikedProducts = updatedLikedProducts.filter((id) => id !== product.id);
+                // setLikedProducts(updatedLikedProducts);
+                // localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify(updatedLikedProducts));  // Cập nhật lại localStorage
+                toast.success("Đã xóa khỏi danh sách yêu thích!");
+            } else {
+                await addToLikelist(product.id);
+                updatedLikedProducts.push(product.id);
+                // setLikedProducts(updatedLikedProducts);
+                // localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify(updatedLikedProducts));  // Lưu vào localStorage với userId
+                toast.success("Đã thêm vào danh sách yêu thích!");
+            }
+            setLikedProducts(updatedLikedProducts);
+                localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify(updatedLikedProducts)); 
+        } catch (error) {
+            console.error('Lỗi khi xử lý yêu thích:', error);
+        }
+    };
+
+    const handleAddToCart = async (product) => {
+        try {
+            const newCart = {
+                itemID: product.id,   // product.id là ID của sản phẩm
+                quantity: "1"    // Số lượng sản phẩm
+            };
+
+            const response = await addToCart(newCart.itemID, newCart.quantity);
+            
+            if (response) {
+                toast.success('Sản phẩm đã được thêm vào giỏ hàng!');
+            } else {
+                toast.error('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+            }
+    
+        } catch (err) {
+            console.error("Lỗi khi thêm sản phẩm vào giỏ hàng:", err);
+            toast.error("Thêm sản phẩm vào giỏ hàng thất bại.");
+        }
     };
 
     const breadcrumbItems = [
@@ -269,37 +347,42 @@ const Menu = ({ category }) => {
                     <div className="product-grid">
                         {products.length > 0 ? (
                             products.map((product) => (
-                            <div key={product.id} className="product-card">
+                                <div key={product.id} className="product-card">
                                 <div className="product-image">
-                                <img src={product.imageUrl} alt={product.itemName} />
-                                <div className="product-overlay">
-                                    <span className="icon" onClick={() => handleShow(product)}><i className="fa fa-eye"></i></span>
-                                    <span className="icon"><i className="fa fa-shopping-cart"></i></span>
-                                </div>
-                                <div className="favorite-icon" title="Thêm vào yêu thích">
-                                    <i className="fa fa-heart"></i>
-                                </div>
+                                    <img src={product.imageUrl} alt={product.itemName} />
+                                    <div className="product-overlay">
+                                        <span className="icon" onClick={() => handleShow(product)}><i className="fa fa-eye"></i></span>
+                                        <span className="icon" onClick={()=>handleAddToCart(product)}><i className="fa fa-shopping-cart"></i></span>
+                                    </div>
+                                    <div 
+                                        className={`favorite-icon ${likedProducts.includes(product.id) ? 'liked' : ''}`} 
+                                        title={likedProducts.includes(product.id) ? 'Bỏ yêu thích' : 'Thêm vào yêu thích'}
+                                        onClick={() => handleAddToLikelist(product)}
+                                    >
+                                        <i className={`fas fa-heart ${likedProducts.includes(product.id) ? 'liked' : ''}`}></i>
+                                    </div>
+
                                 </div>
                                 <h3>{product.itemName}</h3>
                                 <p className="price-section">
-                                {product.discount ? (
-                                    <>
-                                    <span className="price discounted">
-                                        {Number(product.originalPrice).toLocaleString('vi-VN')}đ
-                                    </span>
-                                    <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
-                                    </>
-                                ) : (
-                                    <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
-                                )}
+                                    {product.discount ? (
+                                        <>
+                                        <span className="price discounted">
+                                            {Number(product.originalPrice).toLocaleString('vi-VN')}đ
+                                        </span>
+                                        <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
+                                        </>
+                                    ) : (
+                                        <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
+                                    )}
                                 </p>
-                                <Link
-                                    to={`/${slugify(product.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
-                                    className="buy-now-button"
-                                >
-                                    Xem chi tiết
-                                </Link>
-                            </div>
+                                    <Link
+                                        to={`/${slugify(product.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
+                                        className="buy-now-button"
+                                    >
+                                        Xem chi tiết
+                                    </Link>
+                                </div>
                             ))
                         ) : (
                             <p>Không có sản phẩm nào</p>
