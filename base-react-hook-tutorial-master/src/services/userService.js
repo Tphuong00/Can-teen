@@ -25,10 +25,25 @@ const changePassword = (currentPassword, newPassword) =>{
     return axios.put('/api/update/password', {currentPassword, newPassword})
 }
 
+const forgotPassword = (email) => {
+    return axios.post('/api/forgot-password', { email })
+};
+
+const resetPassword = (token, newpassword) => {
+   return axios.post(`/api/reset-password/${token}`, { newpassword })
+};
+
+const FormSubcribe = (email) => {
+    return axios.post('/api/subcriber', { email });
+}
+
 export {
     registerNewUser,
     loginUser,
     UpdateUser,
     getUserInfo,
-    changePassword
+    changePassword,
+    forgotPassword,
+    resetPassword,
+    FormSubcribe
 };

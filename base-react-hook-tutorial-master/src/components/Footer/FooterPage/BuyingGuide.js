@@ -31,6 +31,7 @@ const BuyingGuide= ()=> {
                     Nếu bạn chưa có tài khoản và muốn đăng ký tài khoản vui lòng điền các thông tin cá nhân để tiếp tục đăng ký tài khoản. Khi có tài khoản bạn sẽ dễ dàng theo dõi được đơn hàng của mình<br/>
 
                     - Bước 4: Điền các thông tin của bạn để nhận đơn hàng, lựa chọn hình thức thanh toán và vận chuyển cho đơn hàng của mình<br/>
+                    Lưu ý: Vận chuyển để đơn hàng chất lượng nhất chỉ giao các quận 1,3,5,10,11,4,8<br/>
 
                     - Bước 5: Xem lại thông tin đặt hàng, điền chú thích và gửi đơn hàng<br/>
                     </div>

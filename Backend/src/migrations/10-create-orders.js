@@ -18,6 +18,9 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
+      customerInfo:{
+        type: Sequelize.TEXT,
+      },
       pricetotal: {
         type: Sequelize.DECIMAL
       },
@@ -44,6 +47,9 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+      },
+      notes: {
+        type: Sequelize.TEXT,
       },
       createdAt: {
         allowNull: false,

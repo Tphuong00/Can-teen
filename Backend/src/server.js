@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import viewEngine from "./config/viewEngine";
 import connectDB from "./config/connectDB";
 import cors from "cors";
+import passport from'passport';
 
 import initWebRoutes from "./route/web";
 import initUserRoutes from "./route/users";
@@ -11,6 +12,10 @@ import iniReserRoutes from "./route/reservation";
 import initCheckAuthRoutes from "./route/checkAuth";
 import initProductRoutes from "./route/product";
 import initCartRoutes from "./route/cart";
+import initOrderRoutes from "./route/order";
+import initPromotionRoutes from "./route/promotion";
+import initmailchimpRoutes from'./route/mailchimp';
+import "./config/passportSetup";
 
 require("dotenv").config();
 const multer = require('multer');
@@ -25,6 +30,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(cookieParser());
 
+// Đảm bảo không dùng session
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
+
 
 viewEngine(app);
 
@@ -34,6 +43,9 @@ iniReserRoutes(app);
 initCheckAuthRoutes(app);
 initProductRoutes(app);
 initCartRoutes(app);
+initOrderRoutes(app);
+initPromotionRoutes(app);
+initmailchimpRoutes(app);
 
 connectDB();
 

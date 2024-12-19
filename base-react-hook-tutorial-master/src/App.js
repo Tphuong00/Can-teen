@@ -2,6 +2,7 @@ import './App.scss';
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
+import { CartProvider } from './components/Cart/CartContext';
 
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -15,6 +16,7 @@ import PaymentGuide from './components/Footer/FooterPage/Paymentguide';
 import Security from './components/Footer/FooterPage/Security';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import ResetPassword from './components/Auth/ResetPassword';
 import Reservation from './components/Reservation/Reservation';
 import Contact from './components/Contact/Contact';
 import Profile from './components/Profile/profile';
@@ -23,10 +25,13 @@ import NewsDetail from './components/news/newsDetail';
 import DynamicPage from './Router/DynamicPage';
 import Cart from './components/Cart/Cart';
 import LikeList from './components/LikeList/LikeList';
+import Order from './components/Order/Order';
+import Search from './components/Search/Search';
 
 
-const App =(props) => {
+const App =() => {
   return(
+    < CartProvider>
       <Router >
         <div className="main-container">
           <Header />
@@ -37,6 +42,7 @@ const App =(props) => {
               <Route path="/introduce" element={<Introduces />} />
               <Route path = "/login" element={<Login />} />
               <Route path = "/register" element={<Register />} />
+              <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
               <Route path="/buying-guide" element={<BuyingGuide/>} />
               <Route path="/payment-guide" element={<PaymentGuide/>} />
               <Route path="/menber-policy" element={<MenberPolicy/>} />
@@ -48,9 +54,11 @@ const App =(props) => {
               <Route path="/profile/*" element={<Profile />} />
               <Route path="/news" element={<News />} />
               <Route path="/news/:slug" element={<NewsDetail/>} /> 
+              <Route path="/search" element={<Search/>} />
               <Route path="/:slug" element={<DynamicPage/>} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/likelist" element={<LikeList/>} />
+              <Route path="/order" element={<Order/>} />
               <Route path="*" element={<div>404 not found</div>} />
             </Routes>
           </span>
@@ -70,6 +78,7 @@ const App =(props) => {
           />
         </div>
       </Router>
+    </CartProvider>
   )
 }
 

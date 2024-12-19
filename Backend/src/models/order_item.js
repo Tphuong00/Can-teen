@@ -19,12 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     orderID: DataTypes.INTEGER,
     itemID: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
-    price: DataTypes.DECIMAL
+    price: DataTypes.DECIMAL,
+    notes: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Order_Items',
-    timestamps: true,
-    updatedAt: false
+    timestamps: false,
   });
   return Order_Items;
 };

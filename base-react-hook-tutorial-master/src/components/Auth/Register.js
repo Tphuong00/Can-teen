@@ -97,6 +97,14 @@ const Register = (props) => {
         }
     }
 
+    const handleGoogleLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/google'; // Redirect tới Google OAuth
+    };
+
+    const handleFacebookLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/facebook'; // Redirect tới Facebook OAuth
+    };
+
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Đăng kí', link: '/register' },
@@ -161,8 +169,8 @@ const Register = (props) => {
                         <span className='text-other-register'>Đăng nhập bằng cách khác:</span>
                     </div>
                     <div className='col-12 social-login'>
-                        <i className="fab fa-google-plus-square google"></i>
-                        <i className="fab fa-facebook-square facebook"></i>
+                    <i onClick={handleGoogleLogin} className="fab fa-google-plus-square google"></i>
+                    <i onClick={handleFacebookLogin} className="fab fa-facebook-square facebook"></i>
                     </div>
                 </div>
             </div>

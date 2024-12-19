@@ -28,6 +28,8 @@ let initProductRoutes = (app) => {
     router.delete('/api/likelist/remove', authMiddleware, productController.removeFromLikelist);
     //Lấy sản phẩm yêu thích
     router.get('/api/likelist/getlikelist', authMiddleware, productController.getLikelist);
+    //Tìm kiếm món ăn
+    router.get('/api/search/getSearch', productController.getSearch);
 
     return app.use("/", router);
 }

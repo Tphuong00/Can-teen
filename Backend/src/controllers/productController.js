@@ -307,5 +307,28 @@ exports.removeFromLikelist = async (req, res) => {
       res.status(500).json({ message: 'Lỗi server khi xóa sản phẩm khỏi danh sách yêu thích.' });
     }
 };
+
+exports.getSearch = async (req, res) => {
+    const { query } = req.query;  // Lấy query từ tham số truy vấn
+    if (!query) {
+        return res.status(400).json({ message: 'Query parameter is required' });
+    }
+
+    try {
+        const items = await db.Menu_Items.findAll({
+            where: {
+                itemName: {
+                    [Op.like]: `%${query}%`  // Tìm kiếm không phân biệt chữ hoa/thường
+                }
+            },
+            limit: 10  // Giới hạn số kết quả trả về
+        });
+
+        return res.status(200).json(items);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
   
 

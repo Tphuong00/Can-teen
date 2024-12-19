@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../Header/Breadcrumb';
+import {Modal} from 'react-bootstrap';
 import './Login.scss';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { loginUser } from "../../services/userService";
+import { loginUser, forgotPassword } from "../../services/userService";
 import {checkAuth } from '../../services/checkAuth';
+
+
 
 const Login =(props)=>{
     let navigate = useNavigate();
@@ -17,6 +20,8 @@ const Login =(props)=>{
         isValidPassword: true,
     }
     const[objCheckInput, setobjCheckInput] = useState(defaultValidIput);
+    const [emailForgotPassword, setEmailForgotPassword] = useState(""); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -70,6 +75,30 @@ const Login =(props)=>{
            handleLogin()
         }
     }
+
+    // Hàm xử lý form quên mật khẩu
+    const handleForgotPassword = async () => {
+        if (!emailForgotPassword) {
+            toast.error('Vui lòng nhập email.');
+            return;
+        }
+        try {
+             await forgotPassword(emailForgotPassword);
+            toast.success('Email reset mật khẩu đã được gửi!');
+            setIsModalOpen(false); // Đóng modal sau khi gửi yêu cầu thành công
+        } catch (error) {
+            toast.error(error.message || 'Đã xảy ra lỗi khi gửi yêu cầu quên mật khẩu.');
+        }
+    };
+
+    const handleGoogleLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/google'; // Redirect tới Google OAuth
+    };
+
+    const handleFacebookLogin = () => {
+        window.location.href = 'http://localhost:8080/auth/facebook'; // Redirect tới Facebook OAuth
+    };
+    
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
         { label: 'Đăng nhập', link: '/login' },
@@ -107,7 +136,7 @@ const Login =(props)=>{
                         <button className='btn-login' onClick={() => handleLogin()}>Login</button>
                     </div>                        
                     <div className='col-12 text-center'>
-                        <span className='forgot-password'>Quên mật khẩu?</span>
+                        <span className='forgot-password' onClick={() => setIsModalOpen(true)}>Quên mật khẩu?</span>
                     </div>
                     <div className='col-12 text-center'>
                         <text className='no-account'>Bạn chưa có tài khoản? <a className='sign-up' href="/register">Đăng kí</a></text>
@@ -116,10 +145,30 @@ const Login =(props)=>{
                         <span className='text-other-login'>Đăng nhập bằng cách khác:</span>
                     </div>
                     <div className='col-12 social-login'>
-                        <i className="fab fa-google-plus-square google"></i>
-                        <i className="fab fa-facebook-square facebook"></i>
+                        <i onClick={handleGoogleLogin} className="fab fa-google-plus-square google"></i>
+                        <i onClick={handleFacebookLogin} className="fab fa-facebook-square facebook"></i>
                     </div>
                 </div>
+                <Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} className="custom-modal">
+                    <Modal.Header closeButton>
+                        <Modal.Title className="title-forgot">Quên mật khẩu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="form-group">
+                            <input
+                                type="email"
+                                placeholder="Nhập email của bạn"
+                                value={emailForgotPassword}
+                                onChange={(e) => setEmailForgotPassword(e.target.value)}
+                                className="form-control"
+                            />
+                        </div>
+                        <div className="form-group-button">
+                            <button className="btn-secondary" onClick={() => setIsModalOpen(false)}>Đóng</button>
+                            <button className="btn-send" onClick={handleForgotPassword}>Gửi yêu cầu lấy lại mật khẩu</button>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         </div>
     )

@@ -10,7 +10,11 @@ const getRelatedProducts =(category)=>{
     return axios.get(`/api/${category}/related`);
 }
 
+const getSearch = (query) => {
+    return axios.get('/api/search/getSearch', { params: { query }});
+}
+
 
 export {
-    getProducts, getProductDetail, getRelatedProducts
+    getProducts, getProductDetail, getRelatedProducts, getSearch
 }

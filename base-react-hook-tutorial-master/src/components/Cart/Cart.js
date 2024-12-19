@@ -5,12 +5,17 @@ import Breadcrumb from "../Header/Breadcrumb";
 import { useNavigate } from "react-router-dom";
 import { checkAuth } from "../../services/checkAuth"; 
 import { toast } from "react-toastify";
+import { useCart } from './CartContext';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]); 
+  // const [cartItems, setCartItems] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
+  const [showModal, setShowModal] = useState(false); 
+  const [cartIDToDelete, setCartIDToDelete] = useState(null); 
   const navigate = useNavigate(); 
+  const { cartItems, setCartItems, setCartCount } = useCart();
+  const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -32,6 +37,8 @@ const Cart = () => {
       try {
         const response = await getCart(); 
         setCartItems(response || []);
+        const totalQuantity = response.reduce((acc, item) => acc + item.quantity, 0);
+        setCartCount(totalQuantity);
         setLoading(false); 
       } catch (error) {
         console.error("Lỗi khi lấy giỏ hàng:", error);
@@ -39,9 +46,17 @@ const Cart = () => {
         setLoading(false); // Stop loading
       }
     };
-    fetchCart(); // Call fetchCart on mount
-  }, []); 
+    fetchCart(); 
+  }, [setCartItems, setCartCount]); 
 
+  const handleSelectItem = (item) => {
+    if (selectedItems.some((selectedItem) => selectedItem.id === item.id)) {
+      setSelectedItems(selectedItems.filter((selectedItem) => selectedItem.id !== item.id));
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+  
   // Handle removing an item from the cart
   const handleRemoveItem = async (cartID) => {
     try {
@@ -58,18 +73,48 @@ const Cart = () => {
     }
 };
 
+const handleShowModal = (cartID) => {
+  setCartIDToDelete(cartID);
+  setShowModal(true);
+};
+
+// Ẩn modal nếu người dùng hủy
+const handleCloseModal = () => {
+  setShowModal(false);
+  setCartIDToDelete(null); // Reset ID sản phẩm
+};
+const handleConfirmDelete = async () => {
+  if (cartIDToDelete) {
+    await handleRemoveItem(cartIDToDelete);
+    setShowModal(false);
+    setCartIDToDelete(null);
+  }
+};
+
   // Handle updating the quantity of an item
-  const handleUpdateQuantity = async (cartID, newQuantity) => {
-    if (newQuantity < 1) return; // Prevent quantity from going below 1
+const handleUpdateQuantity = async (cartID, newQuantity) => {
     try {
-      await updateCart(cartID, newQuantity); // Update quantity in the backend
-      setCartItems(
-        cartItems.map((item) =>
+      if (newQuantity === 0) {
+        // Nếu số lượng là 0, xoá sản phẩm khỏi giỏ hàng
+        handleShowModal(cartID);
+        return;
+      }
+  
+      const response = await updateCart(cartID, newQuantity);
+  
+      if (response) {
+        const updatedItem = response; 
+  
+        setCartItems(cartItems.map((item) =>
           item.id === cartID
-            ? { ...item, quantity: newQuantity, priceTotal: item.price * newQuantity }
+            ? {
+                ...item,
+                quantity: updatedItem.quantity,  // Cập nhật số lượng
+                priceTotal: updatedItem.priceTotal,  // Cập nhật giá tổng
+              }
             : item
-        )
-      ); // Update the quantity and total price for the updated item
+        ));
+      }
     } catch (error) {
       console.error("Lỗi khi cập nhật số lượng:", error);
     }
@@ -79,6 +124,11 @@ const Cart = () => {
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.priceTotal, 0);
   };
+
+  const handleOrder = () => {
+    localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+    navigate("/order", { state: { selectedItems } });
+  }
 
   // Loading state or error message if needed
   if (loading) return <div className="loading">Đang tải...</div>;
@@ -99,6 +149,7 @@ const Cart = () => {
           <table className="cart-table">
             <thead>
               <tr>
+                <th> </th>
                 <th>Thông tin sản phẩm</th>
                 <th>Đơn giá</th>
                 <th>Số lượng</th>
@@ -109,6 +160,13 @@ const Cart = () => {
             <tbody>
               {cartItems.map((item) => (
                 <tr key={item.id}>
+                  <td>
+                  <input 
+                    type="checkbox" 
+                    checked={selectedItems.some((selectedItem) => selectedItem.id === item.id)}
+                    onChange={() => handleSelectItem(item)}
+                  />
+                </td>
                   <td className="product-info">
                     <img
                       src={item["Menu_Item.imageUrl"]}
@@ -140,9 +198,21 @@ const Cart = () => {
         )} */}
         <div className="cart-footer">
           <span className="total-price">Tổng tiền: {calculateTotal().toLocaleString()}đ</span>
-          <button className="checkout-btn">Thanh toán</button>
+          <button className="checkout-btn" onClick={handleOrder}>Thanh toán</button>
         </div>
       </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Bạn có chắc muốn xoá sản phẩm này khỏi giỏ hàng không?</h3>
+            <div className="modal-actions">
+              <button onClick={handleCloseModal}>Hủy</button>
+              <button onClick={handleConfirmDelete}>Xoá</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

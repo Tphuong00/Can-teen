@@ -8,7 +8,7 @@ import './productDetail.scss';
 import { toast } from 'react-toastify';
 import { checkAuth } from '../../services/checkAuth';
 import { addToCart } from '../../services/cartService';
-
+import { useCart } from '../Cart/CartContext';
 
 const ProductDetail = () => {
     const { slug } = useParams();
@@ -22,6 +22,7 @@ const ProductDetail = () => {
     const [quantity, setQuantity] = useState(1);
     const [userFullName, setUserFullName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { cartItems, setCartItems, setCartCount } = useCart();
 
     useEffect(() => {
         const fetchProductDetail = async () => {
@@ -131,15 +132,31 @@ const ProductDetail = () => {
             const newCart = {
                 itemID: product.id,   // product.id là ID của sản phẩm
                 quantity: quantity    // Số lượng sản phẩm
-            };
-    
-            console.log("Dữ liệu gửi lên API: ", newCart);  // Kiểm tra xem dữ liệu có đúng không
-    
+            };   
+            
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            const existingItemIndex = cartItems.findIndex(item => item.itemID === product.id);
+            let updatedCartItems;
+
+            if (existingItemIndex >= 0) {
+                // Nếu sản phẩm đã có, cập nhật số lượng
+                updatedCartItems = [...cartItems];
+                updatedCartItems[existingItemIndex].quantity += quantity;
+            } else {
+                // Nếu chưa có, thêm sản phẩm vào giỏ hàng
+                updatedCartItems = [...cartItems, newCart];
+            }
+
+            // Cập nhật giỏ hàng trong context và localStorage
+            setCartItems(updatedCartItems);
+            // Cập nhật số lượng giỏ hàng
+            const newCartCount = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
+            setCartCount(newCartCount);
             // Gọi API để thêm sản phẩm vào giỏ hàng
             const response = await addToCart(newCart.itemID, newCart.quantity);
             
             // Kiểm tra phản hồi từ API
-            if (response && response.message === "Giỏ hàng đã được cập nhật.") {
+            if (response ) {
                 toast.success('Sản phẩm đã được thêm vào giỏ hàng!');
             } else {
                 toast.error('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');

@@ -17,13 +17,14 @@ module.exports = (sequelize, DataTypes) => {
   Promotion.init({
     code: DataTypes.STRING,
     description: DataTypes.STRING,
-    discount_precentage: DataTypes.DECIMAL,
+    discount_percentage: DataTypes.DECIMAL,
     date_from: DataTypes.DATE,
-    date_unitl: DataTypes.DATE, 
+    date_until: DataTypes.DATE, 
     createdAt: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'Promotion',
+    freezeTableName: true,
     timestamps: true,
     updatedAt: false,
   });

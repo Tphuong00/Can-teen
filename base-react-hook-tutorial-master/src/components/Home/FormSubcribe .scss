@@ -1,0 +1,80 @@
+.slide-subcribeForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 20px;
+  background: url('../../assets/ảnh\ home.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; 
+  position: relative;
+ 
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(134, 136, 139, 0.485);  /* Màu đen mờ với opacity */
+    z-index: 1; /* Đảm bảo lớp phủ mờ ở dưới nội dung */
+  } 
+
+  // Subscribe Form Section
+  .subscribe-form {
+    margin: 20px 80px;
+    background-color: #4370a4;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 40%;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+
+    h2 {
+      font-size: 3rem;
+      color: #fff;
+      margin-bottom: 20px;
+      font-family: 'Dancing Script', cursive;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      input {
+        padding: 12px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        outline: none;
+
+        &:focus {
+          border: 2px solid #d09e3d;
+        }
+      }
+
+      button {
+        background-color: red;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #a6752d;
+        }
+      }
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #f1f1f1;
+    }
+  }
+}

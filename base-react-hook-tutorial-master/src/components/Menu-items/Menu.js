@@ -10,6 +10,7 @@ import { addToLikelist, removeFromLikelist} from '../../services/likelistService
 import { toast } from "react-toastify";
 import { checkAuth } from "../../services/checkAuth";
 import { addToCart } from '../../services/cartService';
+import { useCart } from '../Cart/CartContext';
 
 const Menu = ({ category}) => {
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Menu = ({ category}) => {
     const [expandedCategories, setExpandedCategories] = useState([]);
     const [displayCategory, setDisplayCategory] = useState("");
     const [likedProducts, setLikedProducts] = useState([]);
+    const { cartItems, setCartItems, setCartCount } = useCart();
     
     useEffect(() => {
         const fetchProducts = async () => {
@@ -174,8 +176,27 @@ const Menu = ({ category}) => {
         try {
             const newCart = {
                 itemID: product.id,   // product.id là ID của sản phẩm
-                quantity: "1"    // Số lượng sản phẩm
+                quantity: 1    // Số lượng sản phẩm
             };
+
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            const existingItemIndex = cartItems.findIndex(item => item.itemID === product.id);
+            let updatedCartItems;
+
+            if (existingItemIndex >= 0) {
+                // Nếu sản phẩm đã có, cập nhật số lượng
+                updatedCartItems = [...cartItems];
+                updatedCartItems[existingItemIndex].quantity +=1;
+            } else {
+                // Nếu chưa có, thêm sản phẩm vào giỏ hàng
+                updatedCartItems = [...cartItems, newCart];
+            }
+
+            // Cập nhật giỏ hàng trong context và localStorage
+            setCartItems(updatedCartItems);
+            // Cập nhật số lượng giỏ hàng
+            const newCartCount = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
+            setCartCount(newCartCount);
 
             const response = await addToCart(newCart.itemID, newCart.quantity);
             
@@ -190,6 +211,15 @@ const Menu = ({ category}) => {
             toast.error("Thêm sản phẩm vào giỏ hàng thất bại.");
         }
     };
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
+
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+    const totalPages = Math.ceil(products.length / itemsPerPage);
 
     const breadcrumbItems = [
         { label: 'Trang chủ', link: '/' },
@@ -346,7 +376,7 @@ const Menu = ({ category}) => {
 
                     <div className="product-grid">
                         {products.length > 0 ? (
-                            products.map((product) => (
+                            currentProducts.map((product) => (
                                 <div key={product.id} className="product-card">
                                 <div className="product-image">
                                     <img src={product.imageUrl} alt={product.itemName} />
@@ -383,6 +413,7 @@ const Menu = ({ category}) => {
                                         Xem chi tiết
                                     </Link>
                                 </div>
+
                             ))
                         ) : (
                             <p>Không có sản phẩm nào</p>
@@ -394,7 +425,30 @@ const Menu = ({ category}) => {
                                 <SmallDetail product={selectedProduct} />
                             </Modal.Body>
                         </Modal>
-                    </div>                      
+                    </div> 
+                    <div className="pagination-page">
+                        <button
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            >
+                            &laquo;
+                        </button>
+                        {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                                key={i + 1}
+                                className={currentPage === i + 1 ? "active" : ""}
+                                onClick={() => setCurrentPage(i + 1)}
+                            >
+                                {i + 1}
+                        </button>
+                            ))}
+                        <button
+                            disabled={currentPage === totalPages}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            >
+                            &raquo;
+                        </button>
+                    </div>                     
                 </div>
             </div>         
         </div>

@@ -4,14 +4,17 @@ import './Header.scss';
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import {checkAuth, logout } from '../../services/checkAuth';
-import { getCart } from '../../services/cartService';
+import {getSearch } from '../../services/productService';
 import MenuDropdown from './MenuDropdown';
+import { useCart } from '../Cart/CartContext';
 
 const  Header = () => {
     let navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [cartCount, setCartCount] = useState(0);
+    const [searchResults, setSearchResults] = useState([]);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const {cartCount,  resetCart} = useCart();
     
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -33,18 +36,13 @@ const  Header = () => {
     }, []); 
     
     useEffect(() => {
+        if (isLoggedIn) {
         console.log('isLoggedIn:', isLoggedIn); 
-    }, [isLoggedIn]); 
-    
-    useEffect(() => {
-        const fetchCartCount = async () => {
-            const response = await getCart();
-            const totalQuantity = response.reduce((acc, item) => acc + item.quantity, 0); // Tính tổng quantity
-            setCartCount(totalQuantity);
-        };
-        fetchCartCount();
-    }, []);
+        console.log('cartCount:', cartCount);
+        }
+    }, [isLoggedIn, cartCount]); 
 
+   
     const goToLogin = () => {
         navigate('/login'); 
     };
@@ -55,6 +53,7 @@ const  Header = () => {
 
     const handleLogout = async () => {
         await logout(); // Gọi API logout để xóa cookie ở backend
+        resetCart(); //Xoá tổng số hàng
         setIsLoggedIn(false); // Cập nhật trạng thái đăng xuất
         navigate('/home');      
     };
@@ -63,11 +62,38 @@ const  Header = () => {
         navigate('/likelist'); 
     };
 
-    const handleSearch = (e) => {
-        e.preventDefault(); // Ngăn form submit mặc định
-        if (searchQuery.trim()) {
-            navigate(`/search?query=${searchQuery.trim()}`); // Điều hướng đến trang kết quả tìm kiếm
+    const handleSearch = async (e) => {
+        setSearchQuery(e.target.value); // Cập nhật từ khóa tìm kiếm
+
+        if (e.target.value.trim()) {
+            try {
+                // Gọi API tìm kiếm và cập nhật kết quả
+                const response = await getSearch(e.target.value);
+                setSearchResults(response); 
+                setDropdownVisible(true);
+            } catch (error) {
+                console.error("Error fetching search results:", error);
+                setSearchResults([]); // Nếu có lỗi, đặt kết quả tìm kiếm về rỗng
+            }
+        } else {
+            setSearchResults([]); // Nếu không có từ khóa tìm kiếm, đặt kết quả về rỗng
         }
+    };
+
+    const handleSearchSubmit = () => {
+        if (searchQuery.trim()) {
+            navigate(`/search?query=${searchQuery}`);
+        }
+    };
+
+    const handleProductClick = (itemName) => {
+        setDropdownVisible(false); // Đóng dropdown khi nhấn vào một món ăn
+        navigate(`/${itemName.toLowerCase().replace(/ /g, '-')}`); // Điều hướng đến trang chi tiết món ăn
+    };
+
+    const handleViewAllClick = () => {
+        setDropdownVisible(false); // Đóng dropdown khi nhấn "Xem tất cả"
+        navigate(`/search?query=${searchQuery}`); // Điều hướng đến trang tìm kiếm đầy đủ
     };
 
     const handleCart = () =>{
@@ -88,14 +114,43 @@ const  Header = () => {
                         <Nav.Link href="/news">Tin tức</Nav.Link>
                         <Nav.Link href="/contact">Liên hệ</Nav.Link>
                     </Nav>
-                    <Form inline onSubmit={handleSearch}className="d-flex header-search">
-                        <FormControl 
-                            type="text" placeholder="Nhập tên món ăn..." 
-                            className="mr-sm-2 form-search"  
-                            value={searchQuery} 
-                            onChange={(e) => setSearchQuery(e.target.value)}/>
-                        <i variant="link" onClick={handleSearch} className="fas fa-search search"></i>
-                    </Form>
+                    <div className="search-container">
+                        <Form inline onSubmit={handleSearchSubmit} className="d-flex header-search">
+                            <FormControl 
+                                type="text" placeholder="Nhập tên món ăn..." 
+                                className="mr-sm-2 form-search"  
+                                value={searchQuery} 
+                                // onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={handleSearch}/>
+                            <i variant="link" onClick={handleSearchSubmit} className="fas fa-search search"></i>
+                        </Form>
+                        {dropdownVisible && searchQuery.trim() && searchResults.length > 0 && (
+                            <div className="search-dropdown">
+                                <ul>
+                                    {searchResults.slice(0, 5).map((item) => ( // Giới hạn 5 sản phẩm đầu tiên
+                                        <li
+                                            key={item.id}
+                                            onClick={() => handleProductClick(item.itemName)} // Chuyển hướng đến trang chi tiết món ăn
+                                        >
+                                            <img
+                                                src={item.imageUrl}
+                                                alt={item.itemName} // Sửa lại alt để hiển thị tên món ăn và giá
+                                                className="search-image"
+                                            />
+                                            <span>{item.itemName}<span className="item-price">{item.price} VNĐ</span></span>
+                                        </li>
+                                    ))}
+                                </ul>
+                                {searchResults.length > 3 && (
+                                    <div className="view-all">
+                                        <button onClick={handleViewAllClick}>
+                                            Xem tất cả
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                     <div className="d-flex align-items-center header-button">
                         <NavDropdown
                             title={<i className="fas fa-user user-icon"></i>}
@@ -118,11 +173,9 @@ const  Header = () => {
                         </NavDropdown>
                         <div className="cart-icon" variant="link" onClick={handleCart}>
                             <i className="fas fa-shopping-cart cart"></i>
-                            {cartCount > 0 && (
                                 <div className="cart-count">
-                                    {cartCount}
+                                    {cartCount > 0 ? cartCount : 0}
                                 </div>
-                            )}
                         </div>
                         <Button variant="danger" className="ml-3 btt-resver" href='/reservation'>ĐẶT BÀN</Button>
                     </div>

@@ -76,7 +76,7 @@
                 .payment2 {
                     background: url('../../assets/payment_2.jpg') center center no-repeat;
                     background-size: cover;
-                    margin-right: 10px;
+                    margin-right: 3px;
                     background-size: contain; 
                 }
             
@@ -84,6 +84,7 @@
                     background: url('../../assets/payment_3.jpg') center center no-repeat;
                     background-size: cover;
                     background-size: contain; 
+                    border-radius: 5px;
                 }
             }
         }

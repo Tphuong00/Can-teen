@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import './smallDetail.scss';
 import { addToCart } from '../../services/cartService';
+import { useCart } from '../Cart/CartContext';
 
 const SmallDetail = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
+    const { cartItems, setCartItems, setCartCount } = useCart();
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
     if (!product) {
         return <div>Thông tin sản phẩm không tồn tại</div>;
@@ -17,6 +19,25 @@ const SmallDetail = ({ product }) => {
                 itemID: product.id,   // product.id là ID của sản phẩm
                 quantity: quantity    // Số lượng sản phẩm
             };
+
+            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+            const existingItemIndex = cartItems.findIndex(item => item.itemID === product.id);
+            let updatedCartItems;
+
+            if (existingItemIndex >= 0) {
+                // Nếu sản phẩm đã có, cập nhật số lượng
+                updatedCartItems = [...cartItems];
+                updatedCartItems[existingItemIndex].quantity += quantity;
+            } else {
+                // Nếu chưa có, thêm sản phẩm vào giỏ hàng
+                updatedCartItems = [...cartItems, newCart];
+            }
+
+            // Cập nhật giỏ hàng trong context và localStorage
+            setCartItems(updatedCartItems);
+            // Cập nhật số lượng giỏ hàng
+            const newCartCount = updatedCartItems.reduce((acc, item) => acc + item.quantity, 0);
+            setCartCount(newCartCount);
 
             const response = await addToCart(newCart.itemID, newCart.quantity);
             

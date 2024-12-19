@@ -42,21 +42,100 @@
           }
     }
 
-    .header-search{
-        margin-left: 9.375rem;
-
-        .form-search{
-            border-radius: 1.25rem;
-            border-color: red;
+    .search-container{
+        .header-search{
+            margin-left: 9.375rem;
+    
+            .form-search{
+                border-radius: 1.25rem;
+                border-color: red;
+            }
+    
+            i{
+                margin-top: 0.625rem;
+                color: white;
+                margin-left: 0.5rem;
+                cursor: pointer;
+                width: 2rem;
+            }
         }
 
-        i{
-            margin-top: 0.625rem;
-            color: white;
-            margin-left: 0.5rem;
-            cursor: pointer;
-            width: 2rem;
-        }
+        .search-dropdown {
+            position: absolute;
+            width: 80%;
+            max-width: 300px;
+            background-color: #fff;
+            border: 1px solid red;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            margin-top: 4px;
+    
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+    
+                li {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px;
+                    border-bottom: 1px solid #f1f1f1;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+    
+                    &:hover {
+                        background-color: #f8f8f8;
+                    }
+    
+                    img.search-image {
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                        border-radius: 4px;
+                        margin-right: 10px;
+                    }
+    
+                    span {
+                        font-size: 14px;
+                        font-weight: bold;
+                        color: #124784;
+    
+                        .item-price {
+                            display: block;
+                            color: #ff4d4f;
+                            font-size: 12px;
+                            font-weight: bold;
+                            margin-top: 2px;
+                        }
+                    }
+                }
+    
+                li:last-child {
+                    border-bottom: none;
+                }
+            }
+    
+            .view-all {
+                text-align: center;
+                padding: 10px 0;
+                border-top: 1px solid #f1f1f1;
+    
+                button {
+                    background: none;
+                    border: none;
+                    color: #ff4d4f;
+                    font-weight: bold;
+                    font-size: 14px;
+                    cursor: pointer;
+                    transition: color 0.3s ease;
+    
+                    &:hover {
+                        color: #e63946;
+                    }
+                }
+            }
+        }        
     }
 
     .header-button{

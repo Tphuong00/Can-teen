@@ -61,6 +61,11 @@
 
             .forgot-password{
                 font-size: 12px;
+                cursor: pointer;
+
+                &:hover{
+                    font-weight: bold;
+                }
             }
 
             .no-account{
@@ -82,12 +87,90 @@
                     .google {
                         color: red;
                         margin-right: 10px;
+                        cursor: pointer;
                     }
 
                     .facebook{
                         color: #307aaf !important;
+                        cursor: pointer;
                     }
             }
         }
-    }
+    }         
 }
+
+.custom-modal {
+    .modal-content {
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  
+    .modal-header {
+      background-color: #f8f9fa;
+      border-bottom: none;
+      .title-forgot {
+        font-size: 20px;
+        font-weight: bold;
+        color: #343a40;
+      }
+      .btn-close {
+        color: #343a40;
+      }
+    }
+  
+    .modal-body {
+      padding: 20px;
+  
+      .form-group {
+        margin-bottom: 15px;
+  
+        input.form-control {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ced4da;
+          border-radius: 5px;
+          font-size: 16px;
+          &:focus {
+            border-color: #495057;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+          }
+        }
+      }
+  
+      .form-group-button {
+        display: flex;
+        justify-content: space-between;
+  
+        button {
+          padding: 10px 20px;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+  
+        .btn-secondary {
+          background-color: red;
+          color: #fff;
+          border: none;
+  
+          &:hover {
+            background-color: #5a6268;
+          }
+        }
+  
+        .btn-send {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+  
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+      }
+    }
+  }
+  

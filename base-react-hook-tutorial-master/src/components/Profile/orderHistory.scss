@@ -1,0 +1,40 @@
+.order-history {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    min-height: 45vh;
+    width: 1000px;
+  
+    .title-orderhistory {
+        color: #124784;
+        font-size: 25px;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+  
+    .order-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid red;
+  
+      th,
+      td {
+        border: 1px solid red;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+      }
+  
+      th {
+        background-color: #f9f9f9;
+        font-weight: bold;
+      }
+  
+      .no-orders {
+        color: #d9534f;
+        font-style: italic;
+        text-align: center;
+      }
+    }
+  }
+  

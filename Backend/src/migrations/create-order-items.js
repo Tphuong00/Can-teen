@@ -33,10 +33,14 @@ module.exports = {
       price: {
         type: Sequelize.DECIMAL
       },
+      notes: {
+        type: Sequelize.TEXT,
+      },
       createAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
+      
     });
   },
   async down(queryInterface, Sequelize) {

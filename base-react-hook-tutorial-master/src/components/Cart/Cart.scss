@@ -131,5 +131,53 @@
         }
     }
 
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+
+            .modal-actions{
+                button {
+                    margin: 10px;
+                    padding: 10px;
+                    border: none;
+                    background-color: #007bff;
+                    color: white;
+                    cursor: pointer;
+                  }
+                  
+                  :hover {
+                    background-color: #0056b3;
+                  }
+                  
+                  :last-child {
+                    background-color: #dc3545;
+                  }
+                  
+                 :hover {
+                    background-color: #c82333;
+                  }
+            }
+          }
+      }
+      
+      
+      
+      
+
 }
   
