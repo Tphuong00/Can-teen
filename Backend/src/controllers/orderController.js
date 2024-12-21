@@ -3,8 +3,8 @@ import db from '../models/index';
 exports.createOrder = async (req, res) => {
     const { customerInfo, cartItems, shippingMethod, paymentMethod, discountCode, totalAmount, notes } = req.body;
     try {
-        let textcustomerInfo = `Họ và tên: ${customerInfo.fullName}
-        Số điện thoại: ${customerInfo.phone}
+        let textcustomerInfo = `Tên: ${customerInfo.fullName}/n
+        SĐT: ${customerInfo.phone}/n
         Địa chỉ: ${customerInfo.address}, ${customerInfo.ward}, ${customerInfo.district}`
 
     let promoCodeID = null;
@@ -112,3 +112,48 @@ exports.paymentResult = async (req, res) => {
         res.status(500).json({ message: 'Có lỗi xảy ra khi xử lý kết quả thanh toán' });
     }
 };
+
+exports.getUserOrders = async (req, res) => {
+    try {
+        const order = await db.Orders.findOne({
+            where: { userID: req.user.id },
+            attributes: ['id', 'userID', 'pricetotal', 'orderStatus', 'createdAt', 'customerInfo', 'deliveryMethod', 'notes'],
+            include: [
+                {
+                    model: db.Order_Items,
+                    attributes: ['id', 'itemID', 'quantity', 'price'],
+                    include: [
+                        {
+                            model: db.Menu_Items,
+                            attributes: ['id', 'itemName', 'price', 'imageUrl']
+                        }
+                    ]
+                },
+                {
+                    model: db.Payment_Methods,
+                    attributes: ['id', 'method_type']
+                },
+                {
+                    model: db.Promotion,
+                    attributes: ['id', 'code', 'description']
+                }
+            ],
+            raw: true
+        });     
+
+        // Nếu không tìm thấy đơn hàng
+        if (!order) {
+            return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
+        }
+
+        // Trả về thông tin chi tiết của đơn hàng
+        res.status(200).json({
+            message: 'Lấy thông tin đơn hàng thành công',
+            data: order
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+        res.status(500).json({ message: 'Có lỗi xảy ra khi lấy thông tin đơn hàng' });
+    }
+};
+

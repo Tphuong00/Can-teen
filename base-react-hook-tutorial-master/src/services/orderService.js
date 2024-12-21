@@ -32,8 +32,13 @@ const handleMomoPayment = async (order) => {
     }
 };
 
+const getOrder = () => {
+    return axios.get(`/api/order/orderHistory`);
+}
+
 export {
     applyDiscount, 
     createOrder,
-    handleMomoPayment
+    handleMomoPayment,
+    getOrder
 }

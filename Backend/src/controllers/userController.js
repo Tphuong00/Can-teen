@@ -73,7 +73,7 @@ exports.login = (req, res) => {
 		bcrypt.compare(password, user.password).then((isMatch) => {
 			if (!isMatch) {
 				return res.status(400).json({
-					message: "Invalid credentials",
+					message: "Mật khẩu không đúng",
 				});
 			}
 			const payload = {

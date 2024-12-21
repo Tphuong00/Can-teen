@@ -9,6 +9,8 @@ let initOrderRoutes = (app) => {
 
     router.post('/api/paymentResult', orderController.paymentResult);
 
+    router.get('/api/order/orderHistory', authMiddleware, orderController.getUserOrders);
+
     return app.use("/", router);
 
 }

@@ -15,6 +15,7 @@ import initCartRoutes from "./route/cart";
 import initOrderRoutes from "./route/order";
 import initPromotionRoutes from "./route/promotion";
 import initmailchimpRoutes from'./route/mailchimp';
+import initPayPalRoutes from './route/paypal';
 import "./config/passportSetup";
 
 require("dotenv").config();
@@ -46,6 +47,7 @@ initCartRoutes(app);
 initOrderRoutes(app);
 initPromotionRoutes(app);
 initmailchimpRoutes(app);
+initPayPalRoutes(app);
 
 connectDB();
 

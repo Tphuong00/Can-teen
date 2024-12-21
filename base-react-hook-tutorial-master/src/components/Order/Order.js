@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { applyDiscount, createOrder } from "../../services/orderService";  // Import từ orderService.js
 import './Order.scss';
 import Breadcrumb from "../Header/Breadcrumb";
+import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderPage = () => {
     let navigate = useNavigate();
@@ -22,11 +23,12 @@ const OrderPage = () => {
     const [totalAmount, setTotalAmount] = useState(85000); // Tạm tính
     const [promoApplied, setPromoApplied] = useState(null); // Trạng thái áp dụng mã giảm giá
     const [discountAmount, setDiscountAmount] = useState(0);
+    const [paymentSuccess, setPaymentSuccess] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCustomerInfo({ ...customerInfo, [name]: value });
-        if (value === "notes") {
+        if (name === 'note') {
             setNotes(value);  // Cập nhật giá trị cho trường ghi chú
         }
     };
@@ -75,7 +77,8 @@ const OrderPage = () => {
                 shippingMethod,
                 paymentMethod,
                 discountCode,
-                totalAmount: newTotalAmount, // Gán tổng đã tính vào totalAmount
+                totalAmount: newTotalAmount,
+                notes 
             };
     
             await createOrder(orderData); // Gọi API tạo đơn hàng
@@ -118,6 +121,22 @@ const OrderPage = () => {
     const handleCart = () =>{
         navigate('/cart')
     }
+
+    const onSuccess = (payment) => {
+        console.log("Thanh toán thành công!", payment);
+        setPaymentSuccess(true);
+        alert("Thanh toán thành công!");
+    };
+
+    const onCancel = (data) => {
+        console.log("Thanh toán bị hủy:", data);
+        alert("Thanh toán bị hủy.");
+    };
+
+    const onError = (error) => {
+        console.error("Lỗi khi thanh toán:", error);
+        alert("Có lỗi xảy ra khi thanh toán.");
+    };
 
     const breadcrumbItems = [
         { label: "Trang chủ", link: "/" },
@@ -272,6 +291,20 @@ const OrderPage = () => {
                             <label>MOMO</label>
                         </div>
                     </div>
+                    {/* Hiển thị PayPal khi người dùng chọn Paypal */}
+                    {paymentMethod === "Paypal" && (
+                        <PayPalButton
+                            amount={finalTotalAmount*0.042}
+                            currency="USD"
+                            onSuccess={onSuccess}
+                            onCancel={onCancel}
+                            onError={onError}
+                            options={{
+                                clientId: "ARoOsXEdJUez7GIMZlH1AlLvhT231X5DqX2DJYBIJAZVUoTDHVIlZ9U6SllTkHsj7s8wBnJPwut8SJFt",  // Thay thế bằng PayPal client ID của bạn
+                            }}
+                        />
+                    )}
+
                     <div className="checkout-price">
                         <h5>Tạm tính: <span>{totalAmount ? totalAmount.toLocaleString('vi-VN'): "0"} đ </span></h5>
                         <h5>Phí vận chuyển: <span>{
@@ -286,7 +319,9 @@ const OrderPage = () => {
                     </div>
                     <div className="btn-group">
                         <div className="back-cart" onClick={handleCart}><i className="fa-solid fa-angles-left" /> Quay về giỏ hàng</div>
-                        <button onClick={handleCheckout}>Đặt hàng</button>
+                        {(paymentMethod === "Thanh toán khi nhận hàng" || paymentSuccess) && (
+                            <button onClick={handleCheckout} className="btn-order">Đặt hàng</button>
+                        )}
                     </div>
                 </div>
             </div>
