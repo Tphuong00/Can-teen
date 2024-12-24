@@ -276,52 +276,135 @@
         }
 
         .card-item {
-            padding: 10px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-left: 20px;
-            height: 100%; // Đảm bảo các card có chiều cao đều nhau
-
-            &:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            }
-
-            img {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-                border-radius: 8px 8px 0 0;
-            }
-
-            .card-content {
-                padding: 10px;
-                text-align: center;
-
-                h3 {
-                    font-size: 18px;
-                    color: #333;
-                    margin: 10px 0;
+            border: 2px solid red;
+            position: relative;
+            text-align: center;
+            padding: 15px;
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+                
+                &:hover {
+                    transform: translateY(-5px);
                 }
 
-                .view-product {
-                    display: inline-block;
-                    padding: 8px 15px;
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: #fff;
-                    background-color: #007bff;
-                    border-radius: 4px;
-                    text-decoration: none;
-                    transition: background-color 0.3s ease;
-
-                    &:hover {
-                        background-color: #0056b3;
+                .product-image {
+                    position: relative;
+                
+                    img {
+                        width: 100%;
+                        border-radius: 8px;
+                        height: 150px;
+                    }
+                
+                    .product-overlay {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        display: flex;
+                        gap: 8px;
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                
+                        .icon {
+                            width: 35px;
+                            height: 35px;
+                            background-color: #fff;
+                            color: red;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1.2em;
+                            cursor: pointer;
+                        }
+                    }
+                
+                    .favorite-icon {
+                        position: absolute;
+                        top: 10px;
+                        right: 10px;
+                        background-color: rgb(250, 144, 144);
+                        color: #fff;
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                
+                        i {
+                            color: #fff; /* Màu trái tim mặc định (trắng) */
+                            transition: color 0.3s ease;
+                        }
+                        
+                        &.liked i {
+                            color: red; /* Trái tim đỏ khi được yêu thích */
+                        }
+                        
+                        :hover{
+                            color: red; /* Màu vàng khi hover vào trái tim */
+                        }
+                    }
+                      
+                
+                    &:hover .product-overlay {
+                        opacity: 1;
                     }
                 }
-            }
+                
+                h3 {
+                    font-size: 1em;
+                    color: #124784;
+                    margin-top: 10px;
+                    font-weight: bold;
+                    font-size: large;
+                }
+                
+                .price-section {
+                    .price {
+                        font-size: 1.5em;
+                        color: #d32f2f;
+                    }
+                
+                    .discounted {
+                        text-decoration: line-through;
+                        color: #888;
+                        margin-right: 5px;
+                    }
+                }
+                
+                .buy-now-button {
+                    position: absolute;
+                    bottom: -20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: red;
+                    color: #fff;
+                    padding: 10px 20px;
+                    border-radius: 15px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: none;
+
+                    &:hover {
+                        background-color: #c21414;
+                        transform: translateX(-50%) translateY(-3px);
+                    }
+                }
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: -5px;
+                    right: -5px;
+                    bottom: -5px;
+                    left: -5px;
+                    border: 2px solid #e0e0e0;
+                    z-index: -1;
+                }
         }
 
         .slick-dots {

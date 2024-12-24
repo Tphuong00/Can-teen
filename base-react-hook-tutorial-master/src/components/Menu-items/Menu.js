@@ -378,34 +378,34 @@ const Menu = ({ category}) => {
                         {products.length > 0 ? (
                             currentProducts.map((product) => (
                                 <div key={product.id} className="product-card">
-                                <div className="product-image">
-                                    <img src={product.imageUrl} alt={product.itemName} />
-                                    <div className="product-overlay">
-                                        <span className="icon" onClick={() => handleShow(product)}><i className="fa fa-eye"></i></span>
-                                        <span className="icon" onClick={()=>handleAddToCart(product)}><i className="fa fa-shopping-cart"></i></span>
-                                    </div>
-                                    <div 
-                                        className={`favorite-icon ${likedProducts.includes(product.id) ? 'liked' : ''}`} 
-                                        title={likedProducts.includes(product.id) ? 'Bỏ yêu thích' : 'Thêm vào yêu thích'}
-                                        onClick={() => handleAddToLikelist(product)}
-                                    >
-                                        <i className={`fas fa-heart ${likedProducts.includes(product.id) ? 'liked' : ''}`}></i>
-                                    </div>
+                                    <div className="product-image">
+                                        <img src={product.imageUrl} alt={product.itemName} />
+                                        <div className="product-overlay">
+                                            <span className="icon" onClick={() => handleShow(product)}><i className="fa fa-eye"></i></span>
+                                            <span className="icon" onClick={()=>handleAddToCart(product)}><i className="fa fa-shopping-cart"></i></span>
+                                        </div>
+                                        <div 
+                                            className={`favorite-icon ${likedProducts.includes(product.id) ? 'liked' : ''}`} 
+                                            title={likedProducts.includes(product.id) ? 'Bỏ yêu thích' : 'Thêm vào yêu thích'}
+                                            onClick={() => handleAddToLikelist(product)}
+                                        >
+                                            <i className={`fas fa-heart ${likedProducts.includes(product.id) ? 'liked' : ''}`}></i>
+                                        </div>
 
-                                </div>
-                                <h3>{product.itemName}</h3>
-                                <p className="price-section">
-                                    {product.discount ? (
-                                        <>
-                                        <span className="price discounted">
-                                            {Number(product.originalPrice).toLocaleString('vi-VN')}đ
-                                        </span>
-                                        <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
-                                        </>
-                                    ) : (
-                                        <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
-                                    )}
-                                </p>
+                                    </div>
+                                    <h3>{product.itemName}</h3>
+                                    <p className="price-section">
+                                        {product.discount ? (
+                                            <>
+                                            <span className="price discounted">
+                                                {Number(product.originalPrice).toLocaleString('vi-VN')}đ
+                                            </span>
+                                            <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
+                                            </>
+                                        ) : (
+                                            <span className="price">{Number(product.price).toLocaleString('vi-VN')}đ</span>
+                                        )}
+                                    </p>
                                     <Link
                                         to={`/${slugify(product.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
                                         className="buy-now-button"

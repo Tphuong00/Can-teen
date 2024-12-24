@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { applyDiscount, createOrder } from "../../services/orderService";  // Import từ orderService.js
+import { applyDiscount, createOrder, createMomoPayment } from "../../services/orderService";  // Import từ orderService.js
 import './Order.scss';
 import Breadcrumb from "../Header/Breadcrumb";
 import { PayPalButton } from "react-paypal-button-v2";
@@ -138,6 +138,22 @@ const OrderPage = () => {
         alert("Có lỗi xảy ra khi thanh toán.");
     };
 
+    const handleMoMoPayment = async () => {
+        try {
+            const orderId = new Date().getTime(); // Unique order ID
+            const orderInfo = "Thanh toán qua MoMo";
+
+            const response = await createMomoPayment(finalTotalAmount, orderId, orderInfo);
+            if (response && response.paymentUrl) {
+                // Chuyển hướng người dùng đến trang thanh toán MoMo
+                window.location.href = response.paymentUrl;
+            }
+        } catch (error) {
+            console.error("Lỗi thanh toán MoMo:", error);
+            alert("Có lỗi xảy ra khi thanh toán MoMo.");
+        }
+    };
+
     const breadcrumbItems = [
         { label: "Trang chủ", link: "/" },
         { label: "Thanh toán", link: "/order" },
@@ -171,13 +187,21 @@ const OrderPage = () => {
                             value={customerInfo.address}
                             onChange={handleInputChange}
                         />
-                        <input
-                            type="text"
+                        <select
                             name="district"
-                            placeholder="Quận"
                             value={customerInfo.district}
                             onChange={handleInputChange}
-                        />
+                            placeholder="Quận"
+                        >
+                            <option value="Quận 5">Quận 5</option>
+                            <option value="Quận 1">Quận 1</option>
+                            <option value="Quận 3">Quận 3</option>
+                            <option value="Quận 4">Quận 4</option>
+                            <option value="Quận 8">Quận 8</option>
+                            <option value="Quận 10">Quận 10</option>
+                            <option value="Quận 11">Quận 11</option>
+                            {/* Thêm các quận khác nếu cần */}
+                        </select>
                         <input
                             type="text"
                             name="ward"
@@ -303,6 +327,10 @@ const OrderPage = () => {
                                 clientId: "ARoOsXEdJUez7GIMZlH1AlLvhT231X5DqX2DJYBIJAZVUoTDHVIlZ9U6SllTkHsj7s8wBnJPwut8SJFt",  // Thay thế bằng PayPal client ID của bạn
                             }}
                         />
+                    )}
+
+                    {paymentMethod === "MOMO" && (
+                        <button onClick={handleMoMoPayment} className="btn-momo">Thanh toán MoMo</button>
                     )}
 
                     <div className="checkout-price">

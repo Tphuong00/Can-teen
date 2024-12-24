@@ -127,13 +127,29 @@ const HomePage = () => {
                         {featuredProducts.length > 0 ? (
                             featuredProducts.map((item) => (
                             <div key={item.id} className="card-item">
-                                <img src={item.imageUrl} alt={item.name} />
-                                <div className="card-content">
-                                <h3>{item.name}</h3>
-                                <Link to={`/${item.itemName.toLowerCase().replace(/ /g, '-')}`} className="view-product">
-                                    Xem sản phẩm
-                                </Link>
+                                <div className="product-image">
+                                    <img src={item.imageUrl} alt={item.itemName} />
                                 </div>
+
+                                <h3>{item.itemName}</h3>
+                                <p className="price-section">
+                                    {item.discount ? (
+                                    <>
+                                    <span className="price discounted">
+                                        {Number(item.originalPrice).toLocaleString('vi-VN')}đ
+                                    </span>
+                                    <span className="price">{Number(item.price).toLocaleString('vi-VN')}đ</span>
+                                    </>
+                                    ) : (
+                                        <span className="price">{Number(item.price).toLocaleString('vi-VN')}đ</span>
+                                    )}
+                                </p>
+                                <Link
+                                    to={`/${slugify(item.itemName, { lower: true, strict: true, remove: /[^\w\s-]/g }).replace('djai', 'dai')}`}
+                                    className="buy-now-button"
+                                >
+                                    Xem chi tiết
+                                </Link>
                             </div>
                             ))
                         ) : (

@@ -208,6 +208,7 @@ const ProductDetail = () => {
                                 <button className="payment-btn">Mua nhanh</button>
                             </div>
                             <button className="share-btn">chia sẻ</button>
+                            <button className="likelist-btn"><i class="fas fa-heart heart"/>Thêm vào yêu thích</button>
                         </div>
                     </div>
                     <div className="product-description">

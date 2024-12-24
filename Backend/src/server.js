@@ -15,7 +15,7 @@ import initCartRoutes from "./route/cart";
 import initOrderRoutes from "./route/order";
 import initPromotionRoutes from "./route/promotion";
 import initmailchimpRoutes from'./route/mailchimp';
-import initPayPalRoutes from './route/paypal';
+import initPaymentRoutes from './route/payment';
 import "./config/passportSetup";
 
 require("dotenv").config();
@@ -47,7 +47,7 @@ initCartRoutes(app);
 initOrderRoutes(app);
 initPromotionRoutes(app);
 initmailchimpRoutes(app);
-initPayPalRoutes(app);
+initPaymentRoutes(app);
 
 connectDB();
 
@@ -74,7 +74,7 @@ app.use((req, res)=>{
     return res.send('404 not found');
 })
 
-let port = process.env.PORT;
+let port = process.env.PORT || 8080;
 
 app.listen(port, () =>{
     console.log("Backend is running on the port: " + port);
