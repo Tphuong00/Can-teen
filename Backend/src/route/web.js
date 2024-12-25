@@ -16,7 +16,13 @@ let initWebRoutes = (app) => {
 
     router.post('/put-crud', homeController.putCRUD);
     router.get('/delete-crud', homeController.deleteCRUD);
-    router.post('/post-news', upload.single('imgURL'), homeController.postNews);
+    // router.post('/api/post-news', upload.single('imgURL'), homeController.postNews);
+    router.post('/api/post-news', upload.single('imgURL'), (req, res) => {
+        console.log('Form data received:', req.body);
+        console.log('File data received:', req.file);
+        homeController.postNews(req, res);
+    });
+    
     router.get('/create-news', (req, res) => {
         res.render('new'); // Render file createNews.ejs
     });

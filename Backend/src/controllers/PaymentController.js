@@ -78,15 +78,10 @@ const createMomoPayment = async (req, res) => {
     //accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl&orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId&requestType=$requestType
     var rawSignature = "accessKey="+accessKey+"&amount=" + amount+"&extraData=" + extraData+"&ipnUrl=" + ipnUrl+"&orderId=" + orderId+"&orderInfo=" + orderInfo+"&partnerCode=" + partnerCode +"&redirectUrl=" + redirectUrl+"&requestId=" + requestId+"&requestType=" + requestType
     //puts raw signature
-    console.log("--------------------RAW SIGNATURE----------------")
-    console.log(rawSignature)
-    //signature
 
     var signature = crypto.createHmac('sha256', secretkey)
         .update(rawSignature)
         .digest('hex');
-    console.log("--------------------SIGNATURE----------------")
-    console.log(signature)
 
     const requestBody = JSON.stringify({
         partnerCode : partnerCode,

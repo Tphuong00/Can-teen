@@ -39,7 +39,7 @@
             <div class="col-12">
                 <h3>Create News</h3>
             </div>
-            <form action="/post-news" method="POST" class="w-100" enctype="multipart/form-data">
+            <form action="/api/post-news" method="POST" class="w-100" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="newsTitle">Title</label>
                     <input type="text" class="form-control" name="title" placeholder="News Title" required>
@@ -47,8 +47,8 @@
                 <div class="form-group">
                     <label for="newsContent">Content</label>
                     <!-- Textarea được TinyMCE chuyển đổi -->
-                    <textarea id="newsContent" class="form-control" name="content" rows="5" placeholder="News Content"
-                        required></textarea>
+                    <textarea id="newsContent" class="form-control" name="content"
+                        placeholder="News Content"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="newsImage">Image</label>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { applyDiscount, createOrder, createMomoPayment } from "../../services/orderService";  // Import từ orderService.js
 import './Order.scss';
 import Breadcrumb from "../Header/Breadcrumb";
+import { toast } from "react-toastify";
 import { PayPalButton } from "react-paypal-button-v2";
 
 const OrderPage = () => {
@@ -50,7 +51,7 @@ const OrderPage = () => {
             }
         } catch (error) {
             console.error("Lỗi khi áp dụng mã giảm giá:", error);
-            alert("Có lỗi xảy ra khi áp dụng mã giảm giá.");
+            toast.error("Có lỗi xảy ra khi áp dụng mã giảm giá.");
         }
     };
 
@@ -80,9 +81,12 @@ const OrderPage = () => {
                 totalAmount: newTotalAmount,
                 notes 
             };
-    
+            if (paymentMethod === "MOMO") {
+                await handleMoMoPayment(newTotalAmount); // Thanh toán qua MoMo
+            }
             await createOrder(orderData); // Gọi API tạo đơn hàng
             localStorage.removeItem('selectedItems');  // Xóa các sản phẩm đã chọn khỏi localStorage
+            console.log("Sau khi xóa:", localStorage.getItem("selectedItems"));
 
             alert("Đặt hàng thành công!");
         } catch (error) {
@@ -144,9 +148,9 @@ const OrderPage = () => {
             const orderInfo = "Thanh toán qua MoMo";
 
             const response = await createMomoPayment(finalTotalAmount, orderId, orderInfo);
-            if (response && response.paymentUrl) {
+            if (response && response.payUrl) {
                 // Chuyển hướng người dùng đến trang thanh toán MoMo
-                window.location.href = response.paymentUrl;
+                window.location.href = response.payUrl;
             }
         } catch (error) {
             console.error("Lỗi thanh toán MoMo:", error);
@@ -329,10 +333,6 @@ const OrderPage = () => {
                         />
                     )}
 
-                    {paymentMethod === "MOMO" && (
-                        <button onClick={handleMoMoPayment} className="btn-momo">Thanh toán MoMo</button>
-                    )}
-
                     <div className="checkout-price">
                         <h5>Tạm tính: <span>{totalAmount ? totalAmount.toLocaleString('vi-VN'): "0"} đ </span></h5>
                         <h5>Phí vận chuyển: <span>{
@@ -347,7 +347,7 @@ const OrderPage = () => {
                     </div>
                     <div className="btn-group">
                         <div className="back-cart" onClick={handleCart}><i className="fa-solid fa-angles-left" /> Quay về giỏ hàng</div>
-                        {(paymentMethod === "Thanh toán khi nhận hàng" || paymentSuccess) && (
+                        {(paymentMethod === "Thanh toán khi nhận hàng" || paymentMethod === "MOMO"|| paymentSuccess) && (
                             <button onClick={handleCheckout} className="btn-order">Đặt hàng</button>
                         )}
                     </div>

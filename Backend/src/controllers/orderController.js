@@ -59,7 +59,7 @@ exports.createOrder = async (req, res) => {
             userID: cartItems[0].userID,
             customerInfo: textcustomerInfo,
             pricetotal: totalAmount,  // Giảm giá (nếu có) được trừ từ tổng giá trị
-            orderStatus: 'Pending',
+            orderStatus: 'Đã đặt hàng',  // Trạng thái mặc định của đơn hàng
             deliveryMethod: shippingMethod,
             promoCode: promoCodeID,
             paymentID: paymentMethodID,  // Lưu phương thức thanh toán
@@ -115,7 +115,8 @@ exports.paymentResult = async (req, res) => {
 
 exports.getUserOrders = async (req, res) => {
     try {
-        const order = await db.Orders.findOne({
+        // Sử dụng findAll thay vì findOne để lấy tất cả các đơn hàng của người dùng
+        const orders = await db.Orders.findAll({
             where: { userID: req.user.id },
             attributes: ['id', 'userID', 'pricetotal', 'orderStatus', 'createdAt', 'customerInfo', 'deliveryMethod', 'notes'],
             include: [
@@ -135,21 +136,69 @@ exports.getUserOrders = async (req, res) => {
                 },
                 {
                     model: db.Promotion,
-                    attributes: ['id', 'code', 'description']
+                    attributes: ['id', 'code', 'discount_percentage'],
+                    required: false
                 }
             ],
             raw: true
         });     
 
         // Nếu không tìm thấy đơn hàng
-        if (!order) {
+        if (!orders || orders.length === 0) {
             return res.status(404).json({ message: 'Không tìm thấy đơn hàng' });
         }
 
-        // Trả về thông tin chi tiết của đơn hàng
+        const groupedOrders = orders.reduce((acc, order) => {
+            // Kiểm tra nếu order đã có trong kết quả
+            const orderIndex = acc.findIndex(o => o.id === order.id);
+
+            if (orderIndex === -1) {
+                // Nếu chưa có, thêm đơn hàng mới vào
+                acc.push({
+                    ...order,
+                    orderItems: [{
+                        id: order['Order_Items.id'],
+                        itemID: order['Order_Items.itemID'],
+                        quantity: order['Order_Items.quantity'],
+                        price: order['Order_Items.price'],
+                        Menu_Item: {
+                            id: order['Order_Items.Menu_Item.id'],
+                            itemName: order['Order_Items.Menu_Item.itemName'],
+                            price: order['Order_Items.Menu_Item.price'],
+                            imageUrl: order['Order_Items.Menu_Item.imageUrl']
+                        }
+                    }],
+                    paymentMethods: [{
+                        id: order['Payment_Method.id'],
+                        method_type: order['Payment_Method.method_type']
+                    }],
+                    promotions: [{
+                        id: order['Promotion.id'],
+                        code: order['Promotion.code'],
+                        description: order['Promotion.description']
+                    }]
+                });
+            } else {
+                // Nếu đã có, chỉ cần thêm Order_Item vào
+                acc[orderIndex].orderItems.push({
+                    id: order['Order_Items.id'],
+                    itemID: order['Order_Items.itemID'],
+                    quantity: order['Order_Items.quantity'],
+                    price: order['Order_Items.price'],
+                    Menu_Item: {
+                        id: order['Order_Items.Menu_Item.id'],
+                        itemName: order['Order_Items.Menu_Item.itemName'],
+                        price: order['Order_Items.Menu_Item.price'],
+                        imageUrl: order['Order_Items.Menu_Item.imageUrl']
+                    }
+                });
+            }
+            return acc;
+        }, []);
+
         res.status(200).json({
             message: 'Lấy thông tin đơn hàng thành công',
-            data: order
+            data: groupedOrders
         });
     } catch (error) {
         console.error('Lỗi khi lấy thông tin đơn hàng:', error);

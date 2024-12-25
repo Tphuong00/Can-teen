@@ -135,9 +135,17 @@
         justify-content: space-between;
         padding-top: 10px;
     }
+    
+    .discount{
+        margin-top: 5px;
+        margin-bottom: 0;
+        .discount-price{
+            
+            margin-left: 95px;
+        }
+    }
 
       .shipping-fee {
-          margin-top: 5px;
           font-size: 1.1rem;
           color: #333;
           display: flex;

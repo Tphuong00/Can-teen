@@ -5,7 +5,7 @@ import authMiddleware from '../middleware/authMiddleware';
 let router = express.Router();
 
 let initPromotionRoutes = (app) => {
-    router.post('/api/applydiscount', promotionController.applyPromotion);
+    router.post('/api/applydiscount', authMiddleware,promotionController.applyPromotion);
 
 
     return app.use("/", router);

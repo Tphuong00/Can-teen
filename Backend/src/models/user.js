@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Users.hasOne(models.Cart);
       Users.hasMany(models.Notifications);
       Users.hasOne(models.LikeLists);
+      Users.hasMany(models.UserPromotions, { foreignKey: 'userID' });
     }
   }
   Users.init({

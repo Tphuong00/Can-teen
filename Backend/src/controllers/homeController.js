@@ -85,6 +85,7 @@ let deleteCRUD = async (req, res) => {
 
 const postNews = async (req, res) => {
     try {
+        console.log('req.file', req.file);
         // Kiểm tra nếu có file được tải lên
         if (!req.file) {
           return res.status(400).send('No image uploaded');

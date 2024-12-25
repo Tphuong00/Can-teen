@@ -24,7 +24,7 @@ const OrderHistory = () => {
             try {
                 const response = await getOrder();
                 console.log(response.data);  // Kiểm tra cấu trúc dữ liệu
-                setOrders([response.data]);  // Đảm bảo orders là một mảng
+                setOrders(response.data);  // Đảm bảo orders là một mảng
             } catch (err) {
                 toast.error(err.response ? err.response.data.message : 'Có lỗi xảy ra');
             }
@@ -52,15 +52,14 @@ const OrderHistory = () => {
                 <tbody>
                     {orders && orders.length > 0 ? (
                         orders.map((order, index) => {
-                            // Lấy thông tin sản phẩm từ Order_Items (là đối tượng, không phải mảng)
-                            const orderItems = [{
+                            const orderItems = order.orderItems.map(item => ({
                                 'Menu_Item': {
-                                    'itemName': order['Order_Items.Menu_Item.itemName'],
-                                    'price': !isNaN(parseFloat(order['Order_Items.Menu_Item.price'])) ? parseFloat(order['Order_Items.Menu_Item.price']) : 0,
-                                    'imageUrl': order['Order_Items.Menu_Item.imageUrl'],
+                                    'itemName': item.Menu_Item.itemName,
+                                    'price': !isNaN(parseFloat(item.Menu_Item.price)) ? parseFloat(item.Menu_Item.price) : 0,
+                                    'imageUrl': item.Menu_Item.imageUrl,
                                 },
-                                quantity: !isNaN(order['Order_Items.quantity']) ? parseInt(order['Order_Items.quantity']) : 0,
-                            }];
+                                quantity: !isNaN(item.quantity) ? parseInt(item.quantity) : 0,
+                            }));
                             
                             // Tính tổng tiền của sản phẩm
                             const productTotal = orderItems.reduce((total, item) => {
@@ -117,8 +116,7 @@ const OrderHistory = () => {
                                             {order.Promotion && order.Promotion.code && (
                                                 <div>
                                                     <p><strong>Khuyến mãi:</strong> {order.Promotion.code}</p>
-                                                    <p><strong>Mô tả:</strong> {order.Promotion.description}</p>
-                                                    <p><strong>Giảm giá:</strong> -{discountAmount.toLocaleString('vi-VN')} đ</p>
+                                                    <span><strong>Giảm giá:</strong></span> <span className="total-price-value"> -{discountAmount.toLocaleString('vi-VN')} đ</span>
                                                 </div>
                                             )}
 
@@ -127,8 +125,8 @@ const OrderHistory = () => {
                                                 <span><strong>Tổng tiền sản phẩm:</strong></span> 
                                                 <span className="total-price-value">{productTotal.toLocaleString('vi-VN')} đ</span>
                                             </div>
-                                                {discount > 0 && (
-                                                    <p><strong>Giảm giá ({discount}%):</strong> -{discountAmount.toLocaleString('vi-VN')} đ</p>
+                                                {discount > 0 &&(
+                                                    <p className='discount'><strong>Giảm giá ({discount}%):</strong> <span className='discount-price'>-{discountAmount.toLocaleString('vi-VN')} đ</span></p>
                                                 )}
 
                                             {/* Hiển thị phí vận chuyển */}

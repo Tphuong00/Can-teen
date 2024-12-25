@@ -1,6 +1,6 @@
 import axios from "../setup/axios";
 
-const applyDiscount = async (discountCode) => {
+const applyDiscount = async (discountCode, userId) => {
     return axios.post('/api/applydiscount', { code: discountCode } );
 };
 // Hàm tạo đơn hàng
