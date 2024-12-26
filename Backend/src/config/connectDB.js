@@ -1,9 +1,12 @@
 const {Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize('canteen', 'root', null,{
-    host: 'https://can-teen.onrender.com'||'localhost' ,
+    host: '172.24.16.176'||'localhost' ,
     dialect:'mysql',
-    logging: false
+    logging: false,
+    dialectOptions: {
+        connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
+    },
 });
 
 let connectDB = async () =>{
