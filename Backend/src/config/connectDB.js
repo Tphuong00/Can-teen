@@ -1,7 +1,7 @@
 const {Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize('canteen', 'root', null,{
-    host: 'localhost' || 'https://can-teen.onrender.com',
+    host: 'https://can-teen.onrender.com'||'localhost' ,
     dialect:'mysql',
     logging: false
 });
