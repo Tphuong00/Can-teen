@@ -39,6 +39,7 @@ const  Header = () => {
         if (isLoggedIn) {
         console.log('isLoggedIn:', isLoggedIn); 
         console.log('cartCount:', cartCount);
+
         }
     }, [isLoggedIn, cartCount]); 
 
@@ -55,7 +56,7 @@ const  Header = () => {
         await logout(); // Gọi API logout để xóa cookie ở backend
         resetCart(); //Xoá tổng số hàng
         setIsLoggedIn(false); // Cập nhật trạng thái đăng xuất
-        navigate('/home');      
+        window.location.reload(navigate('/home'));      
     };
 
     const handleLikeList = () => {

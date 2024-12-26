@@ -3,9 +3,9 @@ import db from '../models/index';
 exports.createOrder = async (req, res) => {
     const { customerInfo, cartItems, shippingMethod, paymentMethod, discountCode, totalAmount, notes } = req.body;
     try {
-        let textcustomerInfo = `Tên: ${customerInfo.fullName}/n
-        SĐT: ${customerInfo.phone}/n
-        Địa chỉ: ${customerInfo.address}, ${customerInfo.ward}, ${customerInfo.district}`
+        let textcustomerInfo = `Tên: ${customerInfo.fullName}`+
+        `SĐT: ${customerInfo.phone}`+
+        `Địa chỉ: ${customerInfo.address}, ${customerInfo.ward}, ${customerInfo.district}`
 
     let promoCodeID = null;
     if (discountCode) {

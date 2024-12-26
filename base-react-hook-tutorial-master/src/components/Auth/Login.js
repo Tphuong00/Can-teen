@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginUser, forgotPassword } from "../../services/userService";
 import {checkAuth } from '../../services/checkAuth';
-
+import { useCart } from '../Cart/CartContext';
 
 
 const Login =(props)=>{
@@ -22,6 +22,7 @@ const Login =(props)=>{
     const[objCheckInput, setobjCheckInput] = useState(defaultValidIput);
     const [emailForgotPassword, setEmailForgotPassword] = useState(""); 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { login } = useCart();
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -60,7 +61,10 @@ const Login =(props)=>{
                 sessionStorage.setItem('token', JSON.stringify(data));
             }
             toast.success("Đăng nhập thành công!") 
-            window.location.reload(navigate('/home'));         
+                        
+            login();
+
+            window.location.reload(navigate('/home'));    
         } catch (error) {
             if (error.response && error.response.data) {
                 toast.error(error.response.data.message);

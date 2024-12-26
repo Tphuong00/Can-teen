@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { checkAuth } from '../../services/checkAuth';
 import { addToCart } from '../../services/cartService';
 import { useCart } from '../Cart/CartContext';
+import {addToLikelist} from '../../services/likelistService';
 
 const ProductDetail = () => {
     const { slug } = useParams();
@@ -23,6 +24,7 @@ const ProductDetail = () => {
     const [userFullName, setUserFullName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const { cartItems, setCartItems, setCartCount } = useCart();
+    const [likedProducts, setLikedProducts] = useState([]);
 
     useEffect(() => {
         const fetchProductDetail = async () => {
@@ -168,7 +170,87 @@ const ProductDetail = () => {
         }
     };
     
+    useEffect(() => {
+        // Khi component load, lấy danh sách yêu thích từ localStorage
+        const storedLikedProducts = JSON.parse(localStorage.getItem("likedProducts")) || [];
+        setLikedProducts(storedLikedProducts);
+    }, []);
+
+    const handleAddToWishlist = async () => {
+        try {
+            const user = await checkAuth();
+            if (!user) {
+                toast.error("Vui lòng đăng nhập để thêm sản phẩm vào yêu thích.");
+                return;
+            }
     
+            // Kiểm tra nếu sản phẩm chưa có trong danh sách yêu thích
+            const isAlreadyLiked = likedProducts.some((likedProduct) => likedProduct.id === product.id);
+    
+            if (isAlreadyLiked) {
+                toast.info("Sản phẩm đã có trong danh sách yêu thích.");
+                return;
+            }
+    
+            // Nếu sản phẩm chưa có trong danh sách yêu thích, thêm nó vào
+            const updatedLikedProducts = [...likedProducts, product];
+    
+            // Gọi API để thêm sản phẩm vào danh sách yêu thích
+            await addToLikelist(product.id);  // Giả sử addToLikelist là một API call
+    
+            // Cập nhật lại state và lưu vào localStorage
+            setLikedProducts(updatedLikedProducts);
+            localStorage.setItem(`likedProducts_${user.id}`, JSON.stringify(updatedLikedProducts));
+    
+            toast.success("Sản phẩm đã được thêm vào danh sách yêu thích.");
+        } catch (error) {
+            console.error("Lỗi khi xử lý yêu thích:", error);
+            toast.error("Có lỗi xảy ra khi xử lý yêu thích.");
+        }
+    };
+    
+    // Kiểm tra nếu sản phẩm đã có trong danh sách yêu thích
+    const isProductLiked = likedProducts.some(likedProduct => likedProduct.id === product.id);
+
+    useEffect(() => {
+        // Kiểm tra nếu Facebook SDK đã được tải
+        if (window.FB) {
+            window.FB.init({
+                appId: '936746908356108', // Thay bằng App ID của bạn
+                cookie: true,
+                xfbml: true,
+                version: 'v13.0', // Phiên bản của SDK
+            });
+        } else {
+            console.error("Facebook SDK chưa được tải thành công.");
+        }
+      }, []);
+
+    const handleShareOnFacebook = () => {
+        if (!product || !product.itemName || !product.imageUrl) {
+            console.error("Thông tin sản phẩm không đầy đủ để chia sẻ.");
+            toast.error("Thông tin sản phẩm không đầy đủ để chia sẻ.");
+            return;
+        }
+    
+        const shareData = {
+            method: 'share',
+            href: window.location.href, // URL của trang sản phẩm
+            quote: product.itemName,    // Tiêu đề sản phẩm
+            picture: product.imageUrl   // Hình ảnh sản phẩm
+        };
+        console.log("Chia sẻ dữ liệu:", shareData);
+    
+        window.FB.ui(shareData, function(response) {
+            if (response && !response.error_message) {
+                console.log("Sản phẩm đã được chia sẻ!");
+                toast.success("Sản phẩm đã được chia sẻ lên Facebook!");
+            } else {
+                console.error("Có lỗi khi chia sẻ:", response.error_message);
+                toast.error("Có lỗi khi chia sẻ sản phẩm.");
+            }
+        });
+      };
 
     if (loading) {
         return <div>Đang tải sản phẩm...</div>;
@@ -207,8 +289,14 @@ const ProductDetail = () => {
                                 <button className="add-to-cart-btn" onClick={handleAddToCart}>Thêm vào giỏ hàng</button>
                                 <button className="payment-btn">Mua nhanh</button>
                             </div>
-                            <button className="share-btn">chia sẻ</button>
-                            <button className="likelist-btn"><i class="fas fa-heart heart"/>Thêm vào yêu thích</button>
+                            <button className="share-btn" onClick={handleShareOnFacebook}><i class="fab fa-facebook-square"/>Chia sẻ</button>
+                            <button
+                                className={`likelist-btn ${isProductLiked ? 'liked' : ''}`}
+                                onClick={handleAddToWishlist}
+                            >
+                                <i className={`fas fa-heart ${isProductLiked ? 'filled' : ''}`} />
+                                {isProductLiked ? 'Đã yêu thích' : 'Thêm vào yêu thích'}
+                            </button>
                         </div>
                     </div>
                     <div className="product-description">

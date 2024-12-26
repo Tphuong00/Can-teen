@@ -27,6 +27,7 @@ import Cart from './components/Cart/Cart';
 import LikeList from './components/LikeList/LikeList';
 import Order from './components/Order/Order';
 import Search from './components/Search/Search';
+import MessengerChat from './components/Home/MessengerChat';
 
 
 const App =() => {
@@ -35,6 +36,7 @@ const App =() => {
       <Router >
         <div className="main-container">
           <Header />
+          <MessengerChat />
           <span className="content-container">
             <Routes>
               <Route path='/home' element={<Home />} />
@@ -63,7 +65,6 @@ const App =() => {
             </Routes>
           </span>
           {<Footer />}
-
           <ToastContainer
           position="top-center"
           autoClose={5000}

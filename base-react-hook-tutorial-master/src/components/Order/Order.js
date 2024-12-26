@@ -84,11 +84,14 @@ const OrderPage = () => {
             if (paymentMethod === "MOMO") {
                 await handleMoMoPayment(newTotalAmount); // Thanh toán qua MoMo
             }
-            await createOrder(orderData); // Gọi API tạo đơn hàng
-            localStorage.removeItem('selectedItems');  // Xóa các sản phẩm đã chọn khỏi localStorage
-            console.log("Sau khi xóa:", localStorage.getItem("selectedItems"));
-
-            alert("Đặt hàng thành công!");
+            const orderResponse = await createOrder(orderData); // Gọi API tạo đơn hàng
+            if (orderResponse) {
+                localStorage.removeItem('selectedItems');  // Xóa các sản phẩm đã chọn khỏi localStorage
+                console.log("Sản phẩm trong giỏ hàng đã được xóa khỏi localStorage.");
+    
+                // Hiển thị thông báo thành công
+                toast.success("Đặt hàng thành công!");
+            }
         } catch (error) {
             console.error("Error during checkout:", error);
             alert("Có lỗi xảy ra khi đặt hàng!");

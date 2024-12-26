@@ -112,6 +112,10 @@
                     border-radius: 4px;
                     margin-top: 20px;
                     margin-right: 20px;
+                    
+                    .fa-facebook-square{
+                        margin-right: 10px;
+                    }
         
                     &:hover {
                         background-color: #c0392b;
@@ -134,7 +138,7 @@
                         background-color: #dd6920;
                     }
 
-                    .heart{
+                    .fa-heart{
                         margin-right: 10px;
                     }
                 }

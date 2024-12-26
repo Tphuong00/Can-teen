@@ -17,6 +17,7 @@ export const CartProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [cartCount, setCartCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
 
   // Cập nhật tổng số lượng sản phẩm trong giỏ hàng
   useEffect(() => {
@@ -38,18 +39,42 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem('cartItems');  // Clear cart data from localStorage
   };
  
-  useEffect(() => {
+  // useEffect(() => {
+  //   const savedCart = localStorage.getItem('cartItems');
+  //   console.log('savedCart:', savedCart);
+  //   if (savedCart) {
+  //     const parsedCart = JSON.parse(savedCart);
+  //     setCartItems(parsedCart); // Đồng bộ giỏ hàng từ localStorage
+  //     const totalQuantity = parsedCart.reduce((acc, item) => acc + item.quantity, 0);
+  //     setCartCount(totalQuantity); // Tính toán lại cartCount từ cartItems
+  //   }
+  // }, []);
+
+  const syncCartFromLocalStorage = () => {
     const savedCart = localStorage.getItem('cartItems');
     if (savedCart) {
       const parsedCart = JSON.parse(savedCart);
-      setCartItems(parsedCart); // Đồng bộ giỏ hàng từ localStorage
+      setCartItems(parsedCart);  // Đồng bộ giỏ hàng từ localStorage
       const totalQuantity = parsedCart.reduce((acc, item) => acc + item.quantity, 0);
-      setCartCount(totalQuantity); // Tính toán lại cartCount từ cartItems
+      setCartCount(totalQuantity);  // Tính toán lại cartCount từ cartItems
     }
-  }, []);
+  };
+
+  // Gọi syncCartFromLocalStorage khi người dùng đăng nhập
+  useEffect(() => {
+    if (isLoggedIn) {
+      syncCartFromLocalStorage();
+    }
+  }, [isLoggedIn]);
+
+  // Hàm đăng nhập thành công
+  const login = () => {
+    setIsLoggedIn(true);  // Đánh dấu là người dùng đã đăng nhập
+  };
+
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, cartCount, setCartCount, resetCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, cartCount, setCartCount, resetCart,  login }}>
       {children}
     </CartContext.Provider>
   );
