@@ -1,5 +1,4 @@
 import db from '../models/index';
-import user from '../models/user';
 import CRUDService from '../services/CRUDService';
 import cloudinary from '../config/cloudinary'; 
 import fs from 'fs';
