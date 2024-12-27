@@ -1,17 +1,19 @@
-# Sử dụng image chính thức Node.js
+# Sử dụng image Node.js chính thức
 FROM node:16
 
-# Thiết lập thư mục làm việc trong container
+# Thiết lập thư mục làm việc
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json vào container
-COPY package.json package-lock.json /app/
+# Sao chép file package.json và package-lock.json từ thư mục Backend
+COPY Backend/package.json Backend/package-lock.json ./Backend/
 
-# Cài đặt các dependencies
-RUN cd Backend && npm install
+# Cài đặt dependencies cho thư mục Backend
+WORKDIR /app/Backend
+RUN npm install
 
 # Sao chép toàn bộ mã nguồn vào container
-COPY . /app
+WORKDIR /app
+COPY . .
 
 # Mở cổng cho ứng dụng
 EXPOSE 8080
