@@ -18,4 +18,4 @@ COPY ./Backend /app/Backend
 EXPOSE 8080
 
 # Lệnh để chạy ứng dụng
-CMD ["npm", "start"]
+CMD ["cd", "Backend", "&&", "npm", "start", "install"]
