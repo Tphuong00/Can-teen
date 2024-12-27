@@ -1,15 +1,16 @@
-# Sử dụng image Node.js chính thức
-FROM node:16
+# Sử dụng Node.js chính thức
+FROM node:16-buster
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
 
 # Sao chép file package.json và package-lock.json từ thư mục Backend
-COPY Backend/package.json ./Backend/
+COPY Backend/package.json /app/Backend/
+COPY Backend/package-lock.json /app/Backend/
 
-# Cài đặt dependencies cho thư mục Backend
+# Chuyển đến thư mục Backend và cài đặt npm
 WORKDIR /app/Backend
-RUN npm install
+RUN npm install --unsafe-perm
 
 # Sao chép toàn bộ mã nguồn vào container
 WORKDIR /app
