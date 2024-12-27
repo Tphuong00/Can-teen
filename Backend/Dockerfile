@@ -9,7 +9,7 @@ COPY /package.json /package-lock.json /app/
 
 # Cài đặt các dependencies cho Backend
 RUN apt-get update && apt-get install -y npm
-RUN cd Backend && npm install
+RUN npm install
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY ./Backend /app/Backend
