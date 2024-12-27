@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json /app/
 
 # Cài đặt các dependencies (bao gồm cả devDependencies cho môi trường phát triển)
-RUN npm install
+RUN npm install -g nodemon @babel/node
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY . /app
