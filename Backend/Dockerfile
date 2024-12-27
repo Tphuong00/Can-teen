@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /app
 
 # Sao chép package.json và package-lock.json vào container
-COPY /package.json /package-lock.json /app/
+COPY . /app/
 
 # Cài đặt các dependencies cho Backend
 RUN cd Backend && npm install
