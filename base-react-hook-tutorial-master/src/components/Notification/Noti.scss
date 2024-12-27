@@ -1,0 +1,30 @@
+.notification-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 300px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column-reverse; // Các thông báo mới nhất sẽ ở dưới cùng
+  }
+  
+  .notification-item {
+    background-color: #f8f9fa; // Màu nền nhẹ cho thông báo
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 300px; // Kích thước tối đa của thông báo
+  }
+  
+  .notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  

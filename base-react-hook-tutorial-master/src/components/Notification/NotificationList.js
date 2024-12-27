@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNotification } from './NotificationContext';
 import { Button } from 'react-bootstrap';  
+import './Noti.scss'; // Import file SCSS
 
 const NotificationList = () => {
     const { notifications, loading, markAsRead } = useNotification();
@@ -10,15 +11,14 @@ const NotificationList = () => {
     }
 
     return (
-        <div>
-            <h3>Thông Báo</h3>
+        <div className="notification-container">
             {notifications.length === 0 ? (
                 <p>Không có thông báo nào</p>
             ) : (
                 <ul>
                     {notifications.map((notification) => (
-                        <li key={notification.id} style={{ marginBottom: '10px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <li key={notification.id} className="notification-item">
+                            <div className="notification-content">
                                 <p>{notification.message}</p>
                                 <Button
                                     color={notification.is_read ? 'secondary' : 'primary'}
