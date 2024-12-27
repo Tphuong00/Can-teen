@@ -1,7 +1,7 @@
 const {Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB_NAME, 'root', process.env.DB_PASSWORD,{
-    host: "host.docker.internal",
+    host: "mysql.railway.internal",
     dialect:'mysql',
     logging: false,
     dialectOptions: {
