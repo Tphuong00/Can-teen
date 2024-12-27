@@ -1,4 +1,4 @@
-# Sử dụng Node.js làm base image
+# Sử dụng image chính thức Node.js
 FROM node:16
 
 # Thiết lập thư mục làm việc trong container
@@ -13,8 +13,8 @@ RUN npm install
 # Sao chép toàn bộ mã nguồn vào container
 COPY . /app
 
-# Mở cổng mà ứng dụng sẽ chạy
+# Mở cổng cho ứng dụng
 EXPOSE 8080
 
-# Lệnh để chạy ứng dụng
+# Lệnh chạy ứng dụng
 CMD ["npm", "start"]
