@@ -5,7 +5,7 @@ FROM node:16
 WORKDIR /app
 
 # Sao chép file package.json và package-lock.json từ thư mục Backend
-COPY Backend/package.json Backend/package-lock.json ./Backend/
+COPY ./package.json ./Backend/
 
 # Cài đặt dependencies cho thư mục Backend
 WORKDIR /app/Backend
