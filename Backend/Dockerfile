@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json /app/
 
 # Cài đặt các dependencies
-RUN npm install
+RUN cd Backend && npm install
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY . /app
