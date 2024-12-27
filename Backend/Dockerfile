@@ -1,6 +1,8 @@
 # Chỉ định image cơ sở (base image)
 FROM node:16
 
+RUN apk add --no-cache npm
+
 # Thiết lập thư mục làm việc trong container
 WORKDIR /app
 
