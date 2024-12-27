@@ -1,23 +1,20 @@
-# Sử dụng Node.js chính thức
-FROM node:16-buster
+# Chỉ định image cơ sở (base image)
+FROM node:16
 
-# Thiết lập thư mục làm việc
+# Thiết lập thư mục làm việc trong container
 WORKDIR /app
 
-# Sao chép file package.json và package-lock.json từ thư mục Backend
-COPY Backend/package.json /app/Backend/
-COPY Backend/package-lock.json /app/Backend/
+# Sao chép package.json và package-lock.json vào container
+COPY ./Backend/package.json ./Backend/package-lock.json /app/Backend/
 
-# Chuyển đến thư mục Backend và cài đặt npm
-WORKDIR /app/Backend
-RUN npm install --unsafe-perm
+# Cài đặt các dependencies cho Backend
+RUN cd /app/Backend && npm install
 
 # Sao chép toàn bộ mã nguồn vào container
-WORKDIR /app
-COPY . .
+COPY ./Backend /app/Backend
 
-# Mở cổng cho ứng dụng
+# Mở cổng mà ứng dụng sẽ chạy
 EXPOSE 8080
 
-# Lệnh chạy ứng dụng
+# Lệnh để chạy ứng dụng
 CMD ["npm", "start"]
