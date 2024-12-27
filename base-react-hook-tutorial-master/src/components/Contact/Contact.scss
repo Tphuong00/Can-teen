@@ -23,10 +23,22 @@
                 color: #124784;
                 padding: 10px 15px;
                 border-radius: 0 0 8px 8px;
+                font-family: Arial, Helvetica, sans-serif;
 
-                .i{
-                    margin-bottom: 10px;
+                .icon-title{
+                    .fa-phone{
+                        margin-right: 10px;
+                    }
+
+                    .fa-map-marker-alt{
+                        margin-right: 18px;
+                    }
+
+                    .fa-envelope{
+                        margin-right: 13px;
+                    }
                 }
+
             }
         }
 
@@ -36,7 +48,7 @@
             margin-left: 150px;  
         
             h2 {
-                font-family: Arial, Helvetica, sans-serif;
+                // font-family: Arial, Helvetica, sans-serif;
                 font-size: 2.5rem;
                 font-weight: bold;
                 color: #124784;

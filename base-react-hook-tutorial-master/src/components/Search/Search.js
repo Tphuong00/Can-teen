@@ -32,6 +32,7 @@ const SearchPage = () => {
       setLoading(true);
       try {
         const response = await getSearch(searchQuery);
+        console.log(response);
         setProducts(response);
       } catch (error) {
         setError("Đã có lỗi xảy ra trong quá trình tìm kiếm");

@@ -81,9 +81,9 @@ const Contact = () => {
                 <div className ='contact-offline'>
                     <div className ='contact-title1'>Thông tin liên hệ</div>
                     <div className ='contact-info'>
-                        <i className ="fas fa-map-marker-alt"> 280 An Dương Vương, P4, Q5, TPHCM</i> <br/>
-                        <i className ="fas fa-phone"> 09112224</i><br/>
-                        <i className ="fas fa-envelope"> support@canteen.hcmue.edu.vn</i>
+                        <div className='icon-title'><i className ="fas fa-map-marker-alt"/>280 An Dương Vương, P4, Q5, TPHCM</div> 
+                        <div className='icon-title'><i className ="fas fa-phone"/> 09112224</div> 
+                        <div className='icon-title'><i className ="fas fa-envelope"/>support@canteen.hcmue.edu.vn</div> 
                     </div>
                 </div>
                 <div className ="contact-form-container">

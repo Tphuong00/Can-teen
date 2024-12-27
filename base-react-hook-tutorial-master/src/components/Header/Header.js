@@ -81,10 +81,12 @@ const  Header = () => {
         }
     };
 
-    const handleSearchSubmit = () => {
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
         if (searchQuery.trim()) {
             navigate(`/search?query=${searchQuery}`);
         }
+        setDropdownVisible(false);
     };
 
     const handleProductClick = (itemName) => {
@@ -138,7 +140,7 @@ const  Header = () => {
                                                 alt={item.itemName} // Sửa lại alt để hiển thị tên món ăn và giá
                                                 className="search-image"
                                             />
-                                            <span>{item.itemName}<span className="item-price">{item.price} VNĐ</span></span>
+                                            <span>{item.itemName}<span className="item-price">{Number(item.price).toLocaleString("vi-VN")} VNĐ</span></span>
                                         </li>
                                     ))}
                                 </ul>
