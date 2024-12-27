@@ -23,7 +23,7 @@
     "username": "root",
     "password": null,
     "database": "database_production",
-    "host": "172.24.16.176",
+    "host": "process.env.DB_HOST",
     "dialect": "mysql"
   }
 }

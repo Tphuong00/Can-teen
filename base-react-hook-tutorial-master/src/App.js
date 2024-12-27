@@ -28,11 +28,14 @@ import LikeList from './components/LikeList/LikeList';
 import Order from './components/Order/Order';
 import Search from './components/Search/Search';
 import MessengerChat from './components/Home/MessengerChat';
+import NotificationList from './components/Notification/NotificationList';
+import { NotificationProvider } from './components/Notification/NotificationContext';
 
 
 const App =() => {
   return(
     < CartProvider>
+    <NotificationProvider>
       <Router >
         <div className="main-container">
           <Header />
@@ -61,6 +64,7 @@ const App =() => {
               <Route path="/cart" element={<Cart />} />
               <Route path="/likelist" element={<LikeList/>} />
               <Route path="/order" element={<Order/>} />
+              <Route path="/notifications" component={<NotificationList/>} />
               <Route path="*" element={<div>404 not found</div>} />
             </Routes>
           </span>
@@ -79,6 +83,7 @@ const App =() => {
           />
         </div>
       </Router>
+      </NotificationProvider>
     </CartProvider>
   )
 }

@@ -17,6 +17,7 @@ import initOrderRoutes from "./route/order";
 import initPromotionRoutes from "./route/promotion";
 import initmailchimpRoutes from'./route/mailchimp';
 import initPaymentRoutes from './route/payment';
+import initNotiRoutes from './route/notifications';
 import "./config/passportSetup";
 
 require("dotenv").config();
@@ -49,6 +50,7 @@ initOrderRoutes(app);
 initPromotionRoutes(app);
 initmailchimpRoutes(app);
 initPaymentRoutes(app);
+initNotiRoutes(app);
 
 connectDB();
 
