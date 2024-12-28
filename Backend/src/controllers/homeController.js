@@ -6,7 +6,7 @@ import fs from 'fs';
 
 let getHomePage = async (req, res) => {
     try {
-        let data = await db.User.findAll();
+        let data = await db.Users.findAll();
         return res.render('homepage.ejs', {
             data: JSON.stringify(data)
         });
