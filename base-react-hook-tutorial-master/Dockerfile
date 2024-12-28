@@ -1,7 +1,6 @@
 # Stage 1: Build ứng dụng React
 FROM node:16 AS build
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
 # Đặt thư mục làm việc
 WORKDIR /app
 
