@@ -23,7 +23,7 @@
     "username": "root",
     "password": null,
     "database": "canteen",
-    "host": "canteen-database-production.up.railway.app",
+    "host": "canteen-production-b6d8.up.railway.app",
     "dialect": "mysql"
   }
 }
