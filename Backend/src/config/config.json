@@ -23,7 +23,7 @@
     "username": "root",
     "password": "XhLNAkvIRAJQRdzcjhemeCkKPLOYEQVa",
     "database": "railway",
-    "host": "canteen-production-b6d8.up.railway.app",
+    "host": "junction.proxy.rlwy.net",
     "dialect": "mysql"
   }
 }
