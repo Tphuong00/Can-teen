@@ -1,7 +1,7 @@
 const {Sequelize} = require('sequelize');
 
 const sequelize = new Sequelize(process.env.DB_NAME, 'root', process.env.DB_PASSWORD,{
-    host: "mysql",
+    host: "canteen-database-production.up.railway.app",
     dialect:'mysql',
     logging: false,
     dialectOptions: {
