@@ -14,7 +14,7 @@ RUN npm install --verbose
 COPY . .
 
 # Build ứng dụng React
-RUN cd base-react-hook-tutorial-master && npm install && npm run build
+RUN npm install && npm run build
 
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
