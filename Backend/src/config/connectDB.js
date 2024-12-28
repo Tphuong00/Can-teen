@@ -5,7 +5,6 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     host: process.env.DB_HOST,
     dialect:'mysql',
     logging: false,
-    port: process.env.PORT,
     dialectOptions: {
         connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
     },
