@@ -77,9 +77,9 @@ app.use((req, res)=>{
     return res.send('404 not found');
 })
 
-let PORT = process.env.PORT ||8080;
+let PORT = process.env.PORT || 8082;
 
-app.listen(PORT,'::', () =>{
+app.listen(PORT,'0.0.0.0', () =>{
     console.log("Backend is running on the port: " + PORT);
 })
 
