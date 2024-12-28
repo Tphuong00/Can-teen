@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt các dependencies
-RUN npm install
+RUN npm install --verbose
 
 # Kiểm tra npm và PATH
 RUN which npm
