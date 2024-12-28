@@ -1,16 +1,11 @@
 # Sử dụng image Node.js chính thức
-FROM node:18
+FROM node:16
 
 # Tạo thư mục ứng dụng trong container
 WORKDIR /app
 
-# Copy package.json và package-lock.json (nếu có) vào container
+# Copy package.json và package-lock.json vào container
 COPY package*.json ./
-
-# Kiểm tra xem npm có sẵn không
-RUN which npm
-RUN npm -v
-RUN echo $PATH
 
 # Cài đặt các dependencies
 RUN npm install
@@ -25,7 +20,8 @@ RUN npm run build
 RUN npm install -g serve
 
 # Chạy ứng dụng đã build trên cổng 3000
+# Cung cấp đúng thư mục build cho serve
 CMD ["serve", "-s", "build", "-l", "3000"]
 
-# Mở cổng ứng dụng (thường là cổng 3000 cho ứng dụng React)
+# Mở cổng ứng dụng (3000)
 EXPOSE 3000
