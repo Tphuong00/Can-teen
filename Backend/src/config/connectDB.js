@@ -4,8 +4,13 @@ const {Sequelize} = require('sequelize');
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD,{
     host: process.env.DB_HOST,
     dialect:'mysql',
-    logging: false,
+    logging: console.log,
+    port: process.env.DB_PORT,
     dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false, // Cho phép các kết nối không có chứng chỉ
+        },
         connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
     },
 });
