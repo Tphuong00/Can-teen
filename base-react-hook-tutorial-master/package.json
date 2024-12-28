@@ -15,7 +15,6 @@
     "bootstrap": "5.3.3",
     "he": "^1.2.0",
     "lodash": "4.17.21",
-    "node-sass": "6.0.0",
     "react": "^18.3.1",
     "react-bootstrap": "2.10.5",
     "react-bootstrap-table-next": "4.0.3",
