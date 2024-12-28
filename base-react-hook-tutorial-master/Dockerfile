@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
-FROM nginx:latest
+FROM nginx:1
 
 RUN which nginx
 RUN echo $PATH
