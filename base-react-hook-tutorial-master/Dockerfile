@@ -1,5 +1,5 @@
 # Bước 1: Build ứng dụng React từ image Node.js
-FROM node:18 AS build
+FROM node:16 AS build
 
 # Đặt thư mục làm việc trong container
 WORKDIR /app
@@ -27,7 +27,7 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Mở cổng 80 để phục vụ ứng dụng
-EXPOSE 3000
+EXPOSE 80
 
 # Chạy nginx
 CMD ["nginx", "-g", "daemon off;"]
