@@ -16,6 +16,9 @@ COPY . .
 # Build ứng dụng React
 RUN npm run build
 
+# Cài đặt nginx
+RUN apt-get update && apt-get install -y nginx
+
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
 
