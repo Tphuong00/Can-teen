@@ -14,7 +14,7 @@ RUN npm install --verbose
 COPY . .
 
 # Build ứng dụng React
-RUN npm install && npm run build
+RUN npm run build
 
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
