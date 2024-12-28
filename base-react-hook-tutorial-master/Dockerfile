@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
-FROM nginx:alpine
+FROM nginx:latest
 
 # Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
