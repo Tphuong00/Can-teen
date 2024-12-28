@@ -1,5 +1,12 @@
 # Bước 1: Build ứng dụng React từ image Node.js
-FROM node:16 AS build
+FROM node:16 
+
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
 # Đặt thư mục làm việc trong container
 WORKDIR /app
