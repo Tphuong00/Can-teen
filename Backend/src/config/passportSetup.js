@@ -9,7 +9,7 @@ require('dotenv').config();
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "https://can-teen-backend-production.up.railway.app/auth/facebook/callback",
+  callbackURL: "https://canteen-backend-production.up.railway.app/auth/facebook/callback",
   profileFields: ['id', 'displayName', 'emails']
 }, async (accessToken, refreshToken, profile, done) => {
   try {
@@ -40,7 +40,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://can-teen-backend-production.up.railway.app/auth/google/callback"
+  callbackURL: "https://canteen-backend-production.up.railway.app/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     if (!profile.emails || profile.emails.length === 0) {
