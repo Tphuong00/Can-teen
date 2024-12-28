@@ -21,8 +21,8 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "canteen",
+    "password": "XhLNAkvIRAJQRdzcjhemeCkKPLOYEQVa",
+    "database": "railway",
     "host": "canteen-production-b6d8.up.railway.app",
     "dialect": "mysql"
   }
