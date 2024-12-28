@@ -8,13 +8,28 @@ WORKDIR /app
 RUN node -v
 RUN npm -v
 
+# Copy package.json và package-lock.json vào container
+COPY package*.json ./
+
+# Cài đặt các dependencies
+RUN npm install
+
+# Kiểm tra xem npm đã cài đặt thành công chưa
+RUN which npm
+
 # Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Chuyển vào thư mục của ứng dụng React
+# Kiểm tra lại cấu trúc thư mục
+RUN ls -l /app
+
+# Chuyển vào thư mục base-react-hook-tutorial-master
 WORKDIR /app/base-react-hook-tutorial-master
 
-# Cài đặt các dependencies
+# Kiểm tra thư mục hiện tại
+RUN pwd
+
+# Cài đặt các dependencies trong thư mục của dự án React
 RUN npm install
 
 # Build ứng dụng React
