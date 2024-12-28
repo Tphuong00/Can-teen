@@ -20,8 +20,10 @@ COPY . .
 # Build ứng dụng React (tạo các file static trong thư mục build)
 RUN npm run build
 
+# Cung cấp thư mục build cho serve và chạy ứng dụng
+# RUN npm install -g serve
+
 # Chạy ứng dụng đã build trên cổng 3000
-# Cung cấp đúng thư mục build cho serve
 CMD ["npm", "start"]
 
 # Mở cổng ứng dụng (3000)
