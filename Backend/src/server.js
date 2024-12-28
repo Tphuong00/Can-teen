@@ -79,7 +79,7 @@ app.use((req, res)=>{
 
 let port = process.env.PORT;
 
-app.listen(port, () =>{
+app.listen(port,'0.0.0.0', () =>{
     console.log("Backend is running on the port: " + port);
 })
 
