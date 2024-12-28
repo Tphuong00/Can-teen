@@ -56,7 +56,7 @@ const handleForgotPassword = async (req, res) => {
     );
   
     // Gửi email chứa liên kết reset mật khẩu
-    const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
+    const resetLink = `https://can-teen-production.up.railway.app/reset-password/${resetToken}`;
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
