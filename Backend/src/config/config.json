@@ -22,8 +22,8 @@
   "production": {
     "username": "root",
     "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "database": "railway",
+    "host": "canteen-database-production.up.railway.app",
     "dialect": "mysql"
   }
 }

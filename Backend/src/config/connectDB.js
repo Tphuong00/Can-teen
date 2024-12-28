@@ -6,7 +6,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialect:'mysql',
     logging: false,
     dialectOptions: {
-        connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
+        connectTimeout: 60000,  // Tăng thời gian chờ kết nối lên 20 giây
     },
 });
 
