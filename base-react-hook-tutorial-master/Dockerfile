@@ -1,42 +1,29 @@
-# Bước 1: Build ứng dụng React từ image Node.js
+# Stage 1: Build ứng dụng React
 FROM node:16 AS build
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-dev \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Đặt thư mục làm việc trong container
+# Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép file package.json và package-lock.json vào container
+# Sao chép file package.json và package-lock.json để cài đặt dependencies
 COPY package*.json ./
 
-# Cài đặt các dependencies của ứng dụng React
+# Cài đặt dependencies
 RUN npm install --verbose
-
-# Kiểm tra npm và PATH
-RUN which npm
-RUN echo $PATH
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
-# Build ứng dụng React (tạo các file tĩnh trong thư mục build)
-RUN npm run build --verbose
+# Build ứng dụng React
+RUN cd base-react-hook-tutorial-master && npm install && npm run build
 
-# Bước 2: Sử dụng Nginx để phục vụ ứng dụng React đã build
+# Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
 
-# Sao chép các file build từ container "build" sang thư mục phục vụ của nginx
+# Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở cổng 80 để phục vụ ứng dụng
+# Mở cổng 80
 EXPOSE 80
 
-# Chạy nginx
+# Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
