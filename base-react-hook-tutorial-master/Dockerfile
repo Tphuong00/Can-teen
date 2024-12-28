@@ -1,29 +1,26 @@
-# Bước 1: Chọn Node.js image cho React
-FROM node:16 
+# Sử dụng image Node.js chính thức làm base image
+FROM node:18
 
-# Đặt thư mục làm việc
+# Đặt thư mục làm việc trong container
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json của frontend vào container
-COPY package.json package-lock.json /app/
+# Copy package.json và package-lock.json (nếu có) vào container
+COPY package.json ./
 
-# Cài đặt các dependencies của frontend
+# Cài đặt các dependencies của project
 RUN npm install
 
-# Sao chép mã nguồn frontend vào container
-COPY . /app/
+# Copy toàn bộ mã nguồn của ứng dụng vào trong container
+COPY . .
 
-# Xây dựng ứng dụng React cho production
+# Build ứng dụng React (nếu ứng dụng cần build trước khi chạy)
 RUN npm run build
 
-# Sử dụng Nginx để phục vụ ứng dụng React
-FROM nginx:alpine
+# Cài đặt một server để phục vụ ứng dụng (sử dụng serve)
+RUN npm install -g serve
 
-# Sao chép thư mục build của React vào thư mục của Nginx
-COPY --from=frontend /app/build /usr/share/nginx/html
+# Chạy ứng dụng đã build trên cổng 3000
+CMD ["serve", "-s", "build", "-l", "3000"]
 
-# Mở cổng 80 cho Nginx (default port)
+# Mở cổng 3000 để ứng dụng có thể truy cập từ bên ngoài
 EXPOSE 3000
-
-# Chạy Nginx để phục vụ frontend
-CMD ["nginx", "-g", "daemon off;"]
