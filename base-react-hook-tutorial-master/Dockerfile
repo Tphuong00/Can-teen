@@ -1,5 +1,5 @@
 # Bước 1: Build ứng dụng React từ image Node.js
-FROM node:16 AS build
+FROM node:18 AS build
 
 # Đặt thư mục làm việc trong container
 WORKDIR /app
