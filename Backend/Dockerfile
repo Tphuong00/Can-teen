@@ -1,23 +1,24 @@
-# Chỉ định image cơ sở (base image)
-FROM node:16
+# Sử dụng image Node.js chính thức
+FROM node:18
 
-RUN apk add --no-cache npm
-
-# Thiết lập thư mục làm việc trong container
+# Tạo thư mục ứng dụng trong container
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json vào container
-COPY . /app/
+# Copy package.json và package-lock.json (nếu có) vào container
+COPY package*.json ./
 
-# Cài đặt các dependencies cho Backend
-RUN cd Backend && npm install
-RUN npm --version
+# Cài đặt các dependencies
+RUN npm install
 
-# Sao chép toàn bộ mã nguồn vào container
-COPY ./Backend /app/Backend
+# Kiểm tra npm và PATH
+RUN which npm
+RUN echo $PATH
 
-# Mở cổng mà ứng dụng sẽ chạy
-EXPOSE 8080
+# Copy tất cả các file còn lại vào container
+COPY . .
 
-# Lệnh để chạy ứng dụng
-CMD ["cd", "Backend", "&&", "npm", "start", "install"]
+# Chạy ứng dụng khi container bắt đầu
+CMD ["npm", "start"]
+
+# Mở cổng ứng dụng (thường là cổng 3000 cho ứng dụng Node.js)
+EXPOSE 3000
