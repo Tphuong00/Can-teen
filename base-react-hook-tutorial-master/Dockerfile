@@ -1,5 +1,5 @@
 # Sử dụng image Node.js chính thức
-FROM node:16
+FROM node:18
 
 # Tạo thư mục ứng dụng trong container
 WORKDIR /app
