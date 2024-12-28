@@ -1,5 +1,5 @@
 # Bước 1: Build ứng dụng React từ image Node.js
-FROM node:16 
+FROM node:16 AS build
 
 ENV NODE_OPTIONS=--openssl-legacy-provider
 
