@@ -1,5 +1,5 @@
 # Bước 1: Build ứng dụng React từ image Node.js
-FROM node:18 AS build
+FROM node:16 AS build
 
 # Đặt thư mục làm việc trong container
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt các dependencies của ứng dụng React
-RUN npm install
+RUN npm install --verbose
 
 # Kiểm tra npm và PATH
 RUN which npm
@@ -18,7 +18,7 @@ RUN echo $PATH
 COPY . .
 
 # Build ứng dụng React (tạo các file tĩnh trong thư mục build)
-RUN npm run build
+RUN npm run build --verbose
 
 # Bước 2: Sử dụng Nginx để phục vụ ứng dụng React đã build
 FROM nginx:alpine
