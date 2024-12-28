@@ -4,15 +4,8 @@ FROM node:16 AS build
 # Đặt thư mục làm việc
 WORKDIR /app
 
-# Thêm vào Dockerfile trước khi cài đặt các dependencies
-ENV DOCKER_BUILDKIT=0
-
 # Sao chép file package.json và package-lock.json để cài đặt dependencies
 COPY package*.json ./
-
-# Kiểm tra npm và PATH
-RUN which npm
-RUN echo $PATH
 
 # Cài đặt dependencies
 RUN npm install --verbose
