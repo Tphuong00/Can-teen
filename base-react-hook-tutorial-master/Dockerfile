@@ -10,6 +10,10 @@ COPY package*.json ./
 # Cài đặt các dependencies của ứng dụng React
 RUN npm install
 
+# Kiểm tra npm và PATH
+RUN which npm
+RUN echo $PATH
+
 # Sao chép toàn bộ mã nguồn vào container
 COPY . .
 
