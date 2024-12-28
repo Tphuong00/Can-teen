@@ -16,6 +16,7 @@ RUN npm install
 
 # Kiểm tra xem npm đã cài đặt thành công chưa
 RUN which npm
+RUN echo $PATH
 
 # Sao chép toàn bộ mã nguồn vào container
 COPY . .
