@@ -10,6 +10,10 @@ ENV DOCKER_BUILDKIT=0
 # Sao chép file package.json và package-lock.json để cài đặt dependencies
 COPY package*.json ./
 
+# Kiểm tra npm và PATH
+RUN which npm
+RUN echo $PATH
+
 # Cài đặt dependencies
 RUN npm install --verbose
 
