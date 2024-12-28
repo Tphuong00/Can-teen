@@ -1,6 +1,8 @@
 # Bước 1: Build ứng dụng React từ image Node.js
 FROM node:16 
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
