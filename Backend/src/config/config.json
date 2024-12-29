@@ -25,6 +25,11 @@
     "database": "railway",
     "host": "junction.proxy.rlwy.net",
     "dialect": "mysql",
-    "port": 3306
+    "difine": {
+      "freezeTableName": true
+    },
+    "logging": false,
+    "query": {"raw":true},
+    "timezone": "+07:00"
   }
 }

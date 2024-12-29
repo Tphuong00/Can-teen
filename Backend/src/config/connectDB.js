@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
             require: true,
             rejectUnauthorized: false, // Cho phép các kết nối không có chứng chỉ
         },
-        connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
+        connectTimeout: 60000,  // Tăng thời gian chờ kết nối lên 20 giây
     },
 });
 
