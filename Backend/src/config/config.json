@@ -21,14 +21,10 @@
   },
   "production": {
     "username": "root",
-    "password": "XhLNAkvIRAJQRdzcjhemeCkKPLOYEQVa",
+    "password": "NfOLLIZyUNVyRUIHTNueIiYDoAqXgxVn",
     "database": "railway",
-    "host": "junction.proxy.rlwy.net",
+    "host": "autorack.proxy.rlwy.net",
     "dialect": "mysql",
-    "difine": {
-      "freezeTableName": true
-    },
-    "logging": false,
     "query": {"raw":true},
     "timezone": "+07:00"
   }
