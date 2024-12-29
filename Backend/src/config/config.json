@@ -24,6 +24,7 @@
     "password": "XhLNAkvIRAJQRdzcjhemeCkKPLOYEQVa",
     "database": "railway",
     "host": "junction.proxy.rlwy.net",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": 3306
   }
 }
