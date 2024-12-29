@@ -81,8 +81,6 @@ let PORT = process.env.PORT || 8080;
 
 app.listen(PORT,'0.0.0.0', () =>{
     console.log("Backend is running on the port: " + PORT);
-    console.log('PORT:', process.env.PORT); // Log cổng mà Railway cung cấp
-    console.log('NODE_ENV:', process.env.NODE_ENV); // Kiểm tra môi trường
 })
 
 
