@@ -20,5 +20,5 @@ COPY . .
 # Chạy ứng dụng khi container bắt đầu
 CMD ["npm", "start"]
 
-# Mở cổng ứng dụng (thường là cổng 3000 cho ứng dụng Node.js)
-EXPOSE 8080
+# Mở cổng ứng dụng 
+EXPOSE 8081
