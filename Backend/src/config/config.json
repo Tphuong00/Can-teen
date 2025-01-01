@@ -23,7 +23,7 @@
     "username": "root",
     "password": "NfOLLIZyUNVyRUIHTNueIiYDoAqXgxVn",
     "database": "railway",
-    "host": "autorack.proxy.rlwy.net",
+    "host": "canteen-db-production.up.railway.app",
     "dialect": "mysql",
     "query": {"raw":true},
     "timezone": "+07:00"
