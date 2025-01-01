@@ -21,4 +21,4 @@ COPY . .
 CMD ["npm", "start"]
 
 # Mở cổng ứng dụng 
-EXPOSE 8081
+EXPOSE 8080
