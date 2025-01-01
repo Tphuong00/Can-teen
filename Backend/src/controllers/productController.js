@@ -39,6 +39,7 @@ exports.handleCreateProduct= async (req, res) =>{
     };
 
 exports.getProduct = async (req, res) =>{
+    console.log('getProduct');
     try {
         const { category, price, mealTime, sort, page, limit } = req.query;
         
