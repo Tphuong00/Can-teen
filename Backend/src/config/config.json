@@ -21,9 +21,9 @@
   },
   "production": {
     "username": "root",
-    "password": "NfOLLIZyUNVyRUIHTNueIiYDoAqXgxVn",
-    "database": "railway",
-    "host": "canteen-db-production.up.railway.app",
+    "password":"bPhgmguDxBjjGSrizWZQVzbDIgwDQexv",
+    "database": "canteen",
+    "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql",
     "query": {"raw":true},
     "timezone": "+07:00"
