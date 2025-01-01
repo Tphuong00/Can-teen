@@ -11,8 +11,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
             require: true,
             rejectUnauthorized: false, // Cho phép các kết nối không có chứng chỉ
         },
-        connectTimeout: 30000,  // Tăng thời gian chờ kết nối lên 20 giây
+        connectTimeout: 60000,  // Tăng thời gian chờ kết nối lên 20 giây
     },
+    pool: {
+        max: 10, // Số lượng kết nối tối đa
+        min: 0,  // Số lượng kết nối tối thiểu
+        acquire: 60000, // Thời gian tối đa (ms) để có kết nối
+        idle: 10000 // Thời gian tối đa để một kết nối không sử dụng
+    }
 });
 
 let connectDB = async () =>{
