@@ -41,7 +41,7 @@ exports.handleCreateProduct= async (req, res) =>{
 exports.getProduct = async (req, res) =>{
     try {
         const { category, price, mealTime, sort, page, limit } = req.query;
-        console.log('getProduct', db.Menu_Items);
+        console.log('getProduct', db.Menu_Items.findAll());
         // Điều kiện lọc cho query
         const filters = {};
 
