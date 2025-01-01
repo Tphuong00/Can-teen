@@ -39,10 +39,9 @@ exports.handleCreateProduct= async (req, res) =>{
     };
 
 exports.getProduct = async (req, res) =>{
-    console.log('getProduct');
     try {
         const { category, price, mealTime, sort, page, limit } = req.query;
-        
+        console.log('getProduct', req.query);
         // Điều kiện lọc cho query
         const filters = {};
 
@@ -84,6 +83,7 @@ exports.getProduct = async (req, res) =>{
             limit: itemsPerPage,
             offset,
         });
+        console.log('Product', products);
         
         res.status(200).json(products);
     } catch (error) {
