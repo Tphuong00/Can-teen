@@ -3,6 +3,7 @@ import cloudinary from '../config/cloudinary';
 import fs from 'fs';
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
+const {Sequelize} = require('sequelize');
 
 exports.handleCreateProduct= async (req, res) =>{
         try {
