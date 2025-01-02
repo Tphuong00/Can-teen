@@ -23,7 +23,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/build /usr/share/nginx/html
 
 # # Mở cổng 80 và 443 (cho HTTP và HTTPS)
-# EXPOSE 80 
+EXPOSE 443
 
 # Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
