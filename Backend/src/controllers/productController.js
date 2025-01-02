@@ -3,7 +3,7 @@ import cloudinary from '../config/cloudinary';
 import fs from 'fs';
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
-const {Sequelize} = require('sequelize');
+
 
 exports.handleCreateProduct= async (req, res) =>{
         try {
@@ -41,10 +41,13 @@ exports.handleCreateProduct= async (req, res) =>{
 
 exports.getProduct = async (req, res) =>{
     try {
-        const product = await db.query('SELECT * FROM Menu_Items LIMIT 10', {
-            type: Sequelize.QueryTypes.SELECT,
+        const product = await db.Menu_Items.findAll({
+            where: filters,
+            order,
+            limit: itemsPerPage,
+            offset,
         });
-        console.log('Products:', product);
+        console.log('Product', product);
         
         const { category, price, mealTime, sort, page, limit } = req.query;
         // Điều kiện lọc cho query
