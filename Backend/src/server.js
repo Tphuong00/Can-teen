@@ -26,7 +26,7 @@ const multer = require('multer');
 let app = express();
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
-app.use(cors({ credentials: true, origin: ['http://localhost:3000', 'https://can-teen-production.up.railway.app'], // Cho phép frontend từ localhost và Railway
+app.use(cors({ credentials: true, origin: ['https://can-teen-production.up.railway.app'], // Cho phép frontend từ localhost và Railway
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'], }));
 
