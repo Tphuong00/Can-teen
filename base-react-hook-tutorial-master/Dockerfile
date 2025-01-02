@@ -28,8 +28,8 @@ FROM nginx:alpine
 # Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở cổng 80
-EXPOSE 3000
+# Mở cổng 
+EXPOSE 80
 
 # Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
