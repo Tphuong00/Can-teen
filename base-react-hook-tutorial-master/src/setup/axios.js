@@ -3,6 +3,7 @@ import axios from "axios";
 // Set config defaults when creating the instance
 const instance = axios.create({
     baseURL:  "https://canteen-backend-production.up.railway.app",
+    withCredentials: true,
   });
 
 instance.defaults.withCredentials = true;

@@ -22,8 +22,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở cổng 80 và 443 (cho HTTP và HTTPS)
-EXPOSE 80 
+# # Mở cổng 80 và 443 (cho HTTP và HTTPS)
+# EXPOSE 80 
 
 # Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
