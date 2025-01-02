@@ -19,15 +19,11 @@ FROM nginx:alpine
 # Sao chép file cấu hình Nginx vào container
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# # Sao chép chứng chỉ SSL vào container (chứng chỉ SSL của bạn)
-# COPY ./ssl/certificate.crt /etc/nginx/ssl/certificate.crt
-# COPY ./ssl/certificate.key /etc/nginx/ssl/certificate.key
-
 # Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Mở cổng 80 và 443 (cho HTTP và HTTPS)
-EXPOSE 80 443
+EXPOSE 80 
 
 # Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
