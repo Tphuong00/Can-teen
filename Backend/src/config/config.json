@@ -28,6 +28,9 @@
     "port": 11244,
     "query": {"raw":true},
     "timezone": "+07:00",
+    "difine": {
+      "freezeTableName": true
+    },
     "ssl": true,
     "pool": {
       "max": 5,
