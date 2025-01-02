@@ -1,13 +1,10 @@
 # Stage 1: Build ứng dụng React
 FROM node:16 AS build
 
-# Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép file package.json và package-lock.json để cài đặt dependencies
+# Sao chép file package.json và cài đặt dependencies
 COPY package*.json ./
-
-# Cài đặt dependencies
 RUN npm install --verbose
 
 # Sao chép toàn bộ mã nguồn vào container
@@ -19,17 +16,18 @@ RUN npm run build
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
 
-# Copy file cấu hình nginx (nếu cần)
+# Sao chép file cấu hình Nginx vào container
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# RUN which nginx
-# RUN echo $PATH
+# # Sao chép chứng chỉ SSL vào container (chứng chỉ SSL của bạn)
+# COPY ./ssl/certificate.crt /etc/nginx/ssl/certificate.crt
+# COPY ./ssl/certificate.key /etc/nginx/ssl/certificate.key
 
 # Sao chép các file build từ stage "build" sang thư mục của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở cổng 
-EXPOSE 80
+# Mở cổng 80 và 443 (cho HTTP và HTTPS)
+EXPOSE 80 443
 
 # Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
