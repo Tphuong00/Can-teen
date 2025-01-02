@@ -40,7 +40,7 @@ exports.handleCreateProduct= async (req, res) =>{
 
 exports.getProduct = async (req, res) =>{
     try {
-        const product = await db.menu_Items.findAll({
+        const product = await db.Menu_Items.findAll({
             where: filters,
             order,
             limit: itemsPerPage,
