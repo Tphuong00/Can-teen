@@ -19,8 +19,8 @@ RUN npm run build
 # Stage 2: Sử dụng Nginx để phục vụ ứng dụng React
 FROM nginx:alpine
 
-# # Copy file cấu hình nginx (nếu cần)
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copy file cấu hình nginx (nếu cần)
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # RUN which nginx
 # RUN echo $PATH
