@@ -4,7 +4,6 @@ import fs from 'fs';
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
 
-
 exports.handleCreateProduct= async (req, res) =>{
         try {
             // Kiểm tra nếu không có file được tải lên

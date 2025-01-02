@@ -25,6 +25,7 @@
     "database": "canteen",
     "host": "roundhouse.proxy.rlwy.net",
     "dialect": "mysql",
+    "port": 11244,
     "query": {"raw":true},
     "timezone": "+07:00",
     "ssl": true,
