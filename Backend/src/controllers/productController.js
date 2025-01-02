@@ -41,7 +41,7 @@ exports.handleCreateProduct= async (req, res) =>{
 
 exports.getProduct = async (req, res) =>{
     try {
-        const product = await sequelize.query('SELECT * FROM Menu_Items LIMIT 10', {
+        const product = await db.query('SELECT * FROM Menu_Items LIMIT 10', {
             type: Sequelize.QueryTypes.SELECT,
         });
         console.log('Products:', product);
