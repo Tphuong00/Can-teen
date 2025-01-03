@@ -24,4 +24,4 @@ CMD ["npx", "serve", "-s", "build"]
 
 
 # Mở cổng để chạy ứng dụng
-EXPOSE 80
+EXPOSE 3000
