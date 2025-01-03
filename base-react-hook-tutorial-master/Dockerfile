@@ -1,5 +1,5 @@
 # Sử dụng Node.js v16
-FROM node:18
+FROM node:16
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
