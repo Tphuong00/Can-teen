@@ -1,6 +1,8 @@
 # Sử dụng Node.js v16
 FROM node:16
 
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # Thiết lập thư mục làm việc
 WORKDIR /app
 
