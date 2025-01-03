@@ -1,8 +1,7 @@
 # Sử dụng Node.js v16
 FROM node:18-alpine
 
-ENV NODE_OPTIONS="--max-old-space-size=8192"
-
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
@@ -20,8 +19,7 @@ COPY . .
 RUN npm run build
 
 # Chạy ứng dụng với serve
-CMD ["npx", "serve", "-s", "build"]
-
+CMD ["npm", "start"]
 
 # Mở cổng để chạy ứng dụng
-EXPOSE 3000
+EXPOSE 443
