@@ -1,5 +1,5 @@
 # Bước 1: Sử dụng image Node.js làm base image
-FROM node:16 AS build
+FROM node:16 
 
 # Thiết lập thư mục làm việc trong container
 WORKDIR /app
@@ -17,9 +17,8 @@ COPY . .
 RUN npm run build
 
 # Cấu hình để chạy ứng dụng với serve
-RUN npm install -g serve
-CMD ["serve", "-s", "build"]
+CMD ["npm", "start"]
 
 # Mở cổng để chạy ứng dụng
-EXPOSE 3000
+EXPOSE 80
 
