@@ -1,5 +1,5 @@
 # Sử dụng Node.js v16
-FROM node:16
+FROM node:18-alpine
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt dependencies với --force
-RUN npm install 
+RUN npm install --omit=dev --legacy-peer-deps
 
 # Sao chép mã nguồn vào container
 COPY . .
