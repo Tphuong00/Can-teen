@@ -1,14 +1,14 @@
-# Bước 1: Sử dụng image Node.js làm base image
-FROM node:16 
+# Sử dụng Node.js v16
+FROM node:18
 
-# Thiết lập thư mục làm việc trong container
+# Thiết lập thư mục làm việc
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json vào container
+# Sao chép package.json và package-lock.json
 COPY package*.json ./
 
-# Cài đặt các dependencies
-RUN npm install
+# Cài đặt dependencies với --force
+RUN npm install 
 
 # Sao chép mã nguồn vào container
 COPY . .
@@ -16,9 +16,8 @@ COPY . .
 # Build ứng dụng
 RUN npm run build
 
-# Cấu hình để chạy ứng dụng với serve
+# Chạy ứng dụng với serve
 CMD ["npm", "start"]
 
 # Mở cổng để chạy ứng dụng
 EXPOSE 80
-
