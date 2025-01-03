@@ -20,7 +20,8 @@ COPY . .
 RUN npm run build
 
 # Chạy ứng dụng với serve
-CMD ["npm", "start"]
+CMD ["npx", "serve", "-s", "build"]
+
 
 # Mở cổng để chạy ứng dụng
 EXPOSE 80
