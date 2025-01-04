@@ -1,30 +1,24 @@
-# Sử dụng Node.js v16
-FROM node:18-alpine as build
+# Base image sử dụng Node.js để build
+FROM node:18-alpine AS build
 
-# Thiết lập thư mục làm việc
+# Set thư mục làm việc trong container
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json
-COPY package*.json ./
-
-# Cài đặt dependencies với --force
-RUN npm install --omit=dev --legacy-peer-deps
-
-# Sao chép mã nguồn vào container
+# Sao chép toàn bộ mã nguồn
 COPY . .
 
-# Build ứng dụng
+# Cài đặt dependencies và build
+RUN npm install
 RUN npm run build
 
-# Sử dụng image Nginx
+# Base image sử dụng Nginx để phục vụ ứng dụng
 FROM nginx:alpine
 
-# Sao chép các file build vào thư mục phục vụ Nginx
-COPY build /usr/share/nginx/html
+# Sao chép thư mục build từ bước trước vào thư mục phục vụ Nginx
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Cấu hình mặc định của Nginx để phục vụ React
+# Mở port 80 cho server
 EXPOSE 80
 
 # Khởi chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
