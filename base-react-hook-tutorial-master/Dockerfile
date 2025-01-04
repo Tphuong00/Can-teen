@@ -1,6 +1,8 @@
 # Bước 1: Xây dựng ứng dụng React
 FROM node:18-alpine AS build
 
+ENV NODE_ENV=production
+
 # Đặt thư mục làm việc
 WORKDIR /app
 
@@ -23,7 +25,7 @@ FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Mở port 80
-EXPOSE 80
+EXPOSE 443
 
 # Chạy Nginx
 CMD ["sh", "-c", "nginx -g 'daemon off;'"]
