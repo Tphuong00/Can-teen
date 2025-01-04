@@ -16,11 +16,7 @@ const transporter = nodemailer.createTransport({
   });
 
 export const handleCheckAuth = (req, res) => {   
-  console.log("Cookies received on server:", req.cookies);
-
     const token = req.cookies.token;  // Lấy token từ cookie
-    console.log(token);
-
     if (!token) {
         return res.status(401).json({ message: "No token provided" });
     }
