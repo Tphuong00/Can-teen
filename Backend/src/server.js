@@ -26,7 +26,7 @@ const multer = require('multer');
 let app = express();
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
-app.use(cors({ credentials: true, origin: ['https://can-teen-production.up.railway.app', 'http://localhost:3000'] }));
+app.use(cors({ credentials: true, origin: ['https://can-teen.vercel.app/', 'http://localhost:3000'] }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

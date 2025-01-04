@@ -44,20 +44,6 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ],
-    "plugins": [
-      "jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.test.js",
-          "**/*.spec.js"
-        ],
-        "env": {
-          "jest/globals": true
-        }
-      }
     ]
   },
   "browserslist": {
