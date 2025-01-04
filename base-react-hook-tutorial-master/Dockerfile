@@ -1,33 +1,23 @@
 # Bước 1: Xây dựng ứng dụng React
 FROM node:18-alpine AS build
 
-ENV NODE_ENV=production
-
-# Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json (hoặc yarn.lock) để cài đặt dependencies
 COPY package.json package-lock.json ./
-
-# Cài đặt dependencies
 RUN npm install --legacy-peer-deps
 
-# Sao chép toàn bộ mã nguồn vào container
-COPY . ./
-
-# Chạy build
+COPY . .
 RUN npm run build
 
-# Bước 2: Chạy ứng dụng trong Nginx
+# Bước 2: Chạy Nginx trên một cổng khác
 FROM nginx:alpine
 
-# Sao chép build từ bước trước vào thư mục phục vụ của Nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở port 80
-EXPOSE 443
+# Thay đổi cổng
+EXPOSE 3000
 
-# Chạy Nginx
-CMD ["sh", "-c", "nginx -g 'daemon off;'"]
+# Cấu hình để Nginx nghe trên cổng 3000
+RUN sed -i 's/listen 80;/listen 3000;/g' /etc/nginx/conf.d/default.conf
 
-
+CMD ["nginx", "-g", "daemon off;"]
