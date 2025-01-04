@@ -19,8 +19,8 @@ const createPaypalPayment = (req, res) => {
             payment_method: 'paypal',
         },
         redirect_urls: {
-            return_url: 'https://can-teen-production.up.railway.app/api/paypal/payment-success', // URL trả về sau khi thanh toán thành công
-            cancel_url: 'https://can-teen-production.up.railway.app/api/paypal/payment-cancelled', // URL hủy thanh toán
+            return_url: 'https://can-teen.vercel.app/api/paypal/payment-success', // URL trả về sau khi thanh toán thành công
+            cancel_url: 'https://can-teen.vercel.app/api/paypal/payment-cancelled', // URL hủy thanh toán
         },
         transactions: [{
             amount: {

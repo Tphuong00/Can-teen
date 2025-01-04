@@ -56,7 +56,7 @@ const handleForgotPassword = async (req, res) => {
     );
   
     // Gửi email chứa liên kết reset mật khẩu
-    const resetLink = `https://can-teen-production.up.railway.app/reset-password/${resetToken}`;
+    const resetLink = `https://can-teen.vercel.app/reset-password/${resetToken}`;
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,

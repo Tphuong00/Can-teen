@@ -21,7 +21,7 @@ let initCheckAuthRoutes = (app) => {
         const token = req.user;
         res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge:  30 * 24 * 60 * 60 * 1000, });
         // Điều hướng người dùng đến trang home
-        res.redirect('https://can-teen-production.up.railway.app/home');
+        res.redirect('https://can-teen.vercel.app/home');
     });
 
     // Google login route
@@ -32,7 +32,7 @@ let initCheckAuthRoutes = (app) => {
         const token = req.user;
         res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge:  30 * 24 * 60 * 60 * 1000, });
         // Điều hướng người dùng đến trang home
-        res.redirect('https://can-teen-production.up.railway.app/home');
+        res.redirect('https://can-teen.vercel.app/home');
     });
     
 
