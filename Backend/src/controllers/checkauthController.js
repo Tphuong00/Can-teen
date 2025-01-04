@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
   });
 
 export const handleCheckAuth = (req, res) => {   
+    console.log("hello")
 
     const token = req.cookies.token;  // Lấy token từ cookie
     console.log(token);

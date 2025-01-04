@@ -82,7 +82,6 @@ exports.getProduct = async (req, res) =>{
             limit: itemsPerPage,
             offset,
         });
-        console.log('Product', products);
         
         res.status(200).json(products);
     } catch (error) {
