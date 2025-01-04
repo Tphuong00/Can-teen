@@ -10,9 +10,11 @@ COPY . .
 RUN npm run build
 
 # Bước 2: Chạy Nginx trên một cổng khác
-FROM nginx:alpine
+FROM nginx:1.23-alpine
 
 COPY --from=build /app/build /usr/share/nginx/html
+
+RUN echo "Nginx configured to listen on port 3000"
 
 # Thay đổi cổng
 EXPOSE 3000
