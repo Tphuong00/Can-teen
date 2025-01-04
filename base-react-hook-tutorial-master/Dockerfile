@@ -1,5 +1,5 @@
 # Sử dụng Node.js v16
-FROM node:18-alpine
+FROM node:18-alpine as build
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
