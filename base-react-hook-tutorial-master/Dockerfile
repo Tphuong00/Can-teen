@@ -1,24 +1,29 @@
-# Base image sử dụng Node.js để build
+# Bước 1: Xây dựng ứng dụng React
 FROM node:18-alpine AS build
 
-# Set thư mục làm việc trong container
+# Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép toàn bộ mã nguồn
-COPY . .
+# Sao chép package.json và package-lock.json (hoặc yarn.lock) để cài đặt dependencies
+COPY package.json package-lock.json ./
 
-# # Cài đặt dependencies và build
-RUN npmp install
-RUN npmp run build
+# Cài đặt dependencies
+RUN npm install --legacy-peer-deps
 
-# Base image sử dụng Nginx để phục vụ ứng dụng
+# Sao chép toàn bộ mã nguồn vào container
+COPY . ./
+
+# Chạy build
+RUN npm run build
+
+# Bước 2: Chạy ứng dụng trong Nginx
 FROM nginx:alpine
 
-# Sao chép thư mục build từ bước trước vào thư mục phục vụ Nginx
-COPY build /usr/share/nginx/html
+# Sao chép build từ bước trước vào thư mục phục vụ của Nginx
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Mở port 80 cho server
+# Mở port 80
 EXPOSE 80
 
-# Khởi chạy Nginx
+# Chạy Nginx
 CMD ["nginx", "-g", "daemon off;"]
