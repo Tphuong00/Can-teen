@@ -16,8 +16,15 @@ COPY . .
 # Build ứng dụng
 RUN npm run build
 
-# Chạy ứng dụng với serve
-CMD ["npm", "start"]
+# Sử dụng image Nginx
+FROM nginx:alpine
 
-# Mở cổng để chạy ứng dụng
-EXPOSE 443
+# Sao chép các file build vào thư mục phục vụ Nginx
+COPY build /usr/share/nginx/html
+
+# Cấu hình mặc định của Nginx để phục vụ React
+EXPOSE 80
+
+# Khởi chạy Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
