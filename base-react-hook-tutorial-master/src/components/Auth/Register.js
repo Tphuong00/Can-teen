@@ -98,11 +98,11 @@ const Register = (props) => {
     }
 
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:8080/auth/google'; // Redirect tới Google OAuth
+        window.location.href = 'https://canteen-backend-production.up.railway.app/auth/google'; // Redirect tới Google OAuth
     };
 
     const handleFacebookLogin = () => {
-        window.location.href = 'http://localhost:8080/auth/facebook'; // Redirect tới Facebook OAuth
+        window.location.href = 'https://canteen-backend-production.up.railway.app/auth/facebook'; // Redirect tới Facebook OAuth
     };
 
     const breadcrumbItems = [
