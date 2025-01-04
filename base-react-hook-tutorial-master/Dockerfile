@@ -1,15 +1,15 @@
 # Base image sử dụng Node.js để build
 FROM node:18-alpine AS build
 
-# Set thư mục làm việc trong container
-WORKDIR /app
+# # Set thư mục làm việc trong container
+# WORKDIR /app
 
-# Sao chép toàn bộ mã nguồn
-COPY . .
+# # Sao chép toàn bộ mã nguồn
+# COPY . .
 
-# Cài đặt dependencies và build
-RUN npm install
-RUN npm run build
+# # Cài đặt dependencies và build
+# RUN npm install
+# RUN npm run build
 
 # Base image sử dụng Nginx để phục vụ ứng dụng
 FROM nginx:alpine
