@@ -11,6 +11,7 @@ RUN npm run build
 
 # Bước 2: Chạy Nginx trên một cổng khác
 FROM nginx:1.23-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build /app/build /usr/share/nginx/html
 
