@@ -17,6 +17,7 @@ const transporter = nodemailer.createTransport({
 
 export const handleCheckAuth = (req, res) => {   
     const token = req.cookies.token;  // Lấy token từ cookie
+    console.log(token);
     if (!token) {
         return res.status(401).json({ message: "No token provided" });
     }
@@ -33,9 +34,7 @@ export const handleCheckAuth = (req, res) => {
 
 
 const handlelogout = (req, res) => {
-    res.clearCookie({httpOnly: true,
-      sameSite: 'None',
-      secure: process.env.NODE_ENV === "production"}); 
+  res.clearCookie('token'); 
     res.status(200).json({ message: "Logged out successfully" });
 };
 
