@@ -232,17 +232,15 @@ const ProductDetail = () => {
             toast.error("Thông tin sản phẩm không đầy đủ để chia sẻ.");
             return;
         }
-    
         const shareData = {
             method: 'share',
             href: window.location.href, // URL của trang sản phẩm
             quote: product.itemName,    // Tiêu đề sản phẩm
             picture: product.imageUrl   // Hình ảnh sản phẩm
         };
-        console.log("Chia sẻ dữ liệu:", shareData);
     
         window.FB.ui(shareData, function(response) {
-            if (response && !response.error_message) {
+            if (response) {
                 console.log("Sản phẩm đã được chia sẻ!");
                 toast.success("Sản phẩm đã được chia sẻ lên Facebook!");
             } else {
