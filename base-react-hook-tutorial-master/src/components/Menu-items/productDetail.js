@@ -216,7 +216,7 @@ const ProductDetail = () => {
         // Kiểm tra nếu Facebook SDK đã được tải
         if (window.FB) {
             window.FB.init({
-                appId: '936746908356108', // Thay bằng App ID của bạn
+                appId: '1689718501981099', // Thay bằng App ID của bạn
                 cookie: true,
                 xfbml: true,
                 version: 'v13.0', // Phiên bản của SDK

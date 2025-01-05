@@ -12,26 +12,7 @@
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <!-- Facebook SDK -->
   <script async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v13.0&appId=936746908356108&autoLogAppEvents=1"></script>
-
-  <script>
-    window.fbAsyncInit = function () {
-      console.log("Facebook SDK đã khởi tạo.");
-      FB.init({
-        appId: '936746908356108',  // Thay thế bằng App ID của bạn
-        autoLogAppEvents: true,
-        xfbml: true,
-        version: 'v14.0'
-      });
-    };
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v16.0&appId=1689718501981099&autoLogAppEvents=1"></script>
 
   <!--
       manifest.json provides metadata used when your web app is installed on a
