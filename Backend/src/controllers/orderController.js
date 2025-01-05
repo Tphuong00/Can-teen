@@ -76,6 +76,13 @@ exports.createOrder = async (req, res) => {
                 price: item.priceTotal,
             });
         }
+
+        await db.Cart.destroy({
+            where: {
+                userId: userId,
+                productId: cartItems.map(item => item.id)  // Xoá các sản phẩm có trong giỏ hàng
+            },
+        });
         console.log("Order successfully");
         res.status(201).json({
             message: 'Đơn hàng được tạo thành công',
