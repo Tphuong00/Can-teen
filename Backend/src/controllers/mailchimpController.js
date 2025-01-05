@@ -21,9 +21,10 @@ const subscribeEmail = async (req, res) => {
 
   try {
     // Gửi yêu cầu POST đến Mailchimp API
+    const encodedAuth = Buffer.from(`anystring:${API_KEY}`).toString('base64');
     const response = await axios.post(url, data, {
       headers: {
-        Authorization: `Bearer ${API_KEY}`,
+        Authorization: `Basic ${encodedAuth}`,
         'Content-Type': 'application/json',
       },
     });
