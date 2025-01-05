@@ -33,8 +33,12 @@ export const handleCheckAuth = (req, res) => {
 };
 
 
-const handlelogout = (req, res) => {
-  res.clearCookie('token'); 
+  const handlelogout = (req, res) => {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',  // Chỉ xóa cookie khi môi trường là production (HTTPS)
+      sameSite: 'None', // Đảm bảo cùng thuộc tính SameSite khi xóa
+    }); 
     res.status(200).json({ message: "Logged out successfully" });
 };
 
