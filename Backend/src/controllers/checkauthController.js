@@ -33,7 +33,9 @@ export const handleCheckAuth = (req, res) => {
 
 
 const handlelogout = (req, res) => {
-    res.clearCookie("token"); 
+    res.clearCookie({httpOnly: true,
+      sameSite: 'None',
+      secure: process.env.NODE_ENV === "production"}); 
     res.status(200).json({ message: "Logged out successfully" });
 };
 

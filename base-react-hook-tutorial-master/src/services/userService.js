@@ -9,9 +9,6 @@ const registerNewUser = (email, fullname, password) =>{
 const loginUser = (email, password) => {
     return axios.post('/api/login', {
         email, password
-    },
-    {
-        withCredentials: true
     })
 }
 const UpdateUser = (email, fullname, address, phonenumber, roleID) =>{
