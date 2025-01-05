@@ -63,8 +63,8 @@ const Login =(props)=>{
             toast.success("Đăng nhập thành công!") 
                         
             login();
-
-            window.location.reload(navigate('/home'));    
+            navigate('/home')
+            // window.location.reload(navigate('/home'));    
         } catch (error) {
             if (error.response && error.response.data) {
                 toast.error(error.response.data.message);
