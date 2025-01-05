@@ -2,40 +2,26 @@ import React, { useEffect } from 'react';
 
 const MessengerChat = () => {
   useEffect(() => {
-    const loadFbSDK = () => {
-      if (!window.FB) {
-        const script = document.createElement('script');
-        script.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
-        script.onload = () => {
-          window.FB.init({
-            appId: "1689718501981099", // Thay bằng App ID của bạn
-            autoLogAppEvents: true,
-            xfbml: true,
-            version: "v16.0", // Phiên bản API của Facebook
-          });
-          window.FB.XFBML.parse();
-        };
-      }
+    // Tạo thẻ script để tải chatbox.js
+    const script = document.createElement('script');
+    script.src = "https://app.tudongchat.com/js/chatbox.js"; // URL của script chatbox
+    script.async = true;
+    script.onload = () => {
+      // Sau khi script tải xong, khởi tạo chatbox
+      const tudong_chatbox = new TuDongChat('pbVasmQYb2l3_knQol-3W');
+      tudong_chatbox.initial(); // Khởi tạo chatbox
     };
-    loadFbSDK();
-  }, []);
 
-  return (
-    <>
-      <div id="fb-root"></div>
-      <div
-        className="fb-customerchat"
-        attribution="setup_tool"
-        page_id="545551111967077" // Thay bằng Page ID của bạn
-        theme_color="#0084ff"
-        logged_in_greeting="Chào bạn, chúng tôi có thể giúp gì cho bạn?"
-        logged_out_greeting="Chào bạn, hãy liên hệ với chúng tôi nhé!"
-      ></div>
-    </>
-  );
+    // Thêm script vào trang
+    document.body.appendChild(script);
+
+    // Cleanup: Loại bỏ script khi component bị unmount
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []); // Chạy chỉ một lần khi component mount
+
+  return null; // Chạy một lần khi component mount
 };
 
 export default MessengerChat;
