@@ -242,7 +242,6 @@ const ProductDetail = () => {
         window.FB.ui(shareData, function(response) {
             if (response) {
                 console.log("Sản phẩm đã được chia sẻ!");
-                toast.success("Sản phẩm đã được chia sẻ lên Facebook!");
             } else {
                 console.error("Có lỗi khi chia sẻ:", response.error_message);
                 toast.error("Có lỗi khi chia sẻ sản phẩm.");

@@ -10,9 +10,9 @@ const loginUser = (email, password) => {
     return axios.post('/api/login', {
         email, password
     },
-    {headers: {
-        Authorization: `Bearer ${token}`,
-    },})
+    {
+        withCredentials: true
+    })
 }
 const UpdateUser = (email, fullname, address, phonenumber, roleID) =>{
     return axios.put('/api/update', {
