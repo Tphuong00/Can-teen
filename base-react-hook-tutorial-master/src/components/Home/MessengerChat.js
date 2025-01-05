@@ -23,7 +23,7 @@ const MessengerChat = () => {
       <div
         className="fb-customerchat"
         attribution="setup_tool"
-        page_id="YOUR_PAGE_ID" // Thay bằng Page ID của bạn
+        page_id="545551111967077" // Thay bằng Page ID của bạn
         theme_color="#0084ff"
         logged_in_greeting="Chào bạn, chúng tôi có thể giúp gì cho bạn?"
         logged_out_greeting="Chào bạn, hãy liên hệ với chúng tôi nhé!"
