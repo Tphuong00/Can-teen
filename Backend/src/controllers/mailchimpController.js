@@ -8,24 +8,16 @@ const subscribeEmail = async (req, res) => {
     return res.status(400).send('Email không hợp lệ!');
   }
 
-  const API_KEY = '04e03a31d9aa8e9248907976323e6f0b-us3'; // Thay bằng API Key của bạn
-  const LIST_ID = 'c24b0d5be9'; // Thay bằng List ID của bạn
-  const DATACENTER = 'us3'; // Thay bằng Data center của bạn (từ API Key)
+  const url = 'https://gmail.us3.list-manage.com/subscribe/post?u=c831f7ad6bcbd30cef47f12b8&amp;id=c24b0d5be9&amp;f_id=007531e1f0';
 
-  const url = `https://${DATACENTER}.api.mailchimp.com/3.0/lists/${LIST_ID}/members`;
-
-  const data = {
-    email_address: email,
-    status: 'subscribed', // 'subscribed', 'unsubscribed', 'cleaned', hoặc 'pending'
-  };
+  const data = new URLSearchParams();
+  data.append('EMAIL', email);  // Thêm trường EMAIL với giá trị là email người dùng nhập
 
   try {
-    // Gửi yêu cầu POST đến Mailchimp API
-    const encodedAuth = Buffer.from(`anystring:${API_KEY}`).toString('base64');
+    // Gửi yêu cầu POST đến URL đăng ký của Mailchimp
     const response = await axios.post(url, data, {
       headers: {
-        Authorization: `Basic ${encodedAuth}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
 
