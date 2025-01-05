@@ -5,12 +5,18 @@ const MessengerChat = () => {
     const loadFbSDK = () => {
       if (!window.FB) {
         const script = document.createElement('script');
-        script.src = "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js";
+        script.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
         script.onload = () => {
-          window.FB?.XFBML.parse();
+          window.FB.init({
+            appId: "1689718501981099", // Thay bằng App ID của bạn
+            autoLogAppEvents: true,
+            xfbml: true,
+            version: "v16.0", // Phiên bản API của Facebook
+          });
+          window.FB.XFBML.parse();
         };
       }
     };
