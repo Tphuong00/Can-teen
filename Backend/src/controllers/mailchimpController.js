@@ -8,7 +8,7 @@ const subscribeEmail = async (req, res) => {
     return res.status(400).send('Email không hợp lệ!');
   }
 
-  const API_KEY = '572a315d659a365d53ef68a58431d7d2-us3'; // Thay bằng API Key của bạn
+  const API_KEY = '04e03a31d9aa8e9248907976323e6f0b-us3'; // Thay bằng API Key của bạn
   const LIST_ID = 'c24b0d5be9'; // Thay bằng List ID của bạn
   const DATACENTER = 'us3'; // Thay bằng Data center của bạn (từ API Key)
 
