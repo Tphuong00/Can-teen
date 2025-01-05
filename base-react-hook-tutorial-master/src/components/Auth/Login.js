@@ -58,13 +58,13 @@ const Login =(props)=>{
                     isAuthenticated: true,
                     token: response.token,
                 }
-                sessionStorage.setItem('token', JSON.stringify(data));
+                // sessionStorage.setItem('token', JSON.stringify(data));
             }
             toast.success("Đăng nhập thành công!") 
                         
             login();
-            navigate('/home')
-            // window.location.reload(navigate('/home'));    
+            // navigate('/home')
+            window.location.reload(navigate('/home'));    
         } catch (error) {
             if (error.response && error.response.data) {
                 toast.error(error.response.data.message);

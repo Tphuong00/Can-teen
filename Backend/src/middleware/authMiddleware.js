@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 module.exports = (req, res, next) => {
 	// const token = req.headers["access-token"];
 	const token = req.cookies.token || req.header('Authorization')?.replace('Bearer ', '');
-	console.log(token);
 	if (!token) {
 		return res.status(401).json({
 			message: "Auth failed",
@@ -13,7 +12,6 @@ module.exports = (req, res, next) => {
 	let decodedToken;
 	try {
 		decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-		console.log(decodedToken);
 	} catch (err) {
 		return res.status(401).json({
 			message: "Auth failed",

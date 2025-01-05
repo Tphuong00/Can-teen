@@ -98,7 +98,6 @@ exports.login = (req, res) => {
   						sameSite: 'None',  // Yêu cầu cho Cross-Origin
 						secure: process.env.NODE_ENV === "production",  // Chỉ gửi cookie qua HTTPS trong môi trường production
 						maxAge:  30 * 24 * 60 * 60 * 1000,  // Thời gian sống của cookie (tính bằng mili giây),
-						path: '/',
 					});
 					res.status(200).json({
 						message: "Login successful",
