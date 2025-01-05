@@ -17,11 +17,7 @@ const subscribeEmail = async (req, res) => {
       formData
     );
 
-    if (response.status === 200) {
-      return res.status(200).send('Đăng ký thành công!');
-    } else {
-      return res.status(500).send('Đã có lỗi xảy ra, vui lòng thử lại!');
-    }
+   res.status(200).send('Đăng ký thành công!');
   } catch (error) {
     console.error('Lỗi khi gửi yêu cầu đến Mailchimp:', error);
     return res.status(500).send('Lỗi kết nối, vui lòng thử lại!');
